@@ -57,7 +57,7 @@ Citizen.CreateThread(function()
     -- Starts key fob emote when "L" is pressed
     if IsControlJustPressed(1, Keys["L"]) then --Start holding g
       if not handsup then
-        TaskPlayAnim(GetPlayerPed(-1), fob_lib, "fob_click", 8.0, 8.0, - 1, 0, 0, false, false, false) --TASK_PLAY_ANIM(Ped ped, char* animDictionary, char* animationName, float speed, float speedMultiplier, int duration, int flag, float playbackRate, BOOL lockX, BOOL lockY, BOOL lockZ);
+        TaskPlayAnim(GetPlayerPed(-1), fob_lib, "fob_click", 8.0, 8.0, - 1, 50, 0, false, false, false) --TASK_PLAY_ANIM(Ped ped, char* animDictionary, char* animationName, float speed, float speedMultiplier, int duration, int flag, float playbackRate, BOOL lockX, BOOL lockY, BOOL lockZ);
         handsup = true
       else
         handsup = false
