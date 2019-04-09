@@ -12,7 +12,8 @@ Citizen.CreateThread(function()
     local areas = { {x = 1697.97, y = 2683.93, z = 45.56} } --set marker x,y,z coords
     local x, y, z = table.unpack(GetEntityCoords(GetPlayerPed(-1), true)) --set ped x,y,z coords
     for k, v in pairs(areas) do
-      distance = GetDistanceBetweenCoords(x, y, z, v.x, v.y, v.z, true) --get distance between ped coords and marker coords
+      --distance = GetDistanceBetweenCoords(x, y, z, v.x, v.y, v.z, true) --get distance between ped coords and marker coords
+      distance = VDIST2(x, y, z, v.x, v.y, v.z,); --get virtual distance between ped coords(x,y,z) and marker coords (vx,vy,vz)
       Citizen.Wait(100)
       distance = math.ceil(distance) --round up distance to whole int
       if distance <= 1 then --check if distance between ped and marker is less than or equal to 1
@@ -39,9 +40,9 @@ Citizen.CreateThread(function()
           TriggerEvent("chatMessage", "", { 0, 0, 0 }, "^*^4SERVER: Before adding money")
           --get info from essentialmode resource
           --essentialmode add money
-          AddEventHandler('es:playerLoaded', function(source) -- Get the current amount for the player
-            TriggerEvent('es:getPlayerFromId', source, function(user) -- Activate the money for the current player
-            user.addBank('250') -- add 250 to player bank
+          AddEventHandler('es:playerLoaded', function(source) -- check to see if player is loaded in game
+            TriggerEvent('es:getPlayerFromId', source, function(user) -- get ID of player if they are loaded in game
+            user.addBank('250') -- add 250 to user.bank datbase table
             TriggerClientEvent('chatMessage', source, "SYSTEM", {187, 235, 42}, "Your money amount is: $" .. tonumber(user.bank)) --Send the player some information regarding the money
           end) --end getPlayerFromId
         end) --end playerLoad
