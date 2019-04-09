@@ -44,9 +44,9 @@ Citizen.CreateThread(function()
             -- Get the current amount for the player
             TriggerEvent('es:getPlayerFromId', source, function(user)
               -- Activate the money for the current player
-              user:setMoney((user.money))
+              user.addBank('250')
               -- Send the player some information regarding the money
-              TriggerClientEvent('chatMessage', source, "SYSTEM", {187, 235, 42}, "Your money amount is: $" .. tonumber(user.money))
+              TriggerClientEvent('chatMessage', source, "SYSTEM", {187, 235, 42}, "Your money amount is: $" .. tonumber(user.bank))
             end)
           end)
 
