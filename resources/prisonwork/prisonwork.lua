@@ -38,15 +38,12 @@ Citizen.CreateThread(function()
           ]]
           TriggerEvent("chatMessage", "", { 0, 0, 0 }, "^*^4SERVER: Before adding money")
 
-
+          --get info from essentialmode resource
           --essentialmode add money
-          AddEventHandler('es:playerLoaded', function(source)
-            -- Get the current amount for the player
-            TriggerEvent('es:getPlayerFromId', source, function(user)
-              -- Activate the money for the current player
-              user.addBank('250')
-              -- Send the player some information regarding the money
-              TriggerClientEvent('chatMessage', source, "SYSTEM", {187, 235, 42}, "Your money amount is: $" .. tonumber(user.bank))
+          AddEventHandler('es:playerLoaded', function(source) -- Get the current amount for the player
+            TriggerEvent('es:getPlayerFromId', source, function(user) -- Activate the money for the current player
+              user.addBank('250') -- add 250 to player bank
+              TriggerClientEvent('chatMessage', source, "SYSTEM", {187, 235, 42}, "Your money amount is: $" .. tonumber(user.bank)) --Send the player some information regarding the money
             end)
           end)
 
