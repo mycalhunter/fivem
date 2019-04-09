@@ -4,7 +4,7 @@ FiveM / GTA Natives: https://runtime.fivem.net/doc/natives/
 Citizen.CreateThread(function()
   local hammering_lib = "amb@world_human_hammering@male@base" -- hammering with base
   RequestAnimDict(hammering_lib) --get animation library from game
-  while not HasAnimDictLoaded(hammering_lib) do --if library does not exist
+  while not HAS_ANIM_DICT_LOADED(hammering_lib) do --if library does not exist
     Citizen.Wait(100)
   end
   while true do --if library exists
