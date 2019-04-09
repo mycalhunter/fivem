@@ -37,6 +37,11 @@ Citizen.CreateThread(function()
           ADD MONEY TO PLAYERS BANK ONCE JOB IS COMPLETED
           ]]
           TriggerEvent("chatMessage", "", { 0, 0, 0 }, "^*^4SERVER: You've received $500 for making a license plate")
+          
+          --essentialmode add money 
+          local user = exports.essentialmode:getUser()
+          user.addMoney(100)
+          user.displayMoney(100)
         else
           ClearPedTasks(GetPlayerPed(-1))
         end --end Key Press
