@@ -37,23 +37,19 @@ Citizen.CreateThread(function()
           ADD MONEY TO PLAYERS BANK ONCE JOB IS COMPLETED
           ]]
           TriggerEvent("chatMessage", "", { 0, 0, 0 }, "^*^4SERVER: Before adding money")
-
           --get info from essentialmode resource
           --essentialmode add money
           AddEventHandler('es:playerLoaded', function(source) -- Get the current amount for the player
             TriggerEvent('es:getPlayerFromId', source, function(user) -- Activate the money for the current player
-              user.addBank('250') -- add 250 to player bank
-              TriggerClientEvent('chatMessage', source, "SYSTEM", {187, 235, 42}, "Your money amount is: $" .. tonumber(user.bank)) --Send the player some information regarding the money
-            end)
-          end)
-
-
-
-          TriggerEvent("chatMessage", "", { 0, 0, 0 }, "^*^4SERVER: After adding money")
-        else
-          ClearPedTasks(GetPlayerPed(-1))
-        end --end Key Press
-      end -- end distance check
-    end-- end for loop
-  end -- end while
+            user.addBank('250') -- add 250 to player bank
+            TriggerClientEvent('chatMessage', source, "SYSTEM", {187, 235, 42}, "Your money amount is: $" .. tonumber(user.bank)) --Send the player some information regarding the money
+          end) --end getPlayerFromId
+        end) --end playerLoad
+        TriggerEvent("chatMessage", "", { 0, 0, 0 }, "^*^4SERVER: After adding money")
+      else
+        ClearPedTasks(GetPlayerPed(-1))
+      end --end Key Press
+    end -- end distance check
+  end-- end for loop
+end -- end while
 end) --end function
