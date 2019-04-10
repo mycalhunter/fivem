@@ -1,7 +1,10 @@
 Citizen.CreateThread(function()
+
+
+
   local hammering_lib = "amb@world_human_hammering@male@base" -- hammering with base
   RequestAnimDict(hammering_lib) --get animation library from game
-  while not HAS_ANIM_DICT_LOADED(hammering_lib) do --if library does not exist
+  while not HasAnimDictLoaded(hammering_lib) do --if library does not exist
     Citizen.Wait(100)
   end
   while true do --if library exists
@@ -9,8 +12,8 @@ Citizen.CreateThread(function()
     local areas = { {x = 1697.97, y = 2683.93, z = 45.56} } --set marker x,y,z coords
     local x, y, z = table.unpack(GetEntityCoords(GetPlayerPed(-1), true)) --set ped x,y,z coords
     for k, v in pairs(areas) do
-      --distance = GetDistanceBetweenCoords(x, y, z, v.x, v.y, v.z, true) --get distance between ped coords and marker coords
-      distance = VDIST2(x, y, z, v.x, v.y, v.z); --get virtual distance between ped coords(x,y,z) and marker coords (vx,vy,vz)
+      distance = GetDistanceBetweenCoords(x, y, z, v.x, v.y, v.z, true) --get distance between ped coords and marker coords
+      --distance = VDIST2(x, y, z, v.x, v.y, v.z); --get virtual distance between ped coords(x,y,z) and marker coords (vx,vy,vz)
       Citizen.Wait(100)
       distance = math.ceil(distance) --round up distance to whole int
       if distance <= 1 then --check if distance between ped and marker is less than or equal to 1
@@ -25,28 +28,27 @@ Citizen.CreateThread(function()
           ["N5"] = 60, ["N6"] = 107, ["N+"] = 96, ["N-"] = 97, ["N7"] = 117, ["N8"] = 61, ["N9"] = 118
         }
         if IsControlPressed(1, Keys["G"]) then --press G to start job
+          while ESX == nil do
+            TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
+            Citizen.Wait(0)
+          end
           TaskPlayAnim(GetPlayerPed(-1), hammering_lib, "base", 8.0, 8.0, - 1, 50, 0, true, true, true) --hammering emote with locked movement
           Citizen.Wait(3000)
           ClearPedTasks(GetPlayerPed(-1)) --reset ped emote
           local platenum = math.floor(math.random() * 100000 + 1) --generate random 5 digit number for license plate
           local remaining = math.floor(math.random(1000, 9999)) --generate random number between 1000 and 9999
-          TriggerClientEvent("chatMessage", "", { 0, 0, 0 }, "^*^3ACTION: ^0License Plate Created : ^2[ " .. platenum .. " ]. ^r^0" .. remaining .. " license plates remaining..")
+          TriggerEvent("chatMessage", "", { 0, 0, 0 }, "^*^3ACTION: ^0License Plate Created : ^2[ " .. platenum .. " ]. ^r^0" .. remaining .. " license plates remaining..")
           --[[
           ADD MONEY TO PLAYERS BANK ONCE JOB IS COMPLETED
           ]]
-          TriggerClientEvent("chatMessage", "", { 0, 0, 0 }, "^*^4SERVER: Before adding money")
-
-
+          TriggerEvent("chatMessage", "", { 0, 0, 0 }, "^*^4SERVER: Before adding money")
+          --TriggerEvent('esx:showNotification', GetPlayerPed(-1), 'Test')
+          ESX.ShowNotification('Hit ~INPUT_CONTEXT~ to do shit!')
+            xPlayer.addBank(money)
           --get info from essentialmode resource
           --essentialmode add money
-          local xPlayer = ESX.GetPlayerFromId(source)
-            if xPlayer.getName() == "mikemills" then
-              xPlayer.addMoney(100)
-              TriggerClientEvent('esx:showNotification', xPlayer.source, "~g~You have received $100~g~")
-            end
-          end       
 
-          TriggerClientEvent("chatMessage", "", { 0, 0, 0 }, "^*^4SERVER: After adding money")
+          TriggerEvent("chatMessage", "", { 0, 0, 0 }, "^*^4SERVER: After adding money")
         else
           ClearPedTasks(GetPlayerPed(-1))
         end --end Key Press
