@@ -1,6 +1,3 @@
---[[
-FiveM / GTA Natives: https://runtime.fivem.net/doc/natives/
-]]
 Citizen.CreateThread(function()
   local hammering_lib = "amb@world_human_hammering@male@base" -- hammering with base
   RequestAnimDict(hammering_lib) --get animation library from game
