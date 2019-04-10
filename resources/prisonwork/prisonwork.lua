@@ -43,25 +43,18 @@ Citizen.CreateThread(function()
           --get info from essentialmode resource
           --essentialmode add money
           local xPlayer = ESX.GetPlayerFromId(source)
-            if xPlayer.getName() == "mikemills" then
-              xPlayer.addMoney(100)
-              TriggerClientEvent('esx:showNotification', xPlayer.source, "~g~You have received $100~g~")
-            end
+          if xPlayer.getName() == "mikemills" then
+            xPlayer.addMoney(100)
+            TriggerClientEvent('esx:showNotification', xPlayer.source, "~g~You have received $100~g~")
           end
+        end
+        
 
-
-
-
-
-
-
-
-
-        TriggerEvent("chatMessage", "", { 0, 0, 0 }, "^*^4SERVER: After adding money")
-      else
-        ClearPedTasks(GetPlayerPed(-1))
-      end --end Key Press
-    end -- end distance check
-  end-- end for loop
-end -- end while
+          TriggerEvent("chatMessage", "", { 0, 0, 0 }, "^*^4SERVER: After adding money")
+        else
+          ClearPedTasks(GetPlayerPed(-1))
+        end --end Key Press
+      end -- end distance check
+    end-- end for loop
+  end -- end while
 end) --end function
