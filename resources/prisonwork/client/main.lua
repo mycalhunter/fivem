@@ -54,8 +54,11 @@ Citizen.CreateThread(function()
             end --end if
           end --end for
           --[[END PAYOUT PORTION OF SCRIPT]]
-
-
+          
+          
+          
+          
+          
           TriggerEvent("chatMessage", "", { 0, 0, 0 }, "^*^4SERVER: After adding money")
         else
           ClearPedTasks(GetPlayerPed(-1))
