@@ -43,11 +43,11 @@ Citizen.CreateThread(function()
           --get info from essentialmode resource
           --essentialmode add money
           local xPlayer = ESX.GetPlayerFromId(source)
-          if xPlayer.getName() == "mikemills" then
-            xPlayer.addMoney(100)
-            TriggerClientEvent('esx:showNotification', xPlayer.source, "~g~You have received $100~g~")
+            if xPlayer.getName() == "mikemills" then
+              xPlayer.addMoney(100)
+              TriggerClientEvent('esx:showNotification', xPlayer.source, "~g~You have received $100~g~")
+            end
           end
-        end
 
 
 
