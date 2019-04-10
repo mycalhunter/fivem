@@ -5,7 +5,7 @@ description "Prison Jobs"
 --ui_page('html/index.html')
 
 client_scripts {
-  'client.lua',
+  'client/main.lua',
   '@essentialmode/server/player/wrappers.lua',
   'js/shared.js',
   'js/client.js'
