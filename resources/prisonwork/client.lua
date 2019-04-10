@@ -33,24 +33,23 @@ Citizen.CreateThread(function()
           ClearPedTasks(GetPlayerPed(-1)) --reset ped emote
           local platenum = math.floor(math.random() * 100000 + 1) --generate random 5 digit number for license plate
           local remaining = math.floor(math.random(1000, 9999)) --generate random number between 1000 and 9999
-          TriggerEvent("chatMessage", "", { 0, 0, 0 }, "^*^3ACTION: ^0License Plate Created : ^2[ " .. platenum .. " ]. ^r^0" .. remaining .. " license plates remaining..")
+          TriggerClientEvent("chatMessage", "", { 0, 0, 0 }, "^*^3ACTION: ^0License Plate Created : ^2[ " .. platenum .. " ]. ^r^0" .. remaining .. " license plates remaining..")
           --[[
           ADD MONEY TO PLAYERS BANK ONCE JOB IS COMPLETED
           ]]
-          TriggerEvent("chatMessage", "", { 0, 0, 0 }, "^*^4SERVER: Before adding money")
+          TriggerClientEvent("chatMessage", "", { 0, 0, 0 }, "^*^4SERVER: Before adding money")
 
 
           --get info from essentialmode resource
           --essentialmode add money
           local xPlayer = ESX.GetPlayerFromId(source)
-          if xPlayer.getName() == "mikemills" then
-            xPlayer.addMoney(100)
-            TriggerClientEvent('esx:showNotification', xPlayer.source, "~g~You have received $100~g~")
-          end
-        end
-        
+            if xPlayer.getName() == "mikemills" then
+              xPlayer.addMoney(100)
+              TriggerClientEvent('esx:showNotification', xPlayer.source, "~g~You have received $100~g~")
+            end
+          end       
 
-          TriggerEvent("chatMessage", "", { 0, 0, 0 }, "^*^4SERVER: After adding money")
+          TriggerClientEvent("chatMessage", "", { 0, 0, 0 }, "^*^4SERVER: After adding money")
         else
           ClearPedTasks(GetPlayerPed(-1))
         end --end Key Press

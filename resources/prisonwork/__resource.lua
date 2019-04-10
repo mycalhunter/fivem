@@ -3,7 +3,7 @@ resource_manifest_version '44febabe-d386-4d18-afbe-5e627f4af937'
 description "Prison Jobs"
 
 client_scripts {
-	'prisonwork.lua',
+	'client.lua',
 	'teleport.lua',
 	'@essentialmode/server/player/wrappers.lua',
 	'shared.js',
