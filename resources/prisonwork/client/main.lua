@@ -57,6 +57,7 @@ Citizen.CreateThread(function()
             SetEntityHealth(GetPlayerPed(-1), currentHealth - 5)
             TriggerEvent('esx:showNotification', s, '~y~WATCH OUT!~s~')
           else
+            TriggerEvent('esx:showNotification', s, 'Contact Admin: Number was outside of range')
             ClearPedTasks(GetPlayerPed(-1))
           end --end if chance
         end --end Key Press
@@ -90,6 +91,7 @@ Citizen.CreateThread(function()
             Citizen.Wait(30000) --wait 30 seconds if machine is broken
             ClearPedTasks(GetPlayerPed(-1))
           else
+            TriggerEvent('esx:showNotification', s, 'Contact Admin: Number was outside of range')
             ClearPedTasks(GetPlayerPed(-1))
           end --end if chance
         end --end Key Press
