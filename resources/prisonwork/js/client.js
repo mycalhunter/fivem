@@ -6,7 +6,7 @@ for (var i = 0; i < Config.Markers.length; i++) {
 		var blip2 = AddBlipForCoord(Marker[3], Marker[4], Marker[5]);
     SetBlipSprite(blip, Config.MarkerInfo.BlipSprite); //set sprite image to "B" icon on map
     SetBlipDisplay(blip, 4);
-    SetBlipScale(blip, 1); //set as 90% of default size
+    SetBlipScale(blip, 1); //set as 100% of default size
     SetBlipColour(blip, 4); //set sprite color to charcoal
     SetBlipAsShortRange(blip, true); //set to true so it can only be seen on the minimap within proximity to the marker
     BeginTextCommandSetBlipName("STRING"); //set blip name type as STRING
@@ -14,7 +14,7 @@ for (var i = 0; i < Config.Markers.length; i++) {
     EndTextCommandSetBlipName(blip); //close blip specs
 		SetBlipSprite(blip2, Config.MarkerInfo.BlipSprite); //set sprite image to "B" icon on map
     SetBlipDisplay(blip2, 4);
-    SetBlipScale(blip2, 1); //set as 90% of default size
+    SetBlipScale(blip2, 1); //set as 100% of default size
     SetBlipColour(blip2, 4); //set sprite color to charcoal
     SetBlipAsShortRange(blip2, true); //set to true so it can only be seen on the minimap within proximity to the marker
     BeginTextCommandSetBlipName("STRING"); //set blip name type as STRING
