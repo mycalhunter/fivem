@@ -22,6 +22,13 @@ for (var i = 0; i < Config.Markers.length; i++) {
     EndTextCommandSetBlipName(blip2); //close blip specs
 }
 
+//set specs for HelpText function
+function HelpText(text) {
+    SetTextComponentFormat("STRING");
+    AddTextComponentString(text);
+    DisplayHelpTextFromStringLabel(0, 0, 0, -1);
+}
+
 //Show message if player is close enough to marker, else only show marker if player is too far
 setTick(() => {
     for (var i = 0; i < Config.Locations.length; i++) {
@@ -70,12 +77,7 @@ function ShowMenu(enable) {
 	Config.PlayingBlackJack = enable;
 }
 
-//set specs for HelpText function
-function HelpText(text) {
-    SetTextComponentFormat("STRING");
-    AddTextComponentString(text);
-    DisplayHelpTextFromStringLabel(0, 0, 0, -1);
-}
+
 
 //show blackjack message in chat window
 function SendBlackJackMessage(message) {
