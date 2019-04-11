@@ -8,45 +8,91 @@ local Keys = {
   ["HOME"] = 213, ["PAGEUP"] = 10, ["PAGEDOWN"] = 11, ["DELETE"] = 178, ["LEFT"] = 174, ["RIGHT"] = 175, ["TOP"] = 27, ["DOWN"] = 173, ["NENTER"] = 201, ["N4"] = 108,
   ["N5"] = 60, ["N6"] = 107, ["N+"] = 96, ["N-"] = 97, ["N7"] = 117, ["N8"] = 61, ["N9"] = 118
 }
+--[[GET ESX OBJ DATA --VERY IMPORTANT]]
 Citizen.CreateThread(function()
   while ESX == nil do
   TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
   Citizen.Wait(0)
-end
+  end
 end)
-
+--[[END GET ESX OBJ DATA]]
 Citizen.CreateThread(function()
-local hammering_lib = "amb@world_human_hammering@male@base" -- hammering with base
-RequestAnimDict(hammering_lib) --get animation library from game
-while not HasAnimDictLoaded(hammering_lib) do --if library does not exist
-  Citizen.Wait(100)
-end
-while true do --if library exists
-  Citizen.Wait(0)
-  local areas = { {x = 1697.97, y = 2683.93, z = 45.56} } --set marker x,y,z coords
-  local x, y, z = table.unpack(GetEntityCoords(GetPlayerPed(-1), true)) --set ped x,y,z coords
-  for k, v in pairs(areas) do
-    distance = GetDistanceBetweenCoords(x, y, z, v.x, v.y, v.z, true) --get distance between ped coords and marker coords
-    --distance = VDIST2(x, y, z, v.x, v.y, v.z); --get virtual distance between ped coords(x,y,z) and marker coords (vx,vy,vz)
+  local welding_lib = "amb@world_human_welding@male@base" -- welding with base
+  local electrocute_lib = "facials@p_m_zero@variations@electrocuted" -- welding with base
+  RequestAnimDict(welding_lib) --get animation library from game
+  RequestAnimDict(electrocute_lib) --get animation library from game
+  while not HasAnimDictLoaded(welding_lib, electrocute_lib) do --if library does not exist
     Citizen.Wait(100)
-    distance = math.ceil(distance) --round up distance to whole int
-    if distance <= 1 then --check if distance between ped and marker is less than or equal to 1
-      --TriggerEvent("chatMessage", "", { 0, 0, 0 }, "Distance is : " .. distance) --for debug
-      if IsControlPressed(1, Keys["G"]) then --press G to start job
-        Citizen.Wait(0) --wait to get data
-        TaskPlayAnim(GetPlayerPed(-1), hammering_lib, "base", 8.0, 8.0, - 1, 50, 0, true, true, true) --hammering emote with locked movement
-        Citizen.Wait(3000) --wait before clearing emote from ped
-        ClearPedTasks(GetPlayerPed(-1)) --reset ped emote
-        local platenum = math.floor(math.random() * 100000 + 1) --generate random 5 digit number for license plate
-        local remaining = math.floor(math.random(1000, 9999)) --generate random number between 1000 and 9999
-        TriggerEvent("chatMessage", "", { 0, 0, 0 }, "^*^3ACTION: ^0License Plate Created : ^2[ " .. platenum .. " ]. ^r^0" .. remaining .. " license plates remaining..")
+  end
+  while true do --if library exists
+    Citizen.Wait(0)
+    --[[PLAYER COORDS]]
+    local x, y, z = table.unpack(GetEntityCoords(GetPlayerPed(-1), true)) --set ped x,y,z coords
+    --[[JOB COORDS]]
+    local fm_coords = { {x = 1697.71, y = 2684.01, z = 45.56} } --set 'fix machine' marker x,y,z coords
+    local lp_coords = { {x = 1705.00, y = 1680.00, z = 45.56} } --set 'license plate' marker x,y,z coords
 
-        TriggerServerEvent("prisonworkjob")
-      else
-        ClearPedTasks(GetPlayerPed(-1))
-      end --end Key Press
+    --[[MAINTENANCE JOB]]
+    for k, v in pairs(fm_coords) do
+      distance = GetDistanceBetweenCoords(x, y, z, v.x, v.y, v.z, true) --get distance between ped coords and marker coords
+      Citizen.Wait(100)
+      distance = math.ceil(distance) --round up distance to whole int
+      if distance <= 1 then --check if distance between ped and marker is less than or equal to 1
+        --TriggerEvent("chatMessage", "", { 0, 0, 0 }, "Distance is : " .. distance) --for debug
+        if IsControlPressed(1, Keys["G"]) then --press G to start job
+          Citizen.Wait(0) --wait to get data
+          TaskPlayAnim(GetPlayerPed(-1), welding_lib, "base", 8.0, 8.0, - 1, 50, 0, true, true, true) --hammering emote with locked movement
+          Citizen.Wait(3000) --wait before clearing emote from ped
+          ClearPedTasks(GetPlayerPed(-1)) --reset ped emote
+          local chance = math.random(1, 5) --get random number between 1-5
+          if chance = 1 or chance = 2 or chance = 3 then
+            TriggerEvent("chatMessage", "", { 0, 0, 0 }, "^*^3ACTION: ^0Electrical wires have been fixed")
+            TriggerServerEvent("prisonworkjob") --payout
+            Citizen.Wait(1000) --wait before clearing emote from ped
+          elseif chance = 4 or chance = 5 then
+            TaskPlayAnim(GetPlayerPed(-1), electrocute_lib, "electrocuted_1", 8.0, 8.0, - 1, 50, 0, false, false, false) --electrocuted emote with unlocked movement
+            Citizen.Wait(3000) --wait before clearing emote from ped
+            local currentHealth = GetEntityHealth(GetPlayerPed(-1))
+            SetEntityHealth(GetPlayerPed(-1), currentHealth - 5)
+            TriggerEvent('esx:showNotification', s, '~y~WATCH OUT!~s~')
+          else
+            ClearPedTasks(GetPlayerPed(-1))
+          end --end if chance
+        end --end Key Press
+      end -- end distance check
+    end-- end for loop
 
-  end -- end distance check
-end-- end for loop
-end -- end while
+    --[[LICENSE PLATE JOB]]
+    for k, v in pairs(lp_coords) do
+      distance = GetDistanceBetweenCoords(x, y, z, v.x, v.y, v.z, true) --get distance between ped coords and marker coords
+      Citizen.Wait(100)
+      distance = math.ceil(distance) --round up distance to whole int
+      if distance <= 1 then --check if distance between ped and marker is less than or equal to 1
+        --TriggerEvent("chatMessage", "", { 0, 0, 0 }, "Distance is : " .. distance) --for debug
+        if IsControlPressed(1, Keys["G"]) then --press G to start job
+          Citizen.Wait(0) --wait to get data
+          TaskPlayAnim(GetPlayerPed(-1), welding_lib, "base", 8.0, 8.0, - 1, 50, 0, true, true, true) --hammering emote with locked movement
+          Citizen.Wait(3000) --wait before clearing emote from ped
+          ClearPedTasks(GetPlayerPed(-1)) --reset ped emote
+
+          local platenum = math.floor(math.random() * 100000 + 1) --generate random 5 digit number for license plate
+          local remaining = math.floor(math.random(1000, 9999)) --generate random number between 1000 and 9999
+          local chance = math.random(1, 5) --get random number between 1-5
+
+          if chance = 1 or chance = 2 or chance = 3 then
+            TriggerEvent("chatMessage", "", { 0, 0, 0 }, "^*^3ACTION:^r ^0License Plate Created : ^4[ " .. platenum .. " ]. ^r^0" .. remaining .. " license plates remaining..")
+            TriggerServerEvent("prisonworkjob") --payout
+            Citizen.Wait(1000) --wait before clearing emote from ped
+            ClearPedTasks(GetPlayerPed(-1))
+          elseif chance = 4 or chance = 5 then
+            TriggerEvent("chatMessage", "", { 0, 0, 0 }, "^*^3ACTION:^r ^0Machine press is broken, wait 30 seconds for rebooting sequence..")
+            Citizen.Wait(30000) --wait 30 seconds if machine is broken
+            ClearPedTasks(GetPlayerPed(-1))
+          else
+            ClearPedTasks(GetPlayerPed(-1))
+          end --end if chance
+        end --end Key Press
+      end -- end distance check
+    end-- end for loop
+  end -- end while
 end) --end function

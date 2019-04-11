@@ -13,8 +13,8 @@ var ConfigObject = function() {
 	}
 
 	//Specs for marker location
-	this.Markers = [[1697.71, 2684.01, 45.56]]; // [0,1,2] --inside prison
-	this.Locations = [[1697.71, 2684.01, 45.56]]; // [0,1,2]  --inside prison
+	this.Markers = [[1697.71, 2684.01, 45.56, 1705.00, 1680.00, 45.56]]; // [0,1,2,3,4,5] --inside prison
+	this.Locations = [[1697.71, 2684.01, 45.56, 1705.00, 1680.00, 45.56]]; // [0,1,2,3,4,5]  --inside prison
 
 	//Game set as off by default
 	this.PlayingBlackJack = false;
