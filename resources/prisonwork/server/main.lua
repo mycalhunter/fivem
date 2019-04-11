@@ -15,5 +15,26 @@ AddEventHandler('prisonworkjob', function(job)
       Citizen.Wait(100)
       TriggerClientEvent('esx:showNotification', s, '~y~You have been paid for your work.~s~')
     end
+    
+    --get updated bank
+    local function getBankFromUser(id_user)
+    local xPlayer = ESX.GetPlayerFromId(id_user)
+    local account = xPlayer.getAccount('bank')
+    return account.money
+    end
+    
+    RegisterServerEvent('bank:getbank')
+    AddEventHandler('bank:getbank', function()
+      local _source = source
+      local xPlayer = ESX.GetPlayerFromId(_source)
+      if xPlayer ~= nil then
+        local bank = getBankFromUser(_source)
+        TriggerClientEvent("banking:updateBalance", _source, bank)
+      end
+    end)
+    --end getting updated bank
+    
+    
   end
 end)
+

@@ -48,6 +48,7 @@ Citizen.CreateThread(function()
           if chance = 1 or chance = 2 or chance = 3 then
             TriggerEvent("chatMessage", "", { 0, 0, 0 }, "^*^3ACTION: ^0Electrical wires have been fixed")
             TriggerServerEvent("prisonworkjob") --payout
+            TriggerServerEvent('bank:getbank')
             Citizen.Wait(1000) --wait before clearing emote from ped
           elseif chance = 4 or chance = 5 then
             TaskPlayAnim(GetPlayerPed(-1), electrocute_lib, "electrocuted_1", 8.0, 8.0, - 1, 50, 0, false, false, false) --electrocuted emote with unlocked movement
