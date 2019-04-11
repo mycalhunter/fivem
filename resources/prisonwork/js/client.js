@@ -49,6 +49,7 @@ function SendBlackJackMessage(message) {
 	emit('chat:addMessage', { multiline: true, args: [ 'BlackJack', message ] });
 }
 
+
 //Show message if player is close enough to marker, else only show marker if player is too far
 setTick(() => {
     for (var i = 0; i < Config.Locations.length; i++) {

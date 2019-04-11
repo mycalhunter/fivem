@@ -5,11 +5,11 @@ var ConfigObject = function() {
 	this.MarkerInfo = {
 		MarkerType: 2,
 		DrawDistance: 100.0,
-		MarkerSize: {x:2,y:2,z:1},
+		MarkerSize: {x:1,y:1,z:1},
 		BlipSprite: 566, //map icon
 		EnterExitDelay:0,
 		EnterExitDelayMax:600,
-		MarkerColor: {r : 255, g : 255, b : 255}
+		MarkerColor: {r : 255, g : 0, b : 0}
 	}
 
 	//Specs for marker location
