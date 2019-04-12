@@ -3,23 +3,40 @@ for (var i = 0; i < Config.Markers.length; i++) {
 	//save the Marker iteration = 1 as "Marker" var
 	var Marker = Config.Markers[i];
     var blip = AddBlipForCoord(Marker[0], Marker[1], Marker[2]);
-		var blip2 = AddBlipForCoord(Marker[3], Marker[4], Marker[5]);
     SetBlipSprite(blip, Config.MarkerInfo.BlipSprite); //set sprite image to "B" icon on map
     SetBlipDisplay(blip, 4);
     SetBlipScale(blip, 1); //set as 100% of default size
-    SetBlipColour(blip, 4); //set sprite color to charcoal
+    SetBlipColour(blip, 1); //set sprite color to charcoal
     SetBlipAsShortRange(blip, true); //set to true so it can only be seen on the minimap within proximity to the marker
     BeginTextCommandSetBlipName("STRING"); //set blip name type as STRING
     AddTextComponentString("Prison Maintenance"); //set name of blip as "Black Jack"
     EndTextCommandSetBlipName(blip); //close blip specs
+}
+for (var i = 0; i < Config.Markers2.length; i++) {
+	//save the Marker iteration = 1 as "Marker" var
+	var Marker2 = Config.Markers2[i];
+		var blip2 = AddBlipForCoord(Marker2[0], Marker2[1], Marker2[2]);
 		SetBlipSprite(blip2, Config.MarkerInfo.BlipSprite); //set sprite image to "B" icon on map
     SetBlipDisplay(blip2, 4);
     SetBlipScale(blip2, 1); //set as 100% of default size
-    SetBlipColour(blip2, 4); //set sprite color to charcoal
+    SetBlipColour(blip2, 1); //set sprite color to charcoal
     SetBlipAsShortRange(blip2, true); //set to true so it can only be seen on the minimap within proximity to the marker
     BeginTextCommandSetBlipName("STRING"); //set blip name type as STRING
-    AddTextComponentString("License Plates"); //set name of blip as "Black Jack"
+    AddTextComponentString("Prison Maintenance"); //set name of blip as "Black Jack"
     EndTextCommandSetBlipName(blip2); //close blip specs
+}
+for (var i = 0; i < Config.Markers3.length; i++) {
+	//save the Marker iteration = 1 as "Marker" var
+	var Marker3 = Config.Markers3[i];
+		var blip3 = AddBlipForCoord(Marker3[0], Marker3[1], Marker3[2]);
+		SetBlipSprite(blip3, Config.MarkerInfo.BlipSprite); //set sprite image to "B" icon on map
+    SetBlipDisplay(blip3, 1);
+    SetBlipScale(blip3, 1); //set as 100% of default size
+    SetBlipColour(blip3, 1); //set sprite color to charcoal
+    SetBlipAsShortRange(blip3, true); //set to true so it can only be seen on the minimap within proximity to the marker
+    BeginTextCommandSetBlipName("STRING"); //set blip name type as STRING
+    AddTextComponentString("Prison Maintenance"); //set name of blip as "Black Jack"
+    EndTextCommandSetBlipName(blip3); //close blip specs
 }
 
 //set specs for HelpText function
@@ -29,6 +46,7 @@ function HelpText(text) {
     DisplayHelpTextFromStringLabel(0, 0, 0, -1);
 }
 
+
 //Show message if player is close enough to marker, else only show marker if player is too far
 setTick(() => {
     for (var i = 0; i < Config.Locations.length; i++) {
@@ -37,23 +55,45 @@ setTick(() => {
 
 		//if (!Config.PlayingBlackJack) {
 			if (GetDistanceBetweenCoords(playerCoord[0], playerCoord[1], playerCoord[2], Location[0], Location[1], Location[2], false) < Config.MarkerInfo.DrawDistance) {
-				DrawMarker(Config.MarkerInfo.MarkerType, Location[0], Location[1], Location[2], 0.0, 0.0, 0.0, 0, 0.0, 0.0, Config.MarkerInfo.MarkerSize.x, Config.MarkerInfo.MarkerSize.y, Config.MarkerInfo.MarkerSize.z - 0.0, Config.MarkerInfo.MarkerColor.r, Config.MarkerInfo.MarkerColor.g, Config.MarkerInfo.MarkerColor.b, 100, false, true, 2, false, false, false, false);
+				DrawMarker(Config.MarkerInfo.MarkerType, Location[0], Location[1], Location[2], 0.0, 0.0, 0.0, 0, 0.0, 0.0, Config.MarkerInfo.MarkerSize.x, Config.MarkerInfo.MarkerSize.y, Config.MarkerInfo.MarkerSize.z - 0.0, Config.MarkerInfo.MarkerColor.r, Config.MarkerInfo.MarkerColor.g, Config.MarkerInfo.MarkerColor.b, 50, false, true, 2, false, false, false, false);
 			}
 			if (GetDistanceBetweenCoords(playerCoord[0], playerCoord[1], playerCoord[2], Location[0], Location[1], Location[2], false) < Config.MarkerInfo.MarkerSize.x / 2) {
-				HelpText("Press ~INPUT_DETONATE~ to perform maintenance");
+				//HelpText("Press ~INPUT_DETONATE~ to perform maintenance");
+				HelpText("Press ~y~E~s~ to repair electric panel")
 			}
-			
-			//if (!Config.PlayingBlackJack) {
-				if (GetDistanceBetweenCoords(playerCoord[3], playerCoord[4], playerCoord[5], Location[3], Location[4], Location[5], false) < Config.MarkerInfo.DrawDistance) {
-					DrawMarker(Config.MarkerInfo.MarkerType, Location[3], Location[4], Location[5], 0.0, 0.0, 0.0, 0, 0.0, 0.0, Config.MarkerInfo.MarkerSize.x, Config.MarkerInfo.MarkerSize.y, Config.MarkerInfo.MarkerSize.z - 0.0, Config.MarkerInfo.MarkerColor.r, Config.MarkerInfo.MarkerColor.g, Config.MarkerInfo.MarkerColor.b, 100, false, true, 2, false, false, false, false);
-				}
-				if (GetDistanceBetweenCoords(playerCoord[3], playerCoord[4], playerCoord[5], Location[3], Location[4], Location[5], false) < Config.MarkerInfo.MarkerSize.x / 2) {
-					HelpText("Press ~INPUT_DETONATE~ to make license plates");
-				}
+
     }
 });
 
+setTick(() => {
+    for (var i = 0; i < Config.Locations2.length; i++) {
+        var playerCoord = GetEntityCoords(GetPlayerPed(-1), true); // array [x,y,z] 0 1 2
+        var Location = Config.Locations2[i]; // Coord(x,y,z)/Type(Config.JobTypes)
 
+			//if (!Config.PlayingBlackJack) {
+			if (GetDistanceBetweenCoords(playerCoord[0], playerCoord[1], playerCoord[2], Location[0], Location[1], Location[2], false) < Config.MarkerInfo.DrawDistance) {
+				DrawMarker(Config.MarkerInfo.MarkerType, Location[0], Location[1], Location[2], 0.0, 0.0, 0.0, 0, 0.0, 0.0, Config.MarkerInfo.MarkerSize.x, Config.MarkerInfo.MarkerSize.y, Config.MarkerInfo.MarkerSize.z - 0.0, Config.MarkerInfo.MarkerColor.r, Config.MarkerInfo.MarkerColor.g, Config.MarkerInfo.MarkerColor.b, 50, false, true, 2, false, false, false, false);
+			}
+			if (GetDistanceBetweenCoords(playerCoord[0], playerCoord[1], playerCoord[2], Location[0], Location[1], Location[2], false) < Config.MarkerInfo.MarkerSize.x / 2) {
+				HelpText("Press ~y~E~s~ to make license plate")
+			}
+    }
+});
+
+setTick(() => {
+    for (var i = 0; i < Config.Locations3.length; i++) {
+        var playerCoord = GetEntityCoords(GetPlayerPed(-1), true); // array [x,y,z] 0 1 2
+        var Location = Config.Locations3[i]; // Coord(x,y,z)/Type(Config.JobTypes)
+
+			//if (!Config.PlayingBlackJack) {
+			if (GetDistanceBetweenCoords(playerCoord[0], playerCoord[1], playerCoord[2], Location[0], Location[1], Location[2], false) < Config.MarkerInfo.DrawDistance) {
+				DrawMarker(Config.MarkerInfo.MarkerType, Location[0], Location[1], Location[2], 0.0, 0.0, 0.0, 0, 0.0, 0.0, Config.MarkerInfo.MarkerSize.x, Config.MarkerInfo.MarkerSize.y, Config.MarkerInfo.MarkerSize.z - 0.0, Config.MarkerInfo.MarkerColor.r, Config.MarkerInfo.MarkerColor.g, Config.MarkerInfo.MarkerColor.b, 50, false, true, 2, false, false, false, false);
+			}
+			if (GetDistanceBetweenCoords(playerCoord[0], playerCoord[1], playerCoord[2], Location[0], Location[1], Location[2], false) < Config.MarkerInfo.MarkerSize.x / 2) {
+				HelpText("Press ~y~E~s~ to search AC Unit")
+			}
+    }
+});
 //if player hits escape while menu is open, the menu will close
 /*
 RegisterNuiCallbackType("escape");

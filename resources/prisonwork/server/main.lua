@@ -9,20 +9,20 @@ AddEventHandler('prisonworkjob', function(job)
     local playerName = xPlayer.name
     if xPlayer.job.name == 'unemployed' then
       local s = source
-      local amount = 150
+      local amount = 100
       local getBank = xPlayer.getBank() --get original bank amount
       xPlayer.setBankBalance(getBank + amount) --add bank account to original + $150
       Citizen.Wait(100)
-      TriggerClientEvent('esx:showNotification', s, '~y~You have been paid for your work.~s~')
+      TriggerClientEvent('esx:showNotification', s, '~y~You have been paid $100 for your work.~s~')
     end
-    
+
     --get updated bank
     local function getBankFromUser(id_user)
     local xPlayer = ESX.GetPlayerFromId(id_user)
     local account = xPlayer.getAccount('bank')
     return account.money
     end
-    
+
     RegisterServerEvent('bank:getbank')
     AddEventHandler('bank:getbank', function()
       local _source = source
@@ -33,8 +33,8 @@ AddEventHandler('prisonworkjob', function(job)
       end
     end)
     --end getting updated bank
-    
-    
+
+
   end
 end)
 
