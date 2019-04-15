@@ -26,7 +26,6 @@ Citizen.CreateThread(function()
     BeginTextCommandSetBlipName("STRING")
     AddTextComponentString(info.title)
     EndTextCommandSetBlipName(info.blip)
-    --DrawMarker(1, info.x, info.y, info.z, 0, 0, 0, 0, 0, 0, 1.001, 1.0001, 0.5001, 0, 0, 255, 200, 0, 0, 0, 0)
 
     --[[DRAW MARKER IF PLAYER IS WITHIN DRAWDISTANCE]]
     if (GetDistanceBetweenCoords(playerx, playery, playerz, info.blip, false) < info.DrawDistance) then
