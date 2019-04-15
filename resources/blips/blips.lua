@@ -28,11 +28,11 @@ Citizen.CreateThread(function()
     EndTextCommandSetBlipName(info.blip)
 
     --[[DRAW MARKER IF PLAYER IS WITHIN DRAWDISTANCE]]
-    if (GetDistanceBetweenCoords(playerx, playery, playerz, info.blip, false) < info.DrawDistance) then
+    if (GetDistanceBetweenCoords(playerx, playery, playerz, info.x, info.y, info.z, false) < info.DrawDistance) then
       DrawMarker(info.MarkerType, info.x, info.y, info.z, 0.0, 0.0, 0.0, 0, 0.0, 0.0, info.MarkerSize.x, info.MarkerSize.y, info.MarkerSize.z - 0.0, info.MarkerColor.r, info.MarkerColor.g, info.MarkerColor.b, info.MarkerColor.a, 50, false, true, 2, false, false, false, false)
     end
     --[[DRAW MESSAGE IF PLAYER IS WITHIN MARKERSIZE.X]]
-    if (GetDistanceBetweenCoords(playerx, playery, playerz, info.blip, false) < info.MarkerSize.x) then
+    if (GetDistanceBetweenCoords(playerx, playery, playerz, info.x, info.y, info.z, false) < info.MarkerSize.x) then
       TriggerEvent('esx:showNotification', s, info.prompt)
     end
   end
