@@ -1,15 +1,11 @@
-ESX = nil
 local blips = {
   -- Example {title="", colour=, id=, x=, y=, z=},
   {title = "Prison Maintenance", colour = 4, id = 446, x = 1629.76, y = 2563.87, z = 45.56, display = 4, scale = 1.0, shortRange = true, markertype = 1, drawdistance = 200.0, markersize = {x = 2, y = 2, z = 2}, BlipSprite = 446, EnterExitDelay = 0, EnterExitDelayMax = 600, markercolor = {r = 255, g = 0, b = 255, a = 100}, prompt = "Press ~y~E~s~ to repair electric panel"}, --electric repair
   {title = "Prison Maintenance1", colour = 4, id = 446, x = 1753.49, y = 2503.66, z = 45.57, display = 4, scale = 1.0, shortRange = true, markertype = 1, drawdistance = 200.0, markersize = {x = 2, y = 2, z = 2}, BlipSprite = 446, EnterExitDelay = 0, EnterExitDelayMax = 600, markercolor = {r = 255, g = 0, b = 255, a = 100}, prompt = "Press ~y~E~s~ to make license plate"}, --license plate
   {title = "Prison Maintenance2", colour = 4, id = 446, x = 1755.42, y = 2467.19, z = 55.14, display = 4, scale = 1.0, shortRange = true, markertype = 1, drawdistance = 200.0, markersize = {x = 2, y = 2, z = 2}, BlipSprite = 446, EnterExitDelay = 0, EnterExitDelayMax = 600, markercolor = {r = 255, g = 0, b = 255, a = 100}, prompt = "Press ~y~E~s~ to search AC Unit"} --hidden knife
 }
-function HelpText(text)
-  SetTextComponentFormat("STRING")
-  AddTextComponentString(text)
-  DisplayHelpTextFromStringLabel(0, 0, 0, - 1)
-end
+
+--[[THIS WORKS]]
 Citizen.CreateThread(function()
   --RENDER BLIP ON MAP
   for _, info in pairs(blips) do
@@ -25,30 +21,14 @@ Citizen.CreateThread(function()
   end --end for
 end) --end thread
 
+function HelpText(text)
+  SetTextComponentFormat("STRING")
+  AddTextComponentString(text)
+  DisplayHelpTextFromStringLabel(0, 0, 0, - 1)
+end
 
-
-
---[[GET ESX OBJ DATA --VERY IMPORTANT]]
+--[[THIS DOES NOT WORK -- Only iterates through first table in blips (1629.76,2563.87,45.56) ]]
 Citizen.CreateThread(function()
-  while ESX == nil do
-    TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-    Citizen.Wait(0)
-  end
-end)
-Citizen.CreateThread(function()
-    --[[THIS DOESN'T WORK, NEED TO FIX]]
-    --RENDER MARKER NEAR PLAYER
-
-
-    --[[  for k, v, tab in ipairs(blips) do
-        local markerX = v.x
-        --print(markerX) --only outputing first set in blips
-        local markerY = v.y
-        local markerZ = v.z
-        print(v.x, v.y, v.z)
-    -- tab is the table or subtable val resides in, tab[key] == val
-end]]
-
 for _, v in ipairs(blips) do
   while true do
     Wait(0)
@@ -61,7 +41,6 @@ for _, v in ipairs(blips) do
         end
         if (distance <= 1) then --if distance between player and marker is less than 1 meter/unit
           HelpText(v.prompt)
-          TriggerEvent("chatMessage", "", { 0, 0, 0 }, v.prompt)
         end
       end
     end --end for
