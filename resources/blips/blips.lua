@@ -16,6 +16,11 @@ local blips = {
 
 Citizen.CreateThread(function())
 
+
+
+
+
+  --[[THIS WORKS, DONT TOUCH]]
   --RENDER BLIP ON MAP
   for _, info in pairs(blips) do
     info.blip = AddBlipForCoord(info.x, info.y, info.z)
@@ -29,6 +34,12 @@ Citizen.CreateThread(function())
     EndTextCommandSetBlipName(info.blip)
   end --end for
 
+
+
+
+
+
+  --[[THIS DOESN'T WORK, NEED TO FIX]]
   --RENDER MARKER NEAR PLAYER
   for k, v in pairs(blips) do
     local x, y, z = table.unpack(GetEntityCoords(GetPlayerPed(-1), true)) --get player position
@@ -38,11 +49,15 @@ Citizen.CreateThread(function())
     if distance < v.drawdistance then
       DrawMarker(v.markertype, v.x, v.y, v.z, 0.0, 0.0, 0.0, 0, 0.0, 0.0, v.markersize.x, v.markersize.y, v.markersize.z, v.markercolor.r, v.markercolor.g, v.markercolor.b, 50, false, false, 2, false, false, false, false)
     end
-
     if distance < v.markersize.x then
       TriggerEvent('esx:showNotification', source, v.prompt)
     end
   end --end for
+
+
+
+
+
 
 
 
