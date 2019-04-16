@@ -32,10 +32,10 @@ Citizen.CreateThread(function()
 for _, v in ipairs(blips) do
   while true do
     Wait(0)
-    local x, y, z = table.unpack(GetEntityCoords(GetPlayerPed(-1), false)) --get player position
-    local distance = GetDistanceBetweenCoords(x, y, z, v.x, v.y, v.z, true) --get distance between player and marker coords
+    local x, y, z = table.unpack(GetEntityCoords(GetPlayerPed(-1), true)) --get player position
+    local distance = Vdist2(x, y, z, v.x, v.y, v.z) --get distance between player and marker coords
         --distance = math.ceil(distance)
-        print(v.drawdistance)
+        --print(v.drawdistance)
         if (distance < v.drawdistance) then --if distance between player and marker coords is less than 100
           DrawMarker(1, v.x, v.y, v.z + 2.0, 0.0, 0.0, 0.0, 0.0, 180.0, 0.0, 2.0, 2.0, 2.0, 255, 255, 0, 50, false, true, 2, nil, nil, false)
         end
