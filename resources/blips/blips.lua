@@ -1,3 +1,4 @@
+ESX = nil
 --[[GET ESX OBJ DATA --VERY IMPORTANT]]
 Citizen.CreateThread(function()
   while ESX == nil do
