@@ -32,13 +32,13 @@ Citizen.CreateThread(function())
   for k, v in pairs(blips) do
     local x, y, z = table.unpack(GetEntityCoords(GetPlayerPed(-1), true)) --get player position
     local distance = GetDistanceBetweenCoords(x, y, z, v.x, v.y, v.z, false) --get distance between player and marker coords
-    distance = math.ceil(distance)
-    
+    --distance = math.ceil(distance)
+
     if distance < v.DrawDistance then
       DrawMarker(1, v.x, v.y, v.z, 0.0, 0.0, 0.0, 0, 0.0, 0.0, v.MarkerSize.x, v.MarkerSize.y, v.MarkerSize.z, v.MarkerColor.r, v.MarkerColor.g, v.MarkerColor.b, 50, false, false, 2, false, false, false, false)
     end
 
-    if GetDistanceBetweenCoords(x, y, z, v.x, v.y, v.z, false) < v.MarkerSize.x / 2 then
+    if distance < v.MarkerSize.x then
       TriggerEvent('esx:showNotification', source, v.prompt)
     end
   end --end for
