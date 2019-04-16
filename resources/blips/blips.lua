@@ -41,7 +41,7 @@ Citizen.CreateThread(function())
 
   --[[THIS DOESN'T WORK, NEED TO FIX]]
   --RENDER MARKER NEAR PLAYER
-  for k, v in pairs(blips) do
+  for _, v in pairs(blips) do
     local x, y, z = table.unpack(GetEntityCoords(GetPlayerPed(-1), true)) --get player position
     local distance = GetDistanceBetweenCoords(x, y, z, v.x, v.y, v.z, false) --get distance between player and marker coords
     --distance = math.ceil(distance)
