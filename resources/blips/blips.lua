@@ -16,7 +16,7 @@ local blips = {
 }
 
 Citizen.CreateThread(function()
-  local i = 1
+  local i = 0
   while (true and i < #blips) do
     Wait(1) --1 gametick
     for _, info in pairs(blips) do
