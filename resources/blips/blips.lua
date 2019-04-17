@@ -15,7 +15,7 @@ local blips = {
 
 Citizen.CreateThread(function()
   local i = 1
-  while (true and i <= 3) do
+  while (true and i < #blips) do
     Wait(1) --1 gametick
     for _, info in pairs(blips) do
       info.blip = AddBlipForCoord(info.x, info.y, info.z)
