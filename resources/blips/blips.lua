@@ -6,6 +6,8 @@ end
 
 local blips = {
   -- Example {title="", colour=, id=, x=, y=, z=},
+  {title = "Aquatic Delivery Pickup", colour = 1, id = 446, x = 1429.76, y = 2763.87, z = 45.56, display = 2, scale = 1.0, shortRange = true, markertype = 1, drawdistance = 200.0, markersize = {x = 4, y = 4, z = 2.0}, BlipSprite = 446, EnterExitDelay = 0, EnterExitDelayMax = 600, markercolor = {r = 66, g = 176, b = 244, a = 500}, prompt = "Press ~y~E~s~ to start job"}, --electric repair
+  
   {title = "Electrical Repair", colour = 1, id = 446, x = 1629.76, y = 2563.87, z = 45.56, display = 2, scale = 1.0, shortRange = true, markertype = 1, drawdistance = 200.0, markersize = {x = 1.5, y = 1.5, z = 2.0}, BlipSprite = 446, EnterExitDelay = 0, EnterExitDelayMax = 600, markercolor = {r = 66, g = 176, b = 244, a = 500}, prompt = "Press ~y~E~s~ to repair electric panel"}, --electric repair
   
   {title = "License Plate", colour = 49, id = 446, x = 1753.35, y = 2502.90, z = 45.58, display = 2, scale = 1.0, shortRange = true, markertype = 1, drawdistance = 200.0, markersize = {x = 1.5, y = 1.5, z = 2.0}, BlipSprite = 446, EnterExitDelay = 0, EnterExitDelayMax = 600, markercolor = {r = 66, g = 176, b = 244, a = 500}, prompt = "Press ~y~E~s~ to make license plate"}, --license plate
