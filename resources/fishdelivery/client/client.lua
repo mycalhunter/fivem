@@ -14,32 +14,14 @@ Wait(1)
 local x, y, z = table.unpack(GetEntityCoords(GetPlayerPed(-1))) --set ped x,y,z coords
 local distance = Vdist(0.0, 0.0, 0.0, 0.0, 0.0, 0.0) --preset distance var
 local pickup_coords = { {x = 1429.76, y = 2763.87, z = 45.56} } --set 'pickup fish' marker x,y,z coords
-local fish1_coords = { {x = 1629.76, y = 2563.87, z = 45.56} } --set 'deliver fish' marker x,y,z coords
 local vehicleName = 'pounder'
-local jobLocations = {
-  {title = "Aquatic Delivery Spot", x = 1629.76, y = 2563.87, z = 45.56, markertype = 1, drawdistance = 200.0, markersize = {x = 1.5, y = 1.5, z = 2.0}, markercolor = {r = 66, g = 176, b = 244, a = 500}, prompt = "Press ~y~E~s~ deliver product"}
+local dropoffLocations = {
+  {title = "Aquatic Delivery Spot1", x = 1629.76, y = 2563.87, z = 45.56, markertype = 1, drawdistance = 200.0, markersize = {x = 1.5, y = 1.5, z = 2.0}, markercolor = {r = 66, g = 176, b = 244, a = 500}, prompt = "Press ~y~E~s~ deliver product"},
+  {title = "Aquatic Delivery Spot2", x = 1429.76, y = 2363.87, z = 45.56, markertype = 1, drawdistance = 200.0, markersize = {x = 1.5, y = 1.5, z = 2.0}, markercolor = {r = 66, g = 176, b = 244, a = 500}, prompt = "Press ~y~E~s~ deliver product"},
+  {title = "Aquatic Delivery Spot3", x = 1329.76, y = 2263.87, z = 45.56, markertype = 1, drawdistance = 200.0, markersize = {x = 1.5, y = 1.5, z = 2.0}, markercolor = {r = 66, g = 176, b = 244, a = 500}, prompt = "Press ~y~E~s~ deliver product"},
+  {title = "Aquatic Delivery Spot4", x = 1729.76, y = 2863.87, z = 45.56, markertype = 1, drawdistance = 200.0, markersize = {x = 1.5, y = 1.5, z = 2.0}, markercolor = {r = 66, g = 176, b = 244, a = 500}, prompt = "Press ~y~E~s~ deliver product"},
+  {title = "Aquatic Delivery Spot5", x = 1129.76, y = 2063.87, z = 45.56, markertype = 1, drawdistance = 200.0, markersize = {x = 1.5, y = 1.5, z = 2.0}, markercolor = {r = 66, g = 176, b = 244, a = 500}, prompt = "Press ~y~E~s~ deliver product"},
 }
-
-
-
-
-
-
-
-
---[[SHOW MARKER & PROMPT]]
-for _, v in pairs(jobLocations) do
-  distance = Vdist(x, y, z, v.x, v.y, v.z) --get distance between player and marker coords
-  if (distance < v.drawdistance) then
-    DrawMarker(v.markertype, v.x, v.y, v.z - 2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, v.markersize.x, v.markersize.y, v.markersize.z + 0.5, v.markercolor.r, v.markercolor.g, v.markercolor.b, v.markercolor.a, false, false, 2, false, false, false, false)
-  end
-  if (distance <= 1) then --if distance between player and marker is less than 1 meter/unit
-    HelpText(v.prompt)
-  end
-end --end for
-
-
-
 
 --[[START JOB WHEN KEY IS PRESSED AT MARKER]]
 for k, v in pairs(pickup_coords) do
@@ -84,25 +66,24 @@ distance = math.ceil(distance) --round up distance to whole int
 end-- end for loop
 
 
-
-
 --[[CLEAR JOB WHEN KEY PRESSED]]
-for k, v in pairs(fish1_coords) do
-distance = Vdist(x, y, z, v.x, v.y, v.z) --get distance between ped coords and marker coords
-Citizen.Wait(100)
-distance = math.ceil(distance) --round up distance to whole int
-  if distance <= 2 then --check if distance between ped and marker is less than or equal to 1
-    --TriggerEvent("chatMessage", "", { 0, 0, 0 }, "Distance is : " .. distance) --for debug
+for k, v in pairs(dropoffLocations) do
+  distance = Vdist(x, y, z, v.x, v.y, v.z) --get distance between ped coords and marker coords
+  Wait(1)
+  distance = math.ceil(distance) --round up distance to whole int
+  if (distance < v.drawdistance) then
+    DrawMarker(v.markertype, v.x, v.y, v.z - 2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, v.markersize.x, v.markersize.y, v.markersize.z + 0.5, v.markercolor.r, v.markercolor.g, v.markercolor.b, v.markercolor.a, false, false, 2, false, false, false, false)
+  end --end marker distance check
+  if (distance <= 2) then --if distance between player and marker is less than 1 meter/unit
+    HelpText(v.prompt)
     if IsControlPressed(1, Keys["E"]) then --press G to start job
-      Citizen.Wait(0) --wait to get data
+      Wait(1) --wait to get data
       TriggerServerEvent("fish_delivery") --payout
       SetWaypointOff()
+      --need to set v.x, v.y, v.z to another location so you cant spam E over and over
     end --end Key Press
-  end -- end distance check
+  end --end prompt distance check
 end-- end for loop
-
-
-
 
 
 end -- end while
