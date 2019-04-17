@@ -19,7 +19,6 @@ local vehicleName = 'pounder'
 local jobLocations = {
   {title = "Aquatic Delivery Spot", colour = 1, id = 446, x = 1629.76, y = 2563.87, z = 45.56, display = 2, scale = 1.0, shortRange = true, markertype = 1, drawdistance = 200.0, markersize = {x = 1.5, y = 1.5, z = 2.0}, BlipSprite = 446, EnterExitDelay = 0, EnterExitDelayMax = 600, markercolor = {r = 66, g = 176, b = 244, a = 500}, prompt = "Press ~y~E~s~ deliver product"}, --electric repair
 }
-local jobDistance = GetPedWaypointDistance(GetPlayerPed(-1))
 
 
 
@@ -78,6 +77,7 @@ distance = math.ceil(distance) --round up distance to whole int
       --SetModelAsNoLongerNeeded(vehicleName)  
       
       SetNewWaypoint(1629.76, 2563.87)
+      local jobDistance = GetPedWaypointDistance(GetPlayerPed(-1))
       TriggerEvent("chatMessage", "", { 0, 0, 0 }, "^*^Requested delivery is " .. jobDistance .. " miles away.")
     end --end Key Press
   end -- end distance check
