@@ -34,16 +34,16 @@ end) --end thread
 
 Citizen.CreateThread(function()
   while (true) do
-  Wait(1) --1 gametick
-  for _, v in pairs(blips) do
-    local x, y, z = table.unpack(GetEntityCoords(GetPlayerPed(-1), true)) --get player position
-    local distance = Vdist(x, y, z, v.x, v.y, v.z) --get distance between player and marker coords
-    if (GetDistanceBetweenCoords(x, y, z, v.x, v.y, v.z, false) < v.drawdistance) then
-      DrawMarker(v.markertype, v.x, v.y, v.z - 2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, v.markersize.x, v.markersize.y, v.markersize.z + 0.5, v.markercolor.r, v.markercolor.g, v.markercolor.b, v.markercolor.a, false, false, 2, false, false, false, false)
-    end
-    if (distance <= 1) then --if distance between player and marker is less than 1 meter/unit
-      HelpText(v.prompt)
-    end
-  end --end for
-end --end while
+    Wait(1) --1 gametick
+    for _, v in pairs(blips) do
+      local x, y, z = table.unpack(GetEntityCoords(GetPlayerPed(-1), true)) --get player position
+      local distance = Vdist(x, y, z, v.x, v.y, v.z) --get distance between player and marker coords
+      if (GetDistanceBetweenCoords(x, y, z, v.x, v.y, v.z, false) < v.drawdistance) then
+        DrawMarker(v.markertype, v.x, v.y, v.z - 2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, v.markersize.x, v.markersize.y, v.markersize.z + 0.5, v.markercolor.r, v.markercolor.g, v.markercolor.b, v.markercolor.a, false, false, 2, false, false, false, false)
+      end
+      if (distance <= 1) then --if distance between player and marker is less than 1 meter/unit
+        HelpText(v.prompt)
+      end
+    end --end for
+  end --end while
 end) --end thread
