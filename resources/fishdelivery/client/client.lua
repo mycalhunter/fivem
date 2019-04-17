@@ -17,7 +17,7 @@ local pickup_coords = { {x = 1429.76, y = 2763.87, z = 45.56} } --set 'pickup fi
 local fish1_coords = { {x = 1629.76, y = 2563.87, z = 45.56} } --set 'deliver fish' marker x,y,z coords
 local vehicleName = 'pounder'
 local jobLocations = {
-  {title = "Aquatic Delivery Spot", colour = 1, id = 446, x = 1629.76, y = 2563.87, z = 45.56, display = 2, scale = 1.0, shortRange = true, markertype = 1, drawdistance = 200.0, markersize = {x = 1.5, y = 1.5, z = 2.0}, BlipSprite = 446, EnterExitDelay = 0, EnterExitDelayMax = 600, markercolor = {r = 66, g = 176, b = 244, a = 500}, prompt = "Press ~y~E~s~ deliver product"}, --electric repair
+  {title = "Aquatic Delivery Spot", x = 1629.76, y = 2563.87, z = 45.56, markertype = 1, drawdistance = 200.0, markersize = {x = 1.5, y = 1.5, z = 2.0}, markercolor = {r = 66, g = 176, b = 244, a = 500}, prompt = "Press ~y~E~s~ deliver product"}
 }
 
 
