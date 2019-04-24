@@ -35,7 +35,7 @@ local chance = 0
 local currentHealth = 0
 local platenum = 0
 local vehicleName = ""
---REMOVE KNIFE AND TARGETS
+--REMOVE KNIFE AND TARGETS AND HEALTH REGEN
 AddEventHandler("playerSpawned", function(spawn)
   RemoveWeaponFromPed(playerPed, knife)
   SetPedCanBeTargetted(playerPed, false)
