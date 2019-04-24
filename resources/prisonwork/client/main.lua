@@ -113,7 +113,9 @@ while true do --if library exists
       if IsControlPressed(1, Keys["E"]) then
         TaskPlayAnim(playerPed, kl, kl_a, 8.0, 8.0, - 1, 50, 0, true, true, true)
         chance = math.floor(math.random(1, 50))
-        if chance <= 10 then
+        if (chance > 5 and chance <= 10) then
+          exports.pNotify:SendNotification({text = "Just some old chewing gum wrappers and dead mice..", type = "info", timeout = 8000, layout = "centerRight"})
+        elseif (chance >5 and chance <= 10) then
           GiveWeaponToPed(playerPed, knife, 20, false, false)
           exports.pNotify:SendNotification({text = "You found a hidden knife..", type = "info", timeout = 8000, layout = "centerRight"})
         elseif (chance > 10 and <= 20) then
