@@ -118,13 +118,13 @@ while true do --if library exists
         elseif (chance > 5 and chance <= 10) then
           GiveWeaponToPed(playerPed, knife, 20, false, false)
           exports.pNotify:SendNotification({text = "You found a hidden knife..", type = "info", timeout = 8000, layout = "centerRight"})
-        elseif (chance > 10 and <= 20) then
+        elseif (chance > 10 and chance <= 20) then
           GiveWeaponToPed(playerPed, bottle, 20, false, false)
           exports.pNotify:SendNotification({text = "You found a hidden bottle..", type = "info", timeout = 8000, layout = "centerRight"})
-        elseif (chance > 20 and <= 30) then
+        elseif (chance > 20 and chance <= 30) then
           GiveWeaponToPed(playerPed, knuckle, 20, false, false)
           exports.pNotify:SendNotification({text = "You found hidden brass knuckles..", type = "info", timeout = 8000, layout = "centerRight"})
-        elseif (chance > 30 and <= 40) then
+        elseif (chance > 30 and chance <= 40) then
           GiveWeaponToPed(playerPed, hammer, 20, false, false)
           exports.pNotify:SendNotification({text = "You found a hidden hammer..", type = "info", timeout = 8000, layout = "centerRight"})
         elseif chance > 40 then
