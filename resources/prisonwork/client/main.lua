@@ -11,6 +11,40 @@ end
 end)
 --[[END GET ESX OBJ DATA]]
 Citizen.CreateThread(function()
+local vehicleList = {
+  "Adder",
+  "Zentorno",
+  "Asea",
+  "Baller",
+  "Bati",
+  "Blista",
+  "Buffalo",
+  "Bison",
+  "Carbonizzare",
+  "Carbon RS",
+  "Cheetah",
+  "Cheetah Classic",
+  "Coquette",
+  "Daemon",
+  "Dilettante",
+  "Dubsta",
+  "Faggio",
+  "Futo",
+  "Granger",
+  "Ingot",
+  "Mesa",
+  "Patriot",
+  "Rebel",
+  "Sandking XL",
+  "Sentinel",
+  "Vacca",
+  "Voltic",
+  "Z-Type",
+  "Nero",
+  "Nero Custom"
+  
+}
+local active = true
 local hammering_lib = "amb@world_human_hammering@male@base" -- hammering with base
 local welding_lib = "amb@world_human_welding@male@base" -- welding with base
 local electrocute_lib = "missminuteman_1ig_2" -- electrocute with tasered_2
@@ -19,7 +53,7 @@ local knife = "WEAPON_KNIFE"
 local wrench = "WEAPON_WRENCH"
 local bottle = "WEAPON_BOTTLE"
 local knuckle = "WEAPON_KNUCKLE"
-local flashlight = "WEAPON_FLASHLIGHT"
+local hammer = "WEAPON_HAMMER"
 RequestAnimDict(hammering_lib)
 RequestAnimDict(welding_lib)
 RequestAnimDict(electrocute_lib)
@@ -37,8 +71,9 @@ while true do --if library exists
 
 
   --[[MAINTENANCE JOB]]
+  while (active = true) do
     distance = Vdist(x, y, z, 1629.76, 2563.87, 45.56)
-    Citizen.Wait(1)
+    Wait(1)
     distance = math.ceil(distance)
     if distance <= 2 then
       if IsControlPressed(1, Keys["E"]) then
@@ -53,43 +88,55 @@ while true do --if library exists
           SetEntityHealth(playerPed, currentHealth - 20)
           TriggerEvent("chat:addMessage", "", { 0, 0, 0 }, "^*^1ACTION: ^0You\'ve been ^1ELECTROCUTED^0, be careful.")          
         end --end if chance
-        ClearPedTasks(playerPed)
-        Citizen.Wait(2000) --wait 2 seconds to repeat job
+        active = false
       end --end Key Press
     end -- end distance check
+    if (active = false) then      
+      Wait(1500) --wait 1.5 seconds to repeat job
+        active = true -- reset active flag to true
+    end
+  end -- end while loop
 
 
 
   --[[LICENSE PLATE JOB]]
+  while (active = true) do
     distance = Vdist(x, y, z, 1753.49, 2503.66, 45.57)
-    Citizen.Wait(1)
+    Wait(1)
     distance = math.ceil(distance)
-    if distance <= 1 then
+    if distance <= 2 then
       if IsControlPressed(1, Keys["E"]) then
         TaskPlayAnim(playerPed, hammering_lib, "base", 8.0, 8.0, - 1, 50, 0, true, true, true)
         TaskStartScenarioInPlace(playerPed, "WORLD_HUMAN_HAMMERING", 0, false)
         ClearPedTasks(playerPed)
-        local chance = math.floor(math.random(1, 50))
         local platenum = math.floor(math.random() * 100000 + 1)
-        local remaining = math.floor(math.random(1000, 9999))
-        if chance <= 25 then
-          TriggerEvent("chat:addMessage", "", { 0, 0, 0 }, "^*^3ACTION:^r ^0License Plate Created : ^4[ " .. platenum .. " ].")
+        local chance = math.floor(math.random(1, 30))
+        local vehicleName = vehicleList[chance]
+        if chance <= 15 then
+          TriggerEvent("chat:addMessage", "", { 0, 0, 0 }, "^*^3ACTION:^r ^0License Plate Created ^4[ " .. platenum .. " ]^0 for a ^3" .. vehicleName .. "^0.")
           TriggerServerEvent("prisonworkjob")
           ClearPedTasks(playerPed)
-        elseif chance >= 26 then
+        elseif chance >= 16 then
           TriggerEvent("chat:addMessage", "", { 0, 0, 0 }, "^*^3ACTION:^r ^0Machine press is broken, wait 10 seconds for rebooting sequence..")
           ClearPedTasks(playerPed)
-          Citizen.Wait(10000)
+          Wait(10000)
         end --end if chance
-      end --end Key Press
+        active = false
+      end --end Key Press      
     end -- end distance check
+    if (active = false) then      
+      Wait(1500) --wait 1.5 seconds to repeat job
+        active = true -- reset active flag to true
+    end
+  end -- end while loop
 
 
 
 
   --[[HIDDEN WEAPON]]
+  while (active = true) do
     distance = Vdist(x, y, z, 1755.42, 2467.19, 55.14)
-    Citizen.Wait(1)
+    Wait(1)
     distance = math.ceil(distance)
     if distance <= 1 then
       if IsControlPressed(1, Keys["E"]) then
@@ -105,16 +152,21 @@ while true do --if library exists
           GiveWeaponToPed(playerPed, knuckle, 20, false, false)
           TriggerEvent("chat:addMessage", "", { 0, 0, 0 }, "^*^3ACTION:^r ^0You found a hidden brass knuckle..")
         elseif (chance > 30 and <= 40) then
-          GiveWeaponToPed(playerPed, flashlight, 20, false, false)
-          TriggerEvent("chat:addMessage", "", { 0, 0, 0 }, "^*^3ACTION:^r ^0You found a hidden flashlight..")
+          GiveWeaponToPed(playerPed, hammer, 20, false, false)
+          TriggerEvent("chat:addMessage", "", { 0, 0, 0 }, "^*^3ACTION:^r ^0You found a hidden hammer..")
         elseif chance > 40 then
           GiveWeaponToPed(playerPed, wrench, 20, false, false)
           TriggerEvent("chat:addMessage", "", { 0, 0, 0 }, "^*^3ACTION:^r ^0You found a hidden wrench..")
-        end --end if     
-        Citizen.Wait(12000000) --wait 200 minutes to repeat job
+        end --end if
+        active = false
         ClearPedTasks(playerPed)       
       end --end Key Press
     end -- end distance check
+    if (active = false) then      
+      Wait(12000000) --wait 200 minutes to repeat job
+        active = true -- reset active flag to true
+    end
+  end -- end while loop
 
 
 
