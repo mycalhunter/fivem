@@ -41,8 +41,7 @@ local vehicleList = {
   "Voltic",
   "Z-Type",
   "Nero",
-  "Nero Custom"
-  
+  "Nero Custom",
 }
 local active = true
 local hammering_lib = "amb@world_human_hammering@male@base" -- hammering with base
