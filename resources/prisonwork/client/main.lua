@@ -15,6 +15,11 @@ local hammering_lib = "amb@world_human_hammering@male@base" -- hammering with ba
 local welding_lib = "amb@world_human_welding@male@base" -- welding with base
 local electrocute_lib = "missminuteman_1ig_2" -- electrocute with tasered_2
 local kneel_lib = "amb@medic@standing@tendtodead@idle_a" -- kneeling with idle_a
+local knife = "WEAPON_KNIFE"
+local wrench = "WEAPON_WRENCH"
+local bottle = "WEAPON_BOTTLE"
+local knuckle = "WEAPON_KNUCKLE"
+local flashlight = "WEAPON_FLASHLIGHT"
 RequestAnimDict(hammering_lib)
 RequestAnimDict(welding_lib)
 RequestAnimDict(electrocute_lib)
@@ -46,7 +51,7 @@ while true do --if library exists
           TaskPlayAnim(playerPed, electrocute_lib, "tasered_2", 8.0, 8.0, - 1, 50, 0, true, true, true)
           local currentHealth = GetEntityHealth(playerPed)
           SetEntityHealth(playerPed, currentHealth - 20)
-          TriggerEvent("chatMessage", "", { 0, 0, 0 }, "^*^1ACTION: ^0You\'ve been ^1ELECTROCUTED^0, be careful.")          
+          TriggerEvent("chat:addMessage", "", { 0, 0, 0 }, "^*^1ACTION: ^0You\'ve been ^1ELECTROCUTED^0, be careful.")          
         end --end if chance
         ClearPedTasks(playerPed)
         Citizen.Wait(2000) --wait 2 seconds to repeat job
@@ -68,11 +73,11 @@ while true do --if library exists
         local platenum = math.floor(math.random() * 100000 + 1)
         local remaining = math.floor(math.random(1000, 9999))
         if chance <= 25 then
-          TriggerEvent("chatMessage", "", { 0, 0, 0 }, "^*^3ACTION:^r ^0License Plate Created : ^4[ " .. platenum .. " ].")
+          TriggerEvent("chat:addMessage", "", { 0, 0, 0 }, "^*^3ACTION:^r ^0License Plate Created : ^4[ " .. platenum .. " ].")
           TriggerServerEvent("prisonworkjob")
           ClearPedTasks(playerPed)
         elseif chance >= 26 then
-          TriggerEvent("chatMessage", "", { 0, 0, 0 }, "^*^3ACTION:^r ^0Machine press is broken, wait 10 seconds for rebooting sequence..")
+          TriggerEvent("chat:addMessage", "", { 0, 0, 0 }, "^*^3ACTION:^r ^0Machine press is broken, wait 10 seconds for rebooting sequence..")
           ClearPedTasks(playerPed)
           Citizen.Wait(10000)
         end --end if chance
@@ -82,7 +87,7 @@ while true do --if library exists
 
 
 
-  --[[HIDDEN WRENCH]]
+  --[[HIDDEN WEAPON]]
     distance = Vdist(x, y, z, 1755.42, 2467.19, 55.14)
     Citizen.Wait(1)
     distance = math.ceil(distance)
@@ -91,15 +96,20 @@ while true do --if library exists
         TaskPlayAnim(playerPed, kneel_lib, "idle_a", 8.0, 8.0, - 1, 50, 0, true, true, true)        
         local chance = math.floor(math.random(1, 50))
         if chance <= 10 then
-          GiveWeaponToPed(playerPed, "WEAPON_KNIFE", 20, false, false)
+          GiveWeaponToPed(playerPed, knife, 20, false, false)
+          TriggerEvent("chat:addMessage", "", { 0, 0, 0 }, "^*^3ACTION:^r ^0You found a hidden knife..")
         elseif (chance > 10 and <= 20) then
-          GiveWeaponToPed(playerPed, "WEAPON_BOTTLE", 20, false, false)
+          GiveWeaponToPed(playerPed, bottle, 20, false, false)
+          TriggerEvent("chat:addMessage", "", { 0, 0, 0 }, "^*^3ACTION:^r ^0You found a hidden bottle..")
         elseif (chance > 20 and <= 30) then
-          GiveWeaponToPed(playerPed, "WEAPON_KNUCKLE", 20, false, false)
+          GiveWeaponToPed(playerPed, knuckle, 20, false, false)
+          TriggerEvent("chat:addMessage", "", { 0, 0, 0 }, "^*^3ACTION:^r ^0You found a hidden brass knuckle..")
         elseif (chance > 30 and <= 40) then
-          GiveWeaponToPed(playerPed, "WEAPON_FLASHLIGHT", 20, false, false)
+          GiveWeaponToPed(playerPed, flashlight, 20, false, false)
+          TriggerEvent("chat:addMessage", "", { 0, 0, 0 }, "^*^3ACTION:^r ^0You found a hidden flashlight..")
         elseif chance > 40 then
-          GiveWeaponToPed(playerPed, "WEAPON_WRENCH", 20, false, false)
+          GiveWeaponToPed(playerPed, wrench, 20, false, false)
+          TriggerEvent("chat:addMessage", "", { 0, 0, 0 }, "^*^3ACTION:^r ^0You found a hidden wrench..")
         end --end if     
         Citizen.Wait(12000000) --wait 200 minutes to repeat job
         ClearPedTasks(playerPed)       
