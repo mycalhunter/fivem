@@ -55,7 +55,7 @@ while true do --if library exists
           TaskPlayAnim(playerPed, electrocute_lib, "tasered_2", 8.0, 8.0, - 1, 50, 0, true, true, true)
           local currentHealth = GetEntityHealth(playerPed)
           SetEntityHealth(playerPed, currentHealth - 20)
-          exports.pNotify:SendNotification({text = "You've been electrocuted, be careful.", type = "info", timeout = 8000, layout = "centerRight"})
+          exports.pNotify:SendNotification({text = "You've been shocked, be careful.", type = "info", timeout = 8000, layout = "centerRight"})
         end --end if chance
         active = false
       end --end Key Press
@@ -82,7 +82,7 @@ while true do --if library exists
         local chance = math.floor(math.random(1, 264))
         local vehicleName = vehicleList[chance]
         if chance <= 15 then
-          exports.pNotify:SendNotification({text = "License Plate Created [ " .. platenum .. " ] for a " .. vehicleName .. ".", type = "info", timeout = 8000, layout = "centerRight"})
+          exports.pNotify:SendNotification({text = "License Plate created [ " .. platenum .. " ] for a ^0" .. vehicleName .. ".", type = "info", timeout = 8000, layout = "centerRight"})
           TriggerServerEvent("prisonworkjob")
           ClearPedTasks(playerPed)
         elseif chance >= 16 then
