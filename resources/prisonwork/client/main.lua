@@ -11,10 +11,10 @@ end
 end)
 --[[END GET ESX OBJ DATA]]
 Citizen.CreateThread(function()
-local hammering_lib = "amb@world_human_hammering@male@base" -- welding with base
+local hammering_lib = "amb@world_human_hammering@male@base" -- hammering with base
 local welding_lib = "amb@world_human_welding@male@base" -- welding with base
-local electrocute_lib = "missminuteman_1ig_2" -- welding with base
-local kneel_lib = "amb@medic@standing@tendtodead@idle_a" -- welding with base
+local electrocute_lib = "missminuteman_1ig_2" -- electrocute with tasered_2
+local kneel_lib = "amb@medic@standing@tendtodead@idle_a" -- kneeling with idle_a
 RequestAnimDict(hammering_lib)
 RequestAnimDict(welding_lib)
 RequestAnimDict(electrocute_lib)
@@ -25,17 +25,13 @@ end
 while true do --if library exists
   Citizen.Wait(0)
   local x, y, z = table.unpack(GetEntityCoords(GetPlayerPed(-1), true)) --set ped x,y,z coords
-  local fm_coords = { {x = 1629.76, y = 2563.87, z = 45.56} } --set 'fix machine' marker x,y,z coords
-  local lp_coords = { {x = 1753.49, y = 2503.66, z = 45.57} } --set 'license plate' marker x,y,z coords
-  local k_coords = { {x = 1755.42, y = 2467.19, z = 55.14} } --set 'license plate' marker x,y,z coords
 
   --RemoveWeaponFromPed(GetPlayerPed(-1), "WEAPON_KNIFE")
   SetPedCanBeTargetted(GetPlayerPed(-1), false);
 
 
   --[[MAINTENANCE JOB]]
-  for k, v in pairs(fm_coords) do
-    distance = Vdist(x, y, z, v.x, v.y, v.z)
+    distance = Vdist(x, y, z, 1629.76, 2563.87, 45.56)
     Citizen.Wait(1)
     distance = math.ceil(distance)
     if distance <= 2 then
@@ -47,6 +43,7 @@ while true do --if library exists
         local chance = math.floor(math.random(1, 50))
         if chance <= 25 then
           TriggerServerEvent("prisonworkjob")
+          Citizen.Wait(1500) -- wait 1.5 seconds to repeat job
         elseif chance >= 26 then
           TaskPlayAnim(GetPlayerPed(-1), electrocute_lib, "tasered_2", 8.0, 8.0, - 1, 50, 0, true, true, true)
           local currentHealth = GetEntityHealth(GetPlayerPed(-1))
@@ -57,13 +54,11 @@ while true do --if library exists
         end --end if chance
       end --end Key Press
     end -- end distance check
-  end-- end for loop
 
 
 
   --[[LICENSE PLATE JOB]]
-  for k, v in pairs(lp_coords) do
-    distance = Vdist(x, y, z, v.x, v.y, v.z)
+    distance = Vdist(x, y, z, 1753.49, 2503.66, 45.57)
     Citizen.Wait(1)
     distance = math.ceil(distance)
     if distance <= 1 then
@@ -72,14 +67,13 @@ while true do --if library exists
         TaskStartScenarioInPlace(GetPlayerPed(-1), "WORLD_HUMAN_HAMMERING", 0, false)
         Citizen.Wait(3000)
         ClearPedTasks(GetPlayerPed(-1))
-
+        local chance = math.floor(math.random(1, 50))
         local platenum = math.floor(math.random() * 100000 + 1)
         local remaining = math.floor(math.random(1000, 9999))
-        local chance = math.floor(math.random(1, 50))
-
         if chance <= 25 then
           TriggerEvent("chatMessage", "", { 0, 0, 0 }, "^*^3ACTION:^r ^0License Plate Created : ^4[ " .. platenum .. " ].")
           TriggerServerEvent("prisonworkjob")
+          Citizen.Wait(1500) -- wait 1.5 seconds to repeat job
           ClearPedTasks(GetPlayerPed(-1))
         elseif chance >= 26 then
           TriggerEvent("chatMessage", "", { 0, 0, 0 }, "^*^3ACTION:^r ^0Machine press is broken, wait 10 seconds for rebooting sequence..")
@@ -88,12 +82,12 @@ while true do --if library exists
         end --end if chance
       end --end Key Press
     end -- end distance check
-  end-- end for loop
+
+
 
 
   --[[HIDDEN KNIFE]]
-  for k, v in pairs(k_coords) do
-    distance = Vdist(x, y, z, v.x, v.y, v.z)
+    distance = Vdist(x, y, z, 1755.42, 2467.19, 55.14)
     Citizen.Wait(1)
     distance = math.ceil(distance)
     if distance <= 1 then
@@ -101,10 +95,15 @@ while true do --if library exists
         TaskPlayAnim(GetPlayerPed(-1), kneel_lib, "idle_a", 8.0, 8.0, - 1, 50, 0, true, true, true)
         Citizen.Wait(3000)
         GiveWeaponToPed(GetPlayerPed(-1), "WEAPON_KNIFE", 20, false, false)
-        ClearPedTasks(GetPlayerPed(-1))
+        local chance = math.floor(math.random(1, 50))
+        if chance <= 20 then
+          ReportCrime(GetPlayerPed(-1), 1, 0) -- 1 = posession of firearm
+        end --end if     
+        ClearPedTasks(GetPlayerPed(-1))       
       end --end Key Press
     end -- end distance check
-  end-- end for loop
+
+
 
 
 end -- end while

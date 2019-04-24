@@ -1,6 +1,5 @@
 ESX = nil
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-
 RegisterServerEvent('prisonworkjob')
 AddEventHandler('prisonworkjob', function(job)
   local xPlayers = ESX.GetPlayers()
@@ -9,32 +8,11 @@ AddEventHandler('prisonworkjob', function(job)
     local playerName = xPlayer.name
     if xPlayer.job.name == 'unemployed' then
       local s = source
-      local amount = 100
-      local getBank = xPlayer.getBank() --get original bank amount
-      xPlayer.setBankBalance(getBank + amount) --add bank account to original + $150
-      Citizen.Wait(100)
+      local amount = 275
+      local getBank = xPlayer.getBank()
+      xPlayer.setBankBalance(getBank + amount)
+      Citizen.Wait(1)
       TriggerClientEvent('esx:showNotification', s, '~y~You have been paid $100 for your work.~s~')
     end
-
-    --get updated bank
-    local function getBankFromUser(id_user)
-    local xPlayer = ESX.GetPlayerFromId(id_user)
-    local account = xPlayer.getAccount('bank')
-    return account.money
-    end
-
-    RegisterServerEvent('bank:getbank')
-    AddEventHandler('bank:getbank', function()
-      local _source = source
-      local xPlayer = ESX.GetPlayerFromId(_source)
-      if xPlayer ~= nil then
-        local bank = getBankFromUser(_source)
-        TriggerClientEvent("banking:updateBalance", _source, bank)
-      end
-    end)
-    --end getting updated bank
-
-
   end
 end)
-
