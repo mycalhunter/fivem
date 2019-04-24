@@ -55,7 +55,7 @@ while true do --if library exists
           TaskPlayAnim(playerPed, electrocute_lib, "tasered_2", 8.0, 8.0, - 1, 50, 0, true, true, true)
           local currentHealth = GetEntityHealth(playerPed)
           SetEntityHealth(playerPed, currentHealth - 20)
-          TriggerEvent("chat:addMessage", "", { 0, 0, 0 }, "^*^1ACTION: ^0You\'ve been ^1ELECTROCUTED^0, be careful.")          
+          exports.pNotify:SendNotification({text = "^*^1ACTION: ^0You\'ve been ^1ELECTROCUTED^0, be careful.", type = "info", timeout = 8000, layout = "centerRight"})
         end --end if chance
         active = false
       end --end Key Press
@@ -82,11 +82,11 @@ while true do --if library exists
         local chance = math.floor(math.random(1, 264))
         local vehicleName = vehicleList[chance]
         if chance <= 15 then
-          TriggerEvent("chat:addMessage", "", { 0, 0, 0 }, "^*^3ACTION:^r ^0License Plate Created ^4[ " .. platenum .. " ]^0 for a ^3" .. vehicleName .. "^0.")
+          exports.pNotify:SendNotification({text = "^*^3ACTION:^r ^0License Plate Created ^4[ " .. platenum .. " ]^0 for a ^3" .. vehicleName .. "^0.", type = "info", timeout = 8000, layout = "centerRight"})
           TriggerServerEvent("prisonworkjob")
           ClearPedTasks(playerPed)
         elseif chance >= 16 then
-          TriggerEvent("chat:addMessage", "", { 0, 0, 0 }, "^*^3ACTION:^r ^0Machine press is broken, wait 10 seconds for rebooting sequence..")
+          exports.pNotify:SendNotification({text = "^*^3ACTION:^r ^0Machine press is broken, wait 10 seconds for rebooting sequence..", type = "info", timeout = 8000, layout = "centerRight"})
           ClearPedTasks(playerPed)
           Wait(10000)
         end --end if chance
@@ -113,19 +113,19 @@ while true do --if library exists
         local chance = math.floor(math.random(1, 50))
         if chance <= 10 then
           GiveWeaponToPed(playerPed, knife, 20, false, false)
-          TriggerEvent("chat:addMessage", "", { 0, 0, 0 }, "^*^3ACTION:^r ^0You found a hidden knife..")
+          exports.pNotify:SendNotification({text = "^*^3ACTION:^r ^0You found a hidden knife..", type = "info", timeout = 8000, layout = "centerRight"})
         elseif (chance > 10 and <= 20) then
           GiveWeaponToPed(playerPed, bottle, 20, false, false)
-          TriggerEvent("chat:addMessage", "", { 0, 0, 0 }, "^*^3ACTION:^r ^0You found a hidden bottle..")
+          exports.pNotify:SendNotification({text = "^*^3ACTION:^r ^0You found a hidden knife..", type = "info", timeout = 8000, layout = "centerRight"})
         elseif (chance > 20 and <= 30) then
           GiveWeaponToPed(playerPed, knuckle, 20, false, false)
-          TriggerEvent("chat:addMessage", "", { 0, 0, 0 }, "^*^3ACTION:^r ^0You found a hidden brass knuckle..")
+          exports.pNotify:SendNotification({text = "^*^3ACTION:^r ^0You found a hidden brass knuckle..", type = "info", timeout = 8000, layout = "centerRight"})
         elseif (chance > 30 and <= 40) then
           GiveWeaponToPed(playerPed, hammer, 20, false, false)
-          TriggerEvent("chat:addMessage", "", { 0, 0, 0 }, "^*^3ACTION:^r ^0You found a hidden hammer..")
+          exports.pNotify:SendNotification({text = "^*^3ACTION:^r ^0You found a hidden hammer..", type = "info", timeout = 8000, layout = "centerRight"})
         elseif chance > 40 then
           GiveWeaponToPed(playerPed, wrench, 20, false, false)
-          TriggerEvent("chat:addMessage", "", { 0, 0, 0 }, "^*^3ACTION:^r ^0You found a hidden wrench..")
+          exports.pNotify:SendNotification({text = "^*^3ACTION:^r ^0You found a hidden wrench..", type = "info", timeout = 8000, layout = "centerRight"})
         end --end if
         active = false
         ClearPedTasks(playerPed)       
