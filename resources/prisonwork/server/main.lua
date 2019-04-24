@@ -12,7 +12,7 @@ AddEventHandler('prisonworkjob', function(job)
       local getBank = xPlayer.getBank()
       xPlayer.setBankBalance(getBank + amount)
       Citizen.Wait(1)
-      TriggerClientEvent('esx:showNotification', s, '~y~You have been paid $' .. amount .. ' for your work.~s~')
+      TriggerClientEvent('pNotify:SendNotification', -1, {text = '~y~You have been paid $' .. amount .. ' for your work.~s~', type = "info", timeout = 8000, layout = "centerRight"})
     end
   end
 end)

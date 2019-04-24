@@ -42,6 +42,13 @@ Citizen.CreateThread(function()
       end
       if (distance <= 1) then --if distance between player and marker is less than 1 meter/unit
         HelpText(v.prompt)
+        --[[exports.pNotify:SendNotification({
+            text = v.prompt, 
+            type = "info", 
+            timeout = math.random(1000, 10000), 
+            layout = "bottomCenter", 
+            queue = "left"
+        })]]
       end
     end --end for
   end --end while
