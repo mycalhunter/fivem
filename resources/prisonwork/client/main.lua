@@ -24,10 +24,11 @@ while not HasAnimDictLoaded(hammering_lib, welding_lib, electrocute_lib, kneel_l
 end
 while true do --if library exists
   Citizen.Wait(0)
-  local x, y, z = table.unpack(GetEntityCoords(GetPlayerPed(-1), true)) --set ped x,y,z coords
+  local playerPed = GetPlayerPed(-1)
+  local x, y, z = table.unpack(GetEntityCoords(playerPed, true)) --set ped x,y,z coords
 
-  --RemoveWeaponFromPed(GetPlayerPed(-1), "WEAPON_KNIFE")
-  SetPedCanBeTargetted(GetPlayerPed(-1), false);
+  --RemoveWeaponFromPed(playerPed, "WEAPON_KNIFE")
+  SetPedCanBeTargetted(playerPed, false);
 
 
   --[[MAINTENANCE JOB]]
@@ -36,22 +37,19 @@ while true do --if library exists
     distance = math.ceil(distance)
     if distance <= 2 then
       if IsControlPressed(1, Keys["E"]) then
-        TaskPlayAnim(GetPlayerPed(-1), welding_lib, "base", 8.0, 8.0, 5000, 1, 1, true, true, true)
-        TaskStartScenarioInPlace(GetPlayerPed(-1), "WORLD_HUMAN_WELDING", 0, false)
-        Citizen.Wait(3000)
-        ClearPedTasks(GetPlayerPed(-1))
+        TaskPlayAnim(playerPed, welding_lib, "base", 8.0, 8.0, 5000, 1, 1, true, true, true)
+        TaskStartScenarioInPlace(playerPed, "WORLD_HUMAN_WELDING", 0, false)
         local chance = math.floor(math.random(1, 50))
         if chance <= 25 then
           TriggerServerEvent("prisonworkjob")
-          Citizen.Wait(1500) -- wait 1.5 seconds to repeat job
         elseif chance >= 26 then
-          TaskPlayAnim(GetPlayerPed(-1), electrocute_lib, "tasered_2", 8.0, 8.0, - 1, 50, 0, true, true, true)
-          local currentHealth = GetEntityHealth(GetPlayerPed(-1))
-          SetEntityHealth(GetPlayerPed(-1), currentHealth - 20)
-          TriggerEvent("chatMessage", "", { 0, 0, 0 }, "^*^1ACTION: ^0You\'ve been ^1ELECTROCUTED^0, be careful.")
-          Citizen.Wait(5000)
-          ClearPedTasks(GetPlayerPed(-1))
+          TaskPlayAnim(playerPed, electrocute_lib, "tasered_2", 8.0, 8.0, - 1, 50, 0, true, true, true)
+          local currentHealth = GetEntityHealth(playerPed)
+          SetEntityHealth(playerPed, currentHealth - 20)
+          TriggerEvent("chatMessage", "", { 0, 0, 0 }, "^*^1ACTION: ^0You\'ve been ^1ELECTROCUTED^0, be careful.")          
         end --end if chance
+        ClearPedTasks(playerPed)
+        Citizen.Wait(2000) --wait 2 seconds to repeat job
       end --end Key Press
     end -- end distance check
 
@@ -63,22 +61,20 @@ while true do --if library exists
     distance = math.ceil(distance)
     if distance <= 1 then
       if IsControlPressed(1, Keys["E"]) then
-        TaskPlayAnim(GetPlayerPed(-1), hammering_lib, "base", 8.0, 8.0, - 1, 50, 0, true, true, true)
-        TaskStartScenarioInPlace(GetPlayerPed(-1), "WORLD_HUMAN_HAMMERING", 0, false)
-        Citizen.Wait(3000)
-        ClearPedTasks(GetPlayerPed(-1))
+        TaskPlayAnim(playerPed, hammering_lib, "base", 8.0, 8.0, - 1, 50, 0, true, true, true)
+        TaskStartScenarioInPlace(playerPed, "WORLD_HUMAN_HAMMERING", 0, false)
+        ClearPedTasks(playerPed)
         local chance = math.floor(math.random(1, 50))
         local platenum = math.floor(math.random() * 100000 + 1)
         local remaining = math.floor(math.random(1000, 9999))
         if chance <= 25 then
           TriggerEvent("chatMessage", "", { 0, 0, 0 }, "^*^3ACTION:^r ^0License Plate Created : ^4[ " .. platenum .. " ].")
           TriggerServerEvent("prisonworkjob")
-          Citizen.Wait(1500) -- wait 1.5 seconds to repeat job
-          ClearPedTasks(GetPlayerPed(-1))
+          ClearPedTasks(playerPed)
         elseif chance >= 26 then
           TriggerEvent("chatMessage", "", { 0, 0, 0 }, "^*^3ACTION:^r ^0Machine press is broken, wait 10 seconds for rebooting sequence..")
+          ClearPedTasks(playerPed)
           Citizen.Wait(10000)
-          ClearPedTasks(GetPlayerPed(-1))
         end --end if chance
       end --end Key Press
     end -- end distance check
@@ -86,20 +82,27 @@ while true do --if library exists
 
 
 
-  --[[HIDDEN KNIFE]]
+  --[[HIDDEN WRENCH]]
     distance = Vdist(x, y, z, 1755.42, 2467.19, 55.14)
     Citizen.Wait(1)
     distance = math.ceil(distance)
     if distance <= 1 then
       if IsControlPressed(1, Keys["E"]) then
-        TaskPlayAnim(GetPlayerPed(-1), kneel_lib, "idle_a", 8.0, 8.0, - 1, 50, 0, true, true, true)
-        Citizen.Wait(3000)
-        GiveWeaponToPed(GetPlayerPed(-1), "WEAPON_KNIFE", 20, false, false)
+        TaskPlayAnim(playerPed, kneel_lib, "idle_a", 8.0, 8.0, - 1, 50, 0, true, true, true)        
         local chance = math.floor(math.random(1, 50))
-        if chance <= 20 then
-          ReportCrime(GetPlayerPed(-1), 1, 0) -- 1 = posession of firearm
+        if chance <= 10 then
+          GiveWeaponToPed(playerPed, "WEAPON_KNIFE", 20, false, false)
+        elseif (chance > 10 and <= 20) then
+          GiveWeaponToPed(playerPed, "WEAPON_BOTTLE", 20, false, false)
+        elseif (chance > 20 and <= 30) then
+          GiveWeaponToPed(playerPed, "WEAPON_KNUCKLE", 20, false, false)
+        elseif (chance > 30 and <= 40) then
+          GiveWeaponToPed(playerPed, "WEAPON_FLASHLIGHT", 20, false, false)
+        elseif chance > 40 then
+          GiveWeaponToPed(playerPed, "WEAPON_WRENCH", 20, false, false)
         end --end if     
-        ClearPedTasks(GetPlayerPed(-1))       
+        Citizen.Wait(12000000) --wait 200 minutes to repeat job
+        ClearPedTasks(playerPed)       
       end --end Key Press
     end -- end distance check
 
