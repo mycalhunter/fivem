@@ -39,6 +39,7 @@ local vehicleName = ""
 AddEventHandler("playerSpawned", function(spawn)
   RemoveWeaponFromPed(playerPed, knife)
   SetPedCanBeTargetted(playerPed, false)
+  SetPlayerHealthRechargeMultiplier(playerPed, 0.0)
 end)
 --REQUEST ANIMATION LIBRARIES
 RequestAnimDict(hl) --hammer lib
