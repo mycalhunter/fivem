@@ -14,7 +14,7 @@
 }
 
 .noty_theme__gta.noty_bar .noty_buttons {
-    padding: 0px; 
+    padding: 0px;
 }
 
 .noty_theme__gta.noty_bar .noty_progressbar {
@@ -49,9 +49,10 @@
 
 .noty_theme__gta.noty_type__info,
 .noty_theme__gta.noty_type__information {
-    background-color: rgb(40, 40, 40);
+    background-color: rgba(40, 40, 40, 0.95);
     border-top: 2px solid #7473E8;
     color: #fff;
+    padding: 10px;
 }
 
 .noty_theme__gta.noty_type__success {
@@ -65,17 +66,17 @@
     -webkit-transform: translate(50%);
     -ms-transform: translate(50%);
     transform: translate(50%);
-    -webkit-animation: noty_anim_in 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
-    animation: noty_anim_in 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
+    -webkit-animation: noty_anim_in 0.75s cubic-bezier(0.215, 0.61, 0.355, 1);
+    animation: noty_anim_in 0.75s cubic-bezier(0.215, 0.61, 0.355, 1);
     -webkit-animation-fill-mode: forwards;
     animation-fill-mode: forwards;
 }
 
 .gta_effects_close {
-    -webkit-animation: noty_anim_out 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    animation: noty_anim_out 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    -webkit-animation: noty_anim_out 0.75s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    animation: noty_anim_out 0.75s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     -webkit-animation-fill-mode: forwards;
-    animation-fill-mode: forwards; 
+    animation-fill-mode: forwards;
 }
 
 @-webkit-keyframes noty_anim_out_left {
@@ -95,17 +96,17 @@
     -webkit-transform: translate(-50%);
     -ms-transform: translate(-50%);
     transform: translate(-50%);
-    -webkit-animation: noty_anim_in 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
-    animation: noty_anim_in 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
+    -webkit-animation: noty_anim_in 0.75s cubic-bezier(0.215, 0.61, 0.355, 1);
+    animation: noty_anim_in 0.75s cubic-bezier(0.215, 0.61, 0.355, 1);
     -webkit-animation-fill-mode: forwards;
     animation-fill-mode: forwards;
 }
 
 .gta_effects_close_left {
-    -webkit-animation: noty_anim_out_left 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    animation: noty_anim_out_left 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    -webkit-animation: noty_anim_out_left 0.75s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    animation: noty_anim_out_left 0.75s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     -webkit-animation-fill-mode: backwards;
-    animation-fill-mode: backwards; 
+    animation-fill-mode: backwards;
 }
 
 @-webkit-keyframes noty_anim_fade_in {
