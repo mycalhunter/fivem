@@ -639,7 +639,7 @@ while true do --if library exists
         file = io.open("trunks.txt", "w")
         file:write("{name = " .. v.name .. ", costs = " .. v.costs .. ", description = {}, model = " .. v.model .. ", hasTrunk = " .. hasTrunk .. "},") 
         file:close()
-        --print(str = string.format("Name: %s, trunk: %s", v.name, hasTrunk))
+        print(str = string.format("Name: %s, trunk: %s", v.name, hasTrunk))
         Wait(1000)
       end
     end
