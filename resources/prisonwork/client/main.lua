@@ -58,6 +58,20 @@ BeginTextCommandSetBlipName("STRING")
 AddTextComponentString("License Plate")
 EndTextCommandSetBlipName(info2)
 
+function drawText(text)
+  SetTextFont(0)
+  SetTextProportional(1)
+  SetTextScale(0.0, 0.6)
+  SetTextColour(255, 255, 255, 255)
+  SetTextDropshadow(0, 0, 0, 0, 255)
+  SetTextEdge(0, 0, 0, 0, 255)
+  SetTextDropShadow()
+  SetTextOutline()
+  SetTextEntry("STRING")
+  AddTextComponentString(text)
+  DrawText(0.35, 0.85) --position
+end
+
 --REQUEST ANIMATION LIBRARIES
 RequestAnimDict(hl) --hammer lib
 RequestAnimDict(wl) --welding lib
@@ -73,13 +87,13 @@ while true do --if library exists
   --[[MAINTENANCE JOB]]
   for k, v in pairs(ep_loc) do
     local x, y, z = table.unpack(GetEntityCoords(playerPed, true)) --set ped x,y,z coords
-    if (GetDistanceBetweenCoords(x, y, z, 1629.76, 2563.87, 45.56, false) < 200.0) then
-      DrawMarker(1, 1629.76, 2563.87, 45.56 - 2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.5, 1.5, 2.0 + 0.5, 66, 176, 244, 500, false, false, 2, false, false, false, false)
+    if (GetDistanceBetweenCoords(x, y, z, v.x, v.y, v.z, false) < 200.0) then
+      DrawMarker(1, v.x, v.y, v.z - 2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.5, 1.5, 2.0 + 0.5, 66, 176, 244, 500, false, false, 2, false, false, false, false)
     end
     distance = GetDistanceBetweenCoords(x, y, z, v.x, v.y, v.z, true)
     distance = math.ceil(distance)
     if distance <= 1 then
-      SetTextFont(0)
+      --[[SetTextFont(0)
       SetTextProportional(1)
       SetTextScale(0.0, 0.6)
       SetTextColour(255, 255, 255, 255)
@@ -89,19 +103,20 @@ while true do --if library exists
       SetTextOutline()
       SetTextEntry("STRING")
       AddTextComponentString("Press ~y~E~s~ to repair electric panel")
-      DrawText(0.35, 0.85)
+      DrawText(0.35, 0.85)]]
+      drawText("This displays text from the function")
       if IsControlJustPressed(1, Keys["E"]) then
         TaskPlayAnim(playerPed, wl, wl_a, 8.0, 8.0, 5000, 1, 1, true, true, true)
         TaskStartScenarioInPlace(playerPed, welding_prop, 0, false)
-        chance = math.floor(math.random(1, 50))
-        if chance <= 25 then
+        chance = math.floor(math.random(1, 3))
+        if chance <= 2 then
           Citizen.Wait(5000)
           exports.pNotify:SendNotification({text = "Electric panel has been repaired.", type = "info", timeout = 5000, layout = "centerRight"})
           Citizen.Wait(1500)
           TriggerServerEvent("prisonworkjob")
           ClearPedTasks(playerPed)
           Citizen.Wait(3500)
-        elseif chance >= 26 then
+        elseif chance == 3 then
           TaskPlayAnim(playerPed, el, el_a, 8.0, 8.0, 5000, 1, 1, true, true, true)
           Citizen.Wait(7500)
           currentHealth = GetEntityHealth(playerPed)
@@ -119,8 +134,8 @@ while true do --if library exists
   --[[LICENSE PLATE JOB]]
   for k, v in pairs(lp_loc) do
     local x, y, z = table.unpack(GetEntityCoords(playerPed, true)) --set ped x,y,z coords
-    if (GetDistanceBetweenCoords(x, y, z, 1628.30, 2651.11, 45.82, false) < 200.0) then
-      DrawMarker(1, 1628.30, 2651.11, 45.82 - 2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.5, 1.5, 2.0 + 0.5, 66, 176, 244, 500, false, false, 2, false, false, false, false)
+    if (GetDistanceBetweenCoords(x, y, z, v.x, v.y, v.z, false) < 200.0) then
+      DrawMarker(1, v.x, v.y, v.z - 2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.5, 1.5, 2.0 + 0.5, 66, 176, 244, 500, false, false, 2, false, false, false, false)
     end
     distance = GetDistanceBetweenCoords(x, y, z, v.x, v.y, v.z, true)
     distance = math.ceil(distance)
@@ -166,8 +181,8 @@ while true do --if library exists
   --[[HIDDEN WEAPON]]
     for k, v in pairs(h_loc) do
       local x, y, z = table.unpack(GetEntityCoords(playerPed, true)) --set ped x,y,z coords
-      if (GetDistanceBetweenCoords(x, y, z, 1591.72, 2559.50, 55.19, false) < 200.0) then
-        DrawMarker(1, 1591.72, 2559.50, 55.19 - 2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.5, 1.5, 2.0 + 0.5, 244, 66, 66, 500, false, false, 2, false, false, false, false)
+      if (GetDistanceBetweenCoords(x, y, z, v.x, v.y, v.z, false) < 200.0) then
+        DrawMarker(1, v.x, v.y, v.z - 2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.5, 1.5, 2.0 + 0.5, 244, 66, 66, 500, false, false, 2, false, false, false, false)
       end
       distance = GetDistanceBetweenCoords(x, y, z, v.x, v.y, v.z, true)
       distance = math.ceil(distance)
@@ -183,8 +198,6 @@ while true do --if library exists
         SetTextEntry("STRING")
         AddTextComponentString("Press ~y~E~s~ to search AC Unit")
         DrawText(0.35, 0.85)
-
-
         if (IsControlPressed(1, Keys["E"]) and active < 1) then
           TaskPlayAnim(playerPed, kl, kl_a, 8.0, 8.0, - 1, 50, 0, true, true, true)
           Wait(3500)
