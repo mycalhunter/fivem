@@ -58,26 +58,6 @@ BeginTextCommandSetBlipName("STRING")
 AddTextComponentString("License Plate")
 EndTextCommandSetBlipName(info2)
 
---[[
-info = AddBlipForCoord(1755.42, 2467.19, 55.14)
-SetBlipSprite(info, 446)
-SetBlipDisplay(info, 1)
-SetBlipScale(info, 1.0)
-SetBlipColour(info, 1)
-SetBlipAsShortRange(info, true)
-BeginTextCommandSetBlipName("STRING")
-AddTextComponentString("Hidden Weapon")
-EndTextCommandSetBlipName(info)]]
-
-
-
-
---[[REMOVE KNIFE AND TARGETS AND HEALTH REGEN
-AddEventHandler("playerSpawned", function(spawn)
-  SetPedCanBeTargetted(playerPed, false)
-  SetPlayerHealthRechargeMultiplier(playerPed, 0.0)
-end)
-SetModelAsNoLongerNeeded(welding_prop)]]
 --REQUEST ANIMATION LIBRARIES
 RequestAnimDict(hl) --hammer lib
 RequestAnimDict(wl) --welding lib
@@ -90,7 +70,6 @@ while true do --if library exists
   Citizen.Wait(0)
 
 
-
   --[[MAINTENANCE JOB]]
   for k, v in pairs(ep_loc) do
     local x, y, z = table.unpack(GetEntityCoords(playerPed, true)) --set ped x,y,z coords
@@ -100,7 +79,6 @@ while true do --if library exists
     distance = GetDistanceBetweenCoords(x, y, z, v.x, v.y, v.z, true)
     distance = math.ceil(distance)
     if distance <= 1 then
-
       SetTextFont(0)
       SetTextProportional(1)
       SetTextScale(0.0, 0.6)
@@ -112,7 +90,6 @@ while true do --if library exists
       SetTextEntry("STRING")
       AddTextComponentString("Press ~y~E~s~ to repair electric panel")
       DrawText(0.35, 0.85)
-
       if IsControlJustPressed(1, Keys["E"]) then
         TaskPlayAnim(playerPed, wl, wl_a, 8.0, 8.0, 5000, 1, 1, true, true, true)
         TaskStartScenarioInPlace(playerPed, welding_prop, 0, false)
@@ -148,7 +125,6 @@ while true do --if library exists
     distance = GetDistanceBetweenCoords(x, y, z, v.x, v.y, v.z, true)
     distance = math.ceil(distance)
     if distance <= 1 then
-
       SetTextFont(0)
       SetTextProportional(1)
       SetTextScale(0.0, 0.6)
@@ -160,7 +136,6 @@ while true do --if library exists
       SetTextEntry("STRING")
       AddTextComponentString("Press ~y~E~s~ to make license plate")
       DrawText(0.35, 0.85)
-
       if IsControlPressed(1, Keys["E"]) then
         TaskPlayAnim(playerPed, hl, hl_a, 8.0, 8.0, 5000, 1, 1, true, true, true)
         TaskStartScenarioInPlace(playerPed, hammer_prop, 0, false)
@@ -187,11 +162,7 @@ while true do --if library exists
   end -- for loop
 
 
-    --[[RemoveWeaponFromPed(playerPed, knife)
-    RemoveWeaponFromPed(playerPed, wrench)
-    RemoveWeaponFromPed(playerPed, bottle)
-    RemoveWeaponFromPed(playerPed, knuckle)
-    RemoveWeaponFromPed(playerPed, hammer)]]
+
   --[[HIDDEN WEAPON]]
     for k, v in pairs(h_loc) do
       local x, y, z = table.unpack(GetEntityCoords(playerPed, true)) --set ped x,y,z coords
@@ -201,7 +172,6 @@ while true do --if library exists
       distance = GetDistanceBetweenCoords(x, y, z, v.x, v.y, v.z, true)
       distance = math.ceil(distance)
       if distance <= 1 then
-
         SetTextFont(0)
         SetTextProportional(1)
         SetTextScale(0.0, 0.6)
