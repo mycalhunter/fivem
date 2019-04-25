@@ -624,22 +624,24 @@ while true do --if library exists
       end
     end]]
     
-    for _,v in pairs(vehprices) do
-      local hasTrunk = false
-      local veh = CreateVehicle(v.model, 0.0, 0.0, 0.0, 0.0 ,true, false) --model hash(string), x(float), y(float), z(float), heading(float), isNetwork (bool), thisScriptCheck (bool)
+    if IsControlPressed(1, Keys["C"]) then
+      for _,v in pairs(vehprices) do
+        local hasTrunk = false
+        local veh = CreateVehicle(v.model, 0.0, 0.0, 0.0, 0.0 ,true, false) --model hash(string), x(float), y(float), z(float), heading(float), isNetwork (bool), thisScriptCheck (bool)
 
-      if (GetEntityBoneIndexByName(veh, "boot") ~= nil) then
-        hasTrunk = true
+        if (GetEntityBoneIndexByName(veh, "boot") ~= nil) then
+          hasTrunk = true
+        end
+        
+        SetEntityAsMissionEntity(veh, true, true)
+        Wait(500)
+        DeleteVehicle(veh) 
+        file = io.open("trunks.txt", "w")
+        file:write("{name = " .. v.name .. ", costs = " .. v.costs .. ", description = {}, model = " .. v.model .. ", hasTrunk = " .. hasTrunk .. "},") 
+        file:close()
+        --print(str = string.format("Name: %s, trunk: %s", v.name, hasTrunk))
+        Wait(1000)
       end
-      
-      SetEntityAsMissionEntity(veh, true, true)
-      Wait(500)
-      DeleteVehicle(veh) 
-      file = io.open("trunks.txt", "w")
-      file:write("{name = " .. v.name .. ", costs = " .. v.costs .. ", description = {}, model = " .. v.model .. ", hasTrunk = " .. hasTrunk .. "},") 
-      file:close()
-      --print(str = string.format("Name: %s, trunk: %s", v.name, hasTrunk))
-      Wait(1000)
     end
 
 end -- end Citizen.CreateThread while loop
