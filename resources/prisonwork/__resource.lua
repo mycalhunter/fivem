@@ -14,7 +14,5 @@ server_scripts {
 
 dependencies {
   'pNotify',
-  'es_extended',
-  'essentialmode',
   'mysql-async'
 }
