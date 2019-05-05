@@ -3,7 +3,9 @@ resource_manifest_version '44febabe-d386-4d18-afbe-5e627f4af937'
 description "Prison Jobs"
 
 client_scripts {
-	'client/main.lua'
+	'client/main.lua',
+	'client/props.lua',
+	'client/prices_sv.lua'
 }
 
 server_scripts {
