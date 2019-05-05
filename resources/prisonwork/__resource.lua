@@ -4,8 +4,7 @@ description "Prison Jobs"
 
 client_scripts {
 	'client/main.lua',
-	'client/props.lua',
-	'client/prices_sv.lua'
+	'client/props.lua'
 }
 
 server_scripts {
