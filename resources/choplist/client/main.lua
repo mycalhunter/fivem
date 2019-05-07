@@ -10,7 +10,7 @@ CHOP LIST
 
 Citizen.CreateThread(function()
   -----------------------------------------------------
-  ------ VARIABLES THAT WILL CHANGE DURING A JOB ------
+  ------ VARIABLES THAT WILL NOT CHANGE DURING A JOB ------
   -----------------------------------------------------
   --[[BLIP FOR JOB START -- HIDE IN PRODUCTION]]
   info = AddBlipForCoord(-93.28, 19.40, 71.48)
@@ -46,7 +46,7 @@ Citizen.CreateThread(function()
   while true do
     Citizen.Wait(0)
     -----------------------------------------------------
-    ---- VARIABLES THAT WILL NOT CHANGE DURING A JOB ----
+    ---- VARIABLES THAT WILL CHANGE DURING A JOB ----
     -----------------------------------------------------
     playerPed = GetPlayerPed(-1) --get player
     check = 0
