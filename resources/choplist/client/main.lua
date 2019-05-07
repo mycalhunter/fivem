@@ -238,14 +238,12 @@ while true do
         ClearPedTasksImmediately(playerPed)
         chance = math.floor(math.random(1, #vehicleList)) --get random number from 1 to length of table
         amount = vehicleList[chance].payout * 0.10375 --multiply payout of randomly selected vehicle by 0.10375 (10.375% of Retail Price)
-        active = true
         if vehicleList[chance].payout >= 1000000 then
           exports.pNotify:SendNotification({text = "~y~~h~**SPECIAL ORDER**~s~ Deliver a <font color='#FFFF00'>" .. vehicleList[chance].vehicle .. "</font> to the storage unit for <font color='#80FC82'>$" .. amount .. "</font>.", type = "info", timeout = 8000, layout = "centerRight"})
-          Citizen.Wait(timer) -- wait X seconds until next vehicle assignment is available to player
         elseif vehicleList[chance].payout < 1000000 then
           exports.pNotify:SendNotification({text = "Deliver a <font color='#FFFF00'>" .. vehicleList[chance].vehicle .. "</font> to the storage unit for <font color='#80FC82'>$" .. amount .. "</font>.", type = "info", timeout = 8000, layout = "centerRight"})
-          Citizen.Wait(timer) -- wait X seconds until next vehicle assignment is available to player
         end -- end price check
+        active = true
       end -- key press
     end -- distance check
   end --end active check
@@ -257,7 +255,9 @@ while true do
     end
     if (Vdist(x, y, z, 965.35, - 1697.94, 29.61, false) < 1) then
       drawText("Press ~y~E~s~ to cancel chop order")
-      active = false
+      if IsControlJustPressed(1, Keys["E"]) then
+        active = false
+      end
     end
   end
 
