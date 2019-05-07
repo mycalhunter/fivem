@@ -16,12 +16,11 @@ AddEventHandler('choplistjob', function(payout) --receive payout/amount from cli
     playerName = xPlayer.name
     if xPlayer.job.name == 'unemployed' then
       --amount = 5000
+      payout = math.floor(payout)
       getBank = xPlayer.getBank()
       xPlayer.setBankBalance(getBank + payout)
       Citizen.Wait(1)
-      TriggerClientEvent('pNotify:SendNotification', -1, {text = 'You have been paid <font color="#50b64e">$' .. payout .. '</font> for your delivery. Your bank is now $' .. getBank .. '', type = "info", timeout = 5000, layout = "centerRight"})
-      Wait(5000) --wait after job complete to prompt next job
-      exports.pNotify:SendNotification({text = "Speak to Vinny for another order..", type = "info", timeout = 5000, layout = "centerRight"})                
+      TriggerClientEvent('pNotify:SendNotification', -1, {text = 'You have been paid <font color="#50b64e">$' .. payout .. '</font> for your delivery. Speak to Vinny for another order.', type = "info", timeout = 5000, layout = "centerRight"})
     end
   end
 end)
