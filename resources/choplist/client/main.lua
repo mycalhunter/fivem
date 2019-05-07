@@ -239,8 +239,10 @@ while true do
         chance = math.floor(math.random(1, #vehicleList)) --get random number from 1 to length of table
         amount = vehicleList[chance].payout * 0.10375 --multiply payout of randomly selected vehicle by 0.10375 (10.375% of Retail Price)
         if vehicleList[chance].payout >= 1000000 then
+          TriggerEvent('chatMessage', 'Server', {255, 255, 255}, "Active Chop Order: " .. vehicleList[chance].vehicle .. ".")
           exports.pNotify:SendNotification({text = "~y~~h~**SPECIAL ORDER**~s~ Deliver a <font color='#FFFF00'>" .. vehicleList[chance].vehicle .. "</font> to the storage unit for <font color='#80FC82'>$" .. amount .. "</font>.", type = "info", timeout = 8000, layout = "centerRight"})
         elseif vehicleList[chance].payout < 1000000 then
+          TriggerEvent('chatMessage', 'Server', {255, 255, 255}, "Active Chop Order: " .. vehicleList[chance].vehicle .. ".")
           exports.pNotify:SendNotification({text = "Deliver a <font color='#FFFF00'>" .. vehicleList[chance].vehicle .. "</font> to the storage unit for <font color='#80FC82'>$" .. amount .. "</font>.", type = "info", timeout = 8000, layout = "centerRight"})
         end -- end price check
         active = true
@@ -278,6 +280,7 @@ while true do
               exports.pNotify:SendNotification({text = "Good job, you have delivered a " .. name .. ".", type = "info", timeout = 5000, layout = "centerRight"})
               Wait(1000)
               TriggerServerEvent("choplistjob", amount) --pay for delivering correct vehicle
+              TriggerEvent('chatMessage', 'Server', {255, 255, 255}, "Completed Chop Order: " .. vehicleList[chance].vehicle .. ".")
               active = false
               -- AFTER GETTING PAID
               SetVehicleEngineOn(veh, false, false, true) --turn engine off
