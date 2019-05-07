@@ -107,7 +107,7 @@ while true do
     [53] = { vehicle = "Reaper", payout = 1595000 },
     [54] = { vehicle = "T20", payout = 2200000 },
     [55] = { vehicle = "Tyrus", payout = 220000 },
-    [56] = { vehicle = "Vacca", payout = 0 }, --get price
+    [56] = { vehicle = "Vacca", payout = 9999999 }, --get price
     [57] = { vehicle = "Vagner", payout = 2540000 },
     [58] = { vehicle = "Voltic", payout = 150000 },
     [59] = { vehicle = "Zentorno", payout = 725000 },
@@ -118,7 +118,7 @@ while true do
     [64] = { vehicle = "Dukes", payout = 40000 },
     [65] = { vehicle = "Ellie", payout = 190000 },
     [66] = { vehicle = "Faction", payout = 30000 },
-    [67] = { vehicle = "Gauntlet", payout = 0 }, --get price
+    [67] = { vehicle = "Gauntlet", payout = 9999999 }, --get price
     [68] = { vehicle = "Hermes", payout = 125000 },
     [69] = { vehicle = "Hotknife", payout = 100000 },
     [70] = { vehicle = "Hustler", payout = 95000 },
@@ -140,14 +140,14 @@ while true do
     [86] = { vehicle = "Baller", payout = 145000 },
     [87] = { vehicle = "Dubsta", payout = 85000 },
     [88] = { vehicle = "Granger", payout = 30000 },
-    [89] = { vehicle = "Landstalker", payout = 0 },
+    [89] = { vehicle = "Landstalker", payout = 9999999 },
     [90] = { vehicle = "Patriot", payout = 58000 },
     [91] = { vehicle = "Rocoto", payout = 65000 },
     [92] = { vehicle = "Toros", payout = 210000 },
     [93] = { vehicle = "XLS", payout = 55000 },
     [94] = { vehicle = "Journey", payout = 25000 },
     [95] = { vehicle = "Minivan", payout = 10000 },
-    [96] = { vehicle = "Moonbeam", payout = 0 }, --get price
+    [96] = { vehicle = "Moonbeam", payout = 9999999 }, --get price
     [97] = { vehicle = "Paradise", payout = 35000 },
     [98] = { vehicle = "Rumpo", payout = 125000 },
     [99] = { vehicle = "Surfer", payout = 5000 },
@@ -158,7 +158,7 @@ while true do
     [104] = { vehicle = "Glendale", payout = 20000 },
     [105] = { vehicle = "Ingot", payout = 9000 },
     [106] = { vehicle = "Intruder", payout = 16000 },
-    [107] = { vehicle = "Lurcher", payout = 0 }, --get price
+    [107] = { vehicle = "Lurcher", payout = 9999999 }, --get price
     [108] = { vehicle = "Premier", payout = 10000 },
     [109] = { vehicle = "Primo", payout = 9500 },
     [110] = { vehicle = "Regina", payout = 8000 },
@@ -170,7 +170,7 @@ while true do
     [116] = { vehicle = "Warrener", payout = 22000 },
     [117] = { vehicle = "Washington", payout = 25000 },
     [118] = { vehicle = "Akuma", payout = 43000 },
-    [119] = { vehicle = "Defiler", payout = 0 }, --get price
+    [119] = { vehicle = "Defiler", payout = 9999999 }, --get price
     [120] = { vehicle = "Diablous", payout = 95000 },
     [121] = { vehicle = "Esskey", payout = 78500 },
     [122] = { vehicle = "Hakuchou", payout = 175000 },
@@ -178,7 +178,7 @@ while true do
     [124] = { vehicle = "Nemesis", payout = 51000 },
     [125] = { vehicle = "Ruffian", payout = 50000 },
     [126] = { vehicle = "Shotaro", payout = 1200000 },
-    [127] = { vehicle = "Thrust", payout = 0 }, --get price
+    [127] = { vehicle = "Thrust", payout = 9999999 }, --get price
     [128] = { vehicle = "Vader", payout = 29000 },
     [129] = { vehicle = "Vindicator", payout = 210000 },
     [130] = { vehicle = "Vortex", payout = 92000 },
@@ -193,13 +193,13 @@ while true do
     [139] = { vehicle = "Sanctus", payout = 280000 },
     [140] = { vehicle = "Sovereign", payout = 60000 },
     [141] = { vehicle = "Wolfsbane", payout = 75000 },
-    [142] = { vehicle = "BF400", payout = 0 }, --get price
+    [142] = { vehicle = "BF400", payout = 9999999 }, --get price
     [143] = { vehicle = "Cliffhanger", payout = 90000 },
     [144] = { vehicle = "Enduro", payout = 75000 },
-    [145] = { vehicle = "Manchez", payout = 0 }, --get price
+    [145] = { vehicle = "Manchez", payout = 9999999 }, --get price
     [146] = { vehicle = "BMX", payout = 800 },
     [147] = { vehicle = "Cruiser", payout = 950 },
-    [148] = { vehicle = "Fixter", payout = 0 }, --get price
+    [148] = { vehicle = "Fixter", payout = 9999999 }, --get price
     [149] = { vehicle = "Scorcher", payout = 1000 }
   }
   Keys = {
