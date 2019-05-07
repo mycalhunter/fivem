@@ -240,10 +240,10 @@ while true do
         amount = vehicleList[chance].payout * 0.10375 --multiply payout of randomly selected vehicle by 0.10375 (10.375% of Retail Price)
         if vehicleList[chance].payout >= 1000000 then
           TriggerEvent('chatMessage', 'Server', {255, 255, 255}, "Active Chop Order: " .. vehicleList[chance].vehicle .. ".")
-          exports.pNotify:SendNotification({text = "~y~~h~**SPECIAL ORDER**~s~ Deliver a <font color='#FFFF00'>" .. vehicleList[chance].vehicle .. "</font> to the storage unit for <font color='#80FC82'>$" .. amount .. "</font>.", type = "info", timeout = 8000, layout = "centerRight"})
+          exports.pNotify:SendNotification({text = "~y~~h~**SPECIAL ORDER**~s~ Deliver a <font color='#FFFF00'>" .. vehicleList[chance].vehicle .. "</font> to the storage unit.", type = "info", timeout = 8000, layout = "centerRight"})
         elseif vehicleList[chance].payout < 1000000 then
           TriggerEvent('chatMessage', 'Server', {255, 255, 255}, "Active Chop Order: " .. vehicleList[chance].vehicle .. ".")
-          exports.pNotify:SendNotification({text = "Deliver a <font color='#FFFF00'>" .. vehicleList[chance].vehicle .. "</font> to the storage unit for <font color='#80FC82'>$" .. amount .. "</font>.", type = "info", timeout = 8000, layout = "centerRight"})
+          exports.pNotify:SendNotification({text = "Deliver a <font color='#FFFF00'>" .. vehicleList[chance].vehicle .. "</font> to the storage unit.", type = "info", timeout = 8000, layout = "centerRight"})
         end -- end price check
         active = true
       end -- key press
