@@ -1,3 +1,13 @@
+--[[
+CHOP LIST
+- 100+ Vehicles to be selected
+- Hidden location to receive order for randomly selected vehicle
+- Hidden location to drop off order
+-- Drop off checks if vehicle health is above/below threshold
+-- Drop off checks if vehicle matches the vehicle on order
+-- Drop off prompts player to return to first location for new order
+]]
+
 Citizen.CreateThread(function()
   -----------------------------------------------------
   ------ VARIABLES THAT WILL CHANGE DURING A JOB ------
