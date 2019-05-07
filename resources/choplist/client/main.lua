@@ -280,7 +280,7 @@ while true do
               exports.pNotify:SendNotification({text = "Good job, you have delivered a " .. name .. ".", type = "info", timeout = 5000, layout = "centerRight"})
               Wait(1000)
               TriggerServerEvent("choplistjob", amount) --pay for delivering correct vehicle
-              TriggerEvent('chatMessage', 'Server', {255, 255, 255}, "Completed Chop Order: " .. vehicleList[chance].vehicle .. ".")
+              TriggerEvent('chatMessage', 'Server', {255, 255, 255}, "Completed Chop Order: " .. vehicleList[chance].vehicle .. " for " .. amount .. ".")
               active = false
               -- AFTER GETTING PAID
               SetVehicleEngineOn(veh, false, false, true) --turn engine off
