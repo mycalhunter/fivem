@@ -9,17 +9,19 @@ TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
 
 RegisterServerEvent('choplistjob')
-AddEventHandler('choplistjob', function(job)
+AddEventHandler('choplistjob', function(payout) --receive payout/amount from client script
   xPlayers = ESX.GetPlayers()
   for i = 1, #xPlayers, 1 do
     xPlayer = ESX.GetPlayerFromId(xPlayers[i])
     playerName = xPlayer.name
     if xPlayer.job.name == 'unemployed' then
-      amount = 5000
+      --amount = 5000
       getBank = xPlayer.getBank()
-      xPlayer.setBankBalance(getBank + amount)
+      xPlayer.setBankBalance(getBank + payout)
       Citizen.Wait(1)
-      TriggerClientEvent('pNotify:SendNotification', -1, {text = 'You have been paid <font color="#50b64e">$' .. amount .. '</font> for your delivery. Your bank is now $' .. getBank .. '', type = "info", timeout = 5000, layout = "centerRight"})
+      TriggerClientEvent('pNotify:SendNotification', -1, {text = 'You have been paid <font color="#50b64e">$' .. payout .. '</font> for your delivery. Your bank is now $' .. getBank .. '', type = "info", timeout = 5000, layout = "centerRight"})
+      Wait(5000) --wait after job complete to prompt next job
+      exports.pNotify:SendNotification({text = "Speak to Vinny for another order..", type = "info", timeout = 5000, layout = "centerRight"})                
     end
   end
 end)
