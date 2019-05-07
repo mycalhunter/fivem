@@ -3,6 +3,7 @@ CHOP LIST
 - 100+ Vehicles to be selected
 - Hidden location to receive order for randomly selected vehicle
 - Hidden location to drop off order
+- Payout is low % of retail price
 -- Drop off checks if vehicle health is above/below threshold
 -- Drop off checks if vehicle matches the vehicle on order
 -- Drop off prompts player to return to first location for new order
@@ -253,9 +254,9 @@ Citizen.CreateThread(function()
         drawText("Press ~y~E~s~ to deliver ~b~" .. name .. "~s~.")
         if IsControlJustPressed(1, Keys["E"]) then
           if name == vehicleList[chance].vehicle then -- check if name of vehicle matches name of vehicle on list
-            if GetVehicleBodyHealth(veh) < 300.00 then -- check if body health is below 300 of 1000
+            if GetVehicleBodyHealth(veh) < 500.00 then -- check if body health is below 300 of 1000
               exports.pNotify:SendNotification({text = "Did you get this " .. name .. " from the junkyyard!? Go repair it!", type = "info", timeout = 5000, layout = "centerRight"})
-            elseif GetVehicleBodyHealth(veh) >= 300.00 then -- check if body health is equal or above 300 of 1000
+            elseif GetVehicleBodyHealth(veh) >= 500.00 then -- check if body health is equal or above 300 of 1000
               exports.pNotify:SendNotification({text = "Good job, you have delivered a " .. name .. ".", type = "info", timeout = 5000, layout = "centerRight"})
               Wait(1000)
               TriggerServerEvent("choplistjob", amount) --pay for delivering correct vehicle
