@@ -13,6 +13,7 @@ Citizen.CreateThread(function()
 -----------------------------------------------------
 ------ VARIABLES THAT WILL NOT CHANGE DURING A JOB ------
 -----------------------------------------------------
+
 --[[BLIP FOR JOB START -- HIDE IN PRODUCTION]]
 info = AddBlipForCoord(-93.28, 19.40, 71.48)
 SetBlipSprite(info, 66)
@@ -37,6 +38,61 @@ function drawText(text)
   AddTextComponentString(text)
   DrawText(0.35, 0.85) --position
 end
+function meatOfJob()
+  if IsPedInVehicle(playerPed, veh, true) then -- check if ped is in vehicle
+    drawText("Press ~y~E~s~ to deliver ~b~" .. name .. "~s~.")
+    if IsControlJustPressed(1, Keys["E"]) then
+      if name == vehicleList[chance].vehicle then -- check if name of vehicle matches name of vehicle on list
+        if GetVehicleBodyHealth(veh) < 900.00 then -- check if body health is below 300 of 1000
+          exports.pNotify:SendNotification({text = "Did you get this " .. name .. " from the junkyyard!? Go repair it!", type = "info", timeout = 5000, layout = "centerRight"})
+        elseif GetVehicleBodyHealth(veh) >= 900.00 then -- check if body health is equal or above 300 of 1000
+          local lastveh = GetVehiclePedIsIn(playerPed, true) --gets vehicle player is currently in
+          local x2, y2, z2 = table.unpack(GetEntityCoords(playerPed, true)) --set ped x,y,z coords
+          exports.pNotify:SendNotification({text = "Good job, you have delivered a " .. name .. ". Leave the area before someone sees you!", type = "info", timeout = 5000, layout = "centerRight"})
+          Wait(1000)
+          TriggerServerEvent("choplistjob", amount) --pay for delivering correct vehicle
+          Wait(5000)
+          TriggerEvent('chatMessage', '^3[SERVER]^0', {255, 255, 255}, "Completed Chop Order: " .. vehicleList[chance].vehicle .. " for $" .. amount .. ".")
+          -- AFTER GETTING PAID
+          --[[SetVehicleEngineOn(veh, false, false, true) --turn engine off
+          SetVehicleDoorsLocked(veh, 2) --set doors locked so player cant get back in vehicle after delivery
+          SetVehicleUndriveable(veh, true) --set vehicle to undriveable]]
+          Citizen.Wait(1000)
+          DeleteEntity(lastveh)
+          location = 0
+        end --end health check
+      else -- if name does not match vehicle on list
+        exports.pNotify:SendNotification({text = "Does this look like a <font color='#FFFF00'>" .. vehicleList[chance].vehicle .. "</font> to you? Get out of here.. ", type = "info", timeout = 8000, layout = "centerRight"})
+      end -- end if
+    end -- key press
+  end -- is ped in vehicle
+end
+function locationDisplay()
+  if location == 1 then -- north parking deck
+    exports.pNotify:SendNotification({text = "Deliver a <font color='#FFFF00'>" .. vehicleList[chance].vehicle .. "</font> to the Generic parking deck.", type = "info", timeout = 8000, layout = "centerRight"})
+  elseif location == 2 then -- storage unit
+    exports.pNotify:SendNotification({text = "Deliver a <font color='#FFFF00'>" .. vehicleList[chance].vehicle .. "</font> to the storage unit.", type = "info", timeout = 8000, layout = "centerRight"})
+  elseif location == 3 then -- west dock
+    exports.pNotify:SendNotification({text = "Deliver a <font color='#FFFF00'>" .. vehicleList[chance].vehicle .. "</font> to the Pacific Bluffs Country Club.", type = "info", timeout = 8000, layout = "centerRight"})
+  elseif location == 4 then -- underground parking deck
+    exports.pNotify:SendNotification({text = "Deliver a <font color='#FFFF00'>" .. vehicleList[chance].vehicle .. "</font> to the LOM Bank.", type = "info", timeout = 8000, layout = "centerRight"})
+  elseif location == 5 then -- grapeseed barn
+    exports.pNotify:SendNotification({text = "Deliver a <font color='#FFFF00'>" .. vehicleList[chance].vehicle .. "</font> to the Grapeseed barn.", type = "info", timeout = 8000, layout = "centerRight"})
+  elseif location == 6 then -- Paleto barn
+    exports.pNotify:SendNotification({text = "Deliver a <font color='#FFFF00'>" .. vehicleList[chance].vehicle .. "</font> to the Paleto barn.", type = "info", timeout = 8000, layout = "centerRight"})
+  elseif location == 7 then -- Paleto barn
+    exports.pNotify:SendNotification({text = "Deliver a <font color='#FFFF00'>" .. vehicleList[chance].vehicle .. "</font> to the Paleto parking lot.", type = "info", timeout = 8000, layout = "centerRight"})
+  end
+end
+locations = {
+  [1] = { x = -515.90, y = 163.29, z = 70.93 },
+  [2] = { x = 947.48, y = -1697.85, z = 30.09 },
+  [3] = { x = -2952.00, y = 55.06, z = 11.20 },
+  [4] = { x = -1502.31, y = -563.26, z = 22.81 },
+  [5] = { x = 1903.72, y = 4922.19, z = 48.82 },
+  [6] = { x = 437.0, y = 6454.41, z = 28.09 },
+  [7] = { x = -678.63, y = 5797.29, z = 16.68 }
+}
 --[[CREATE PED TO STAND AT PICKUP LOCATION]]
 local model = GetHashKey("a_m_y_mexthug_01")
 RequestModel(model)
@@ -222,63 +278,83 @@ while true do
 
 
   --[[ PICKUP ORDER FOR VEHICLE ]]
-    local x, y, z = table.unpack(GetEntityCoords(playerPed, true)) --set ped x,y,z coords
-    if (Vdist(x, y, z, -93.28, 19.40, 71.48) < 20.0) then
-      DrawMarker(1, -93.28, 19.40, 71.48 - 2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.5, 1.5, 1.0 + 0.5, 255, 0, 0, 500, false, false, 2, false, false, false, false)
-    end
-    if (Vdist(x, y, z, -93.28, 19.40, 71.48) < 1.0) then
-      drawText("Press ~y~E~s~ to get chop order from Vinny")
-      if IsControlJustPressed(1, Keys["E"]) then
-        TaskPlayAnim(playerPed, handoff, "p_notepad_01_s-0", 8.0, 8.0, 15000, 1, 1, false, true, true)
-        TaskStartScenarioInPlace(playerPed, "CODE_HUMAN_MEDIC_TIME_OF_DEATH", 0, true)
-        exports.pNotify:SendNotification({text = "Getting name of a wanted vehicle..", type = "info", timeout = 15000, layout = "centerRight"})
-        Citizen.Wait(16000)
-        ClearPedTasksImmediately(playerPed)
-        chance = math.floor(math.random(1, #vehicleList)) --get random number from 1 to length of table
-        amount = math.floor(vehicleList[chance].payout * 0.10375) --multiply payout of randomly selected vehicle by 0.10375 (10.375% of Retail Price)
-        if vehicleList[chance].payout >= 1000000 then
-          TriggerEvent('chatMessage', 'Server', {255, 255, 255}, "Active Chop Order: " .. vehicleList[chance].vehicle .. ".")
-          exports.pNotify:SendNotification({text = "~y~~h~**SPECIAL ORDER**~s~ Deliver a <font color='#FFFF00'>" .. vehicleList[chance].vehicle .. "</font> to the storage unit.", type = "info", timeout = 8000, layout = "centerRight"})
-        elseif vehicleList[chance].payout < 1000000 then
-          TriggerEvent('chatMessage', 'Server', {255, 255, 255}, "Active Chop Order: " .. vehicleList[chance].vehicle .. ".")
-          exports.pNotify:SendNotification({text = "Deliver a <font color='#FFFF00'>" .. vehicleList[chance].vehicle .. "</font> to the storage unit.", type = "info", timeout = 8000, layout = "centerRight"})
-        end -- end price check
-      end -- key press
-    end -- distance check
+  local x, y, z = table.unpack(GetEntityCoords(playerPed, true)) --set ped x,y,z coords
+  if (Vdist(x, y, z, - 93.28, 19.40, 71.48) < 20.0) then
+    DrawMarker(1, - 93.28, 19.40, 71.48 - 2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.5, 1.5, 1.0 + 0.5, 255, 0, 0, 500, false, false, 2, false, false, false, false)
+  end
+  if (Vdist(x, y, z, - 93.28, 19.40, 71.48) < 1.0) then
+    drawText("Press ~y~E~s~ to get chop order from Vinny")
+    if IsControlJustPressed(1, Keys["E"]) then
+      TaskPlayAnim(playerPed, handoff, "p_notepad_01_s-0", 8.0, 8.0, 15000, 1, 1, false, true, true)
+      TaskStartScenarioInPlace(playerPed, "CODE_HUMAN_MEDIC_TIME_OF_DEATH", 0, true)
+      exports.pNotify:SendNotification({text = "Getting name of a wanted vehicle..", type = "info", timeout = 15000, layout = "centerRight"})
+      Citizen.Wait(16000)
+      ClearPedTasksImmediately(playerPed)
+      chance = math.floor(math.random(1, #vehicleList)) --get random number from 1 to length of table
+      location = math.floor(math.random(1, #locations)) --get random number from 1 to 4 for dropoff location
+      amount = math.floor(vehicleList[chance].payout * 0.075) --multiply payout of randomly selected vehicle by 0.10375 (10.375% of Retail Price)
+      print(location)
+      locationDisplay()
+      TriggerEvent('chatMessage', '^3[SERVER]^0', {255, 255, 255}, "Active Chop Order: " .. vehicleList[chance].vehicle .. ".")
+      SetNewWaypoint(locations[location].x, locations[location].y, locations[location].z)
+    end -- key press
+  end -- distance check
 
   --[[ DROP OFF AND VERIFY VEHICLE ]]
+  if location == 1 then
     local x, y, z = table.unpack(GetEntityCoords(playerPed, true)) --set ped x,y,z coords
-    if (Vdist(x, y, z, 947.48, -1697.85, 30.09) < 100.0) then
-      DrawMarker(1, 947.48, -1697.85, 30.09 - 2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 4.0, 4.0, 1.0 + 0.5, 255, 0, 0, 500, false, false, 2, false, false, false, false)
+    if (Vdist(x, y, z, - 515.90, 163.29, 70.93) < 100.0) then
+      DrawMarker(1, - 515.90, 163.29, 70.93 - 1.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 4.0, 4.0, 1.0 + 0.5, 255, 0, 0, 100, false, false, 2, false, false, false, false)
     end
-    if (Vdist(x, y, z, 947.48, -1697.85, 30.09) < 4.0) then
-      if IsPedInVehicle(playerPed, veh, true) then -- check if ped is in vehicle
-        drawText("Press ~y~E~s~ to deliver ~b~" .. name .. "~s~.")
-        if IsControlJustPressed(1, Keys["E"]) then
-          if name == vehicleList[chance].vehicle then -- check if name of vehicle matches name of vehicle on list
-            if GetVehicleBodyHealth(veh) < 500.00 then -- check if body health is below 300 of 1000
-              exports.pNotify:SendNotification({text = "Did you get this " .. name .. " from the junkyyard!? Go repair it!", type = "info", timeout = 5000, layout = "centerRight"})
-            elseif GetVehicleBodyHealth(veh) >= 500.00 then -- check if body health is equal or above 300 of 1000
-            local lastveh = GetVehiclePedIsIn(playerPed, true) --gets vehicle player is currently in
-            local x2, y2, z2 = table.unpack(GetEntityCoords(playerPed, true)) --set ped x,y,z coords
-              exports.pNotify:SendNotification({text = "Good job, you have delivered a " .. name .. ". Leave the area before someone sees you!", type = "info", timeout = 5000, layout = "centerRight"})
-              Wait(1000)
-              TriggerServerEvent("choplistjob", amount) --pay for delivering correct vehicle
-              Wait(5000)
-              TriggerEvent('chatMessage', 'Server', {255, 255, 255}, "Completed Chop Order: " .. vehicleList[chance].vehicle .. " for $" .. amount .. ".")
-              -- AFTER GETTING PAID
-              --[[SetVehicleEngineOn(veh, false, false, true) --turn engine off
-              SetVehicleDoorsLocked(veh, 2) --set doors locked so player cant get back in vehicle after delivery
-              SetVehicleUndriveable(veh, true) --set vehicle to undriveable]]
-              Citizen.Wait(60000)
-              DeleteEntity(lastveh)
-            end --end health check
-          else -- if name does not match vehicle on list
-            exports.pNotify:SendNotification({text = "Does this look like a <font color='#FFFF00'>" .. vehicleList[chance].vehicle .. "</font> to you? Get out of here.. ", type = "info", timeout = 8000, layout = "centerRight"})
-          end -- end if
-        end -- key press
-      end -- is ped in vehicle
+    if (Vdist(x, y, z, - 515.90, 163.29, 70.93) < 4.0) then
+      meatOfJob()
     end -- 4 distance check
+  end -- end if
+  if location == 2 then
+    local x, y, z = table.unpack(GetEntityCoords(playerPed, true)) --set ped x,y,z coords
+    if (Vdist(x, y, z, 947.48, - 1697.85, 30.09) < 100.0) then
+      DrawMarker(1, 947.48, - 1697.85, 30.09 - 1.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 4.0, 4.0, 1.0 + 0.5, 255, 0, 0, 100, false, false, 2, false, false, false, false)
+    end
+    if (Vdist(x, y, z, 947.48, - 1697.85, 30.09) < 4.0) then
+      meatOfJob()
+    end -- 4 distance check
+  end -- end if
+  if location == 3 then
+    local x, y, z = table.unpack(GetEntityCoords(playerPed, true)) --set ped x,y,z coords
+    if (Vdist(x, y, z, - 2952.00, 55.06, 11.20) < 100.0) then
+      DrawMarker(1, - 2952.00, 55.06, 11.20 - 1.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 4.0, 4.0, 1.0 + 0.5, 255, 0, 0, 100, false, false, 2, false, false, false, false)
+    end
+    if (Vdist(x, y, z, - 2952.00, 55.06, 11.20) < 4.0) then
+      meatOfJob()
+    end -- 4 distance check
+  end -- end if
+  if location == 4 then
+    local x, y, z = table.unpack(GetEntityCoords(playerPed, true)) --set ped x,y,z coords
+    if (Vdist(x, y, z, - 1502.31, - 563.26, 22.81) < 100.0) then
+      DrawMarker(1, - 1502.31, - 563.26, 22.81 - 1.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 4.0, 4.0, 1.0 + 0.5, 255, 0, 0, 100, false, false, 2, false, false, false, false)
+    end
+    if (Vdist(x, y, z, - 1502.31, - 563.26, 22.81) < 4.0) then
+      meatOfJob()
+    end -- 4 distance check
+  end -- end if
+  if location == 5 then
+    local x, y, z = table.unpack(GetEntityCoords(playerPed, true)) --set ped x,y,z coords
+    if (Vdist(x, y, z, - 1502.31, - 563.26, 22.81) < 100.0) then
+      DrawMarker(1, - 1502.31, - 563.26, 22.81 - 1.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 4.0, 4.0, 1.0 + 0.5, 255, 0, 0, 100, false, false, 2, false, false, false, false)
+    end
+    if (Vdist(x, y, z, - 1502.31, - 563.26, 22.81) < 4.0) then
+      meatOfJob()
+    end -- 4 distance check
+  end -- end if
+  if location == 6 then
+    local x, y, z = table.unpack(GetEntityCoords(playerPed, true)) --set ped x,y,z coords
+    if (Vdist(x, y, z, - 1502.31, - 563.26, 22.81) < 100.0) then
+      DrawMarker(1, - 1502.31, - 563.26, 22.81 - 1.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 4.0, 4.0, 1.0 + 0.5, 255, 0, 0, 100, false, false, 2, false, false, false, false)
+    end
+    if (Vdist(x, y, z, - 1502.31, - 563.26, 22.81) < 4.0) then
+      meatOfJob()
+    end -- 4 distance check
+  end -- end if
 
 
 
