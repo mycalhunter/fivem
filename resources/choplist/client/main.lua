@@ -276,29 +276,41 @@ while true do
   displaytext = GetDisplayNameFromVehicleModel(model) --get display name of model
   name = GetLabelText(displaytext) --get label text of display name
 
+  local hour = GetClockHours()
+  local minute = GetClockMinutes()
+  NetworkOverrideClockTime(23, 0, 0)
 
-  --[[ PICKUP ORDER FOR VEHICLE ]]
-  local x, y, z = table.unpack(GetEntityCoords(playerPed, true)) --set ped x,y,z coords
-  if (Vdist(x, y, z, - 93.28, 19.40, 71.48) < 20.0) then
-    DrawMarker(1, - 93.28, 19.40, 71.48 - 2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.5, 1.5, 1.0 + 0.5, 255, 0, 0, 500, false, false, 2, false, false, false, false)
+  if (hour < 7 or hour > 22) then -- open from 11pm-6am
+    --[[ PICKUP ORDER FOR VEHICLE ]]
+    local x, y, z = table.unpack(GetEntityCoords(playerPed, true)) --set ped x,y,z coords
+    if (Vdist(x, y, z, - 93.28, 19.40, 71.48) < 20.0) then
+      DrawMarker(1, - 93.28, 19.40, 71.48 - 2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.5, 1.5, 1.0 + 0.5, 255, 0, 0, 500, false, false, 2, false, false, false, false)
+    end
+    if (Vdist(x, y, z, - 93.28, 19.40, 71.48) < 1.0) then
+      drawText("Press ~y~E~s~ to get chop order from Vinny")
+      if IsControlJustPressed(1, Keys["E"]) then
+        TaskPlayAnim(playerPed, handoff, "p_notepad_01_s-0", 8.0, 8.0, 15000, 1, 1, false, true, true)
+        TaskStartScenarioInPlace(playerPed, "CODE_HUMAN_MEDIC_TIME_OF_DEATH", 0, true)
+        exports.pNotify:SendNotification({text = "Getting name of a wanted vehicle..", type = "info", timeout = 15000, layout = "centerRight"})
+        Citizen.Wait(16000)
+        ClearPedTasksImmediately(playerPed)
+        chance = math.floor(math.random(1, #vehicleList)) --get random number from 1 to length of table
+        location = math.floor(math.random(1, #locations)) --get random number from 1 to 4 for dropoff location
+        amount = math.floor(vehicleList[chance].payout * 0.075) --multiply payout of randomly selected vehicle by 0.10375 (10.375% of Retail Price)
+        locationDisplay()
+        TriggerEvent('chatMessage', '^3[SERVER]^0', {255, 255, 255}, "Active Chop Order: " .. vehicleList[chance].vehicle .. ".")
+        SetNewWaypoint(locations[location].x, locations[location].y, locations[location].z)
+      end -- key press
+    end -- distance check
+  else
+    local x, y, z = table.unpack(GetEntityCoords(playerPed, true)) --set ped x,y,z coords
+    if (Vdist(x, y, z, - 93.28, 19.40, 71.48) < 20.0) then
+      DrawMarker(1, - 93.28, 19.40, 71.48 - 2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.5, 1.5, 1.0 + 0.5, 255, 0, 0, 500, false, false, 2, false, false, false, false)
+    end
+    if (Vdist(x, y, z, - 93.28, 19.40, 71.48) < 1.0) then
+      drawText("Los Angeles Los-Cost Auto Insurance is ~r~Closed~s~")
+    end
   end
-  if (Vdist(x, y, z, - 93.28, 19.40, 71.48) < 1.0) then
-    drawText("Press ~y~E~s~ to get chop order from Vinny")
-    if IsControlJustPressed(1, Keys["E"]) then
-      TaskPlayAnim(playerPed, handoff, "p_notepad_01_s-0", 8.0, 8.0, 15000, 1, 1, false, true, true)
-      TaskStartScenarioInPlace(playerPed, "CODE_HUMAN_MEDIC_TIME_OF_DEATH", 0, true)
-      exports.pNotify:SendNotification({text = "Getting name of a wanted vehicle..", type = "info", timeout = 15000, layout = "centerRight"})
-      Citizen.Wait(16000)
-      ClearPedTasksImmediately(playerPed)
-      chance = math.floor(math.random(1, #vehicleList)) --get random number from 1 to length of table
-      location = math.floor(math.random(1, #locations)) --get random number from 1 to 4 for dropoff location
-      amount = math.floor(vehicleList[chance].payout * 0.075) --multiply payout of randomly selected vehicle by 0.10375 (10.375% of Retail Price)
-      print(location)
-      locationDisplay()
-      TriggerEvent('chatMessage', '^3[SERVER]^0', {255, 255, 255}, "Active Chop Order: " .. vehicleList[chance].vehicle .. ".")
-      SetNewWaypoint(locations[location].x, locations[location].y, locations[location].z)
-    end -- key press
-  end -- distance check
 
   --[[ DROP OFF AND VERIFY VEHICLE ]]
   if location == 1 then
@@ -339,23 +351,31 @@ while true do
   end -- end if
   if location == 5 then
     local x, y, z = table.unpack(GetEntityCoords(playerPed, true)) --set ped x,y,z coords
-    if (Vdist(x, y, z, - 1502.31, - 563.26, 22.81) < 100.0) then
-      DrawMarker(1, - 1502.31, - 563.26, 22.81 - 1.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 4.0, 4.0, 1.0 + 0.5, 255, 0, 0, 100, false, false, 2, false, false, false, false)
+    if (Vdist(x, y, z, 1903.72, 4922.19, 48.82) < 100.0) then
+      DrawMarker(1, 1903.72, 4922.19, 48.82 - 1.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 4.0, 4.0, 1.0 + 0.5, 255, 0, 0, 100, false, false, 2, false, false, false, false)
     end
-    if (Vdist(x, y, z, - 1502.31, - 563.26, 22.81) < 4.0) then
+    if (Vdist(x, y, z, 1903.72, 4922.19, 48.82) < 4.0) then
       meatOfJob()
     end -- 4 distance check
   end -- end if
   if location == 6 then
     local x, y, z = table.unpack(GetEntityCoords(playerPed, true)) --set ped x,y,z coords
-    if (Vdist(x, y, z, - 1502.31, - 563.26, 22.81) < 100.0) then
-      DrawMarker(1, - 1502.31, - 563.26, 22.81 - 1.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 4.0, 4.0, 1.0 + 0.5, 255, 0, 0, 100, false, false, 2, false, false, false, false)
+    if (Vdist(x, y, z, 437.0, 6454.41, 28.09) < 100.0) then
+      DrawMarker(1, 437.0, 6454.41, 28.09 - 1.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 4.0, 4.0, 1.0 + 0.5, 255, 0, 0, 100, false, false, 2, false, false, false, false)
     end
-    if (Vdist(x, y, z, - 1502.31, - 563.26, 22.81) < 4.0) then
+    if (Vdist(x, y, z, 437.0, 6454.41, 28.09) < 4.0) then
       meatOfJob()
     end -- 4 distance check
   end -- end if
-
+  if location == 7 then
+    local x, y, z = table.unpack(GetEntityCoords(playerPed, true)) --set ped x,y,z coords
+    if (Vdist(x, y, z, -678.63, 5797.29, 16.68) < 100.0) then
+      DrawMarker(1, -678.63, 5797.29, 16.68 - 1.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 4.0, 4.0, 1.0 + 0.5, 255, 0, 0, 100, false, false, 2, false, false, false, false)
+    end
+    if (Vdist(x, y, z, -678.63, 5797.29, 16.68) < 4.0) then
+      meatOfJob()
+    end -- 4 distance check
+  end -- end if
 
 
 end -- end Citizen.CreateThread while loop
