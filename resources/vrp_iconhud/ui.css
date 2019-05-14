@@ -22,7 +22,7 @@ img.svg {
     width: 20px;
     opacity: 0.6;
 }
-.col-sm-12, .col-md-4 {
+.col-sm-12, .col-md-3 {
   background-color: #2d2d2d;
   color: #03de03;
 }
@@ -128,7 +128,7 @@ img.svg {
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
 }
-#gear, #mph, #time {
+#gear, #mph, #time, #licenseplate {
     height: 100%;
     float: left;
     padding-left: 0.3vw;
