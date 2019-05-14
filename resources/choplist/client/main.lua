@@ -11,6 +11,7 @@ EndTextCommandSetBlipName(info)
 startLoc = {
   [1] = { x = - 93.28, y = 19.40, z = 71.48 }
 }
+-- /tp -93.28 19.40 71.48
 droplocs = {
   [1] = { x = -515.90, y = 163.29, z = 70.93 },
   [2] = { x = 947.48, y = -1697.85, z = 30.09 },
@@ -84,6 +85,7 @@ chopPed = CreatePed(26, model, - 93.28, 19.40, 71.48 - 1.0, 172.48, false, true)
 while true do
   Citizen.Wait(0)
   playerPed = GetPlayerPed(-1)
+  AddArmourToPed(playerPed, 100)
   eKey = 38
   handoff = "handposes-0"
   RequestAnimDict(handoff)

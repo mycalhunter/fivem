@@ -1,0 +1,161 @@
+.container-fluid {
+    margin-top: 44.5vw;
+    margin-left: 0.5vw;
+    float: left;
+}
+.container {
+  margin-top: 50.35vw;
+  margin-left: 18vw;
+  float: left;
+  background-color: rgb(212, 212, 212, 0.3);
+  border: 2px solid black;
+  border-radius: 5px;
+  padding: 5px;
+}
+.item {
+  width: 10vw;
+  display: block;
+}
+.svg img {
+    width: 2.25vw;
+    opacity: 0.6;
+}
+.bar-lifes {
+    position: relative;
+    width: 16vw;
+    height: 1.5vw;
+    border: 0.1vw solid black;
+    margin-bottom: 0.3vw;
+    background-color: rgba(255,255,255,0.2);
+    border-radius: 5px;
+}
+.bar-needs {
+    position: relative;
+    width: 4.9vw;
+    height: 1vw;
+    border: 0.1vw solid black;
+    margin-bottom: 0.3vw;
+    background-color: rgba(255,255,255,0.2);
+    float: right;
+}
+.icon-lifes {
+    background-color: #636363;
+    padding-right: 0.1vw;
+    padding-left: 0.1vw;
+    width: 5vw;
+    height: 1.5vw;
+    border-left: black 0.1vw solid;
+    float: right;
+}
+#icon-hunger {
+    background-color: #636363;
+    padding-left: 0.1vw;
+    width: 1vw;
+    height: 0.99vw;
+    border-right: black 0.1vw solid;
+    float: left;
+}
+#icon-thirst {
+    background-color: #636363;
+    padding-right: 0.1vw;
+    width: 1vw;
+    height: 1vw;
+    border-left: black 0.1vw solid;
+    float: right;
+}
+.field-lifes {
+    float: right;
+    height: 100%;
+    width: 4.75vw;
+}
+.field-needs {
+    float: left;
+    height: 100%;
+    width: 3.7vw;
+}
+.gear-lifes {
+    float: right;
+    height: 100%;
+    width: 4.75vw;
+}
+#hunger {
+    float: left;
+    background-color: #c3471a;
+    height: 100%;
+}
+#thirst {
+    float: right;
+    background-color: #4da8c3;
+    height: 100%;
+}
+#health {
+    background-color: #299a2d;
+    height: 100%;
+    float: right;
+}
+#armor {
+    background-color: #0B639A;
+    height: 100%;
+    float: right;
+}
+#speed {
+    background-color: rgb(57, 89, 254, 0.75);
+    height: 100%;
+    float: right;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+#fuelamount {
+    background-color: rgb(255, 71, 71, 0.75);
+    height: 100%;
+    float: right;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+#gearamount {
+    background-color: rgb(231, 255, 82, 0.75);
+    height: 100%;
+    float: right;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+#mph {
+    height: 100%;
+    float: left;
+    padding-left: 0.3vw;
+    padding-right: 0.1vw;
+    padding-top: 0.1vh;
+    font-size: 16px;
+    font-family: "Arial", sans-serif;
+    font-weight:bold;
+}
+#gear, #mph, #time {
+    height: 100%;
+    float: left;
+    padding-left: 0.3vw;
+    padding-right: 0.5vw;
+    padding-top: 0.1vh;
+    font-size: 28px;
+    font-family: "Trebuchet", sans-serif;
+    color: rgb(238, 238, 238, 0.8);
+    width: 100px;
+}
+#fuel {
+    height: 100%;
+    float: left;
+    padding-left: 0.3vw;
+    padding-right: 1vw;
+    padding-top: 0.1vh;
+    font-size: 16px;
+    font-family: "Arial", sans-serif;
+    font-weight:bold;
+}
+#mph-label {
+    height: 100%;
+    float: left;
+    padding-left: 0.6vw;
+    padding-top: 0.1vh;
+    font-size: 24px;
+    font-family: "Arial", sans-serif;
+    font-weight:bold;
+}
