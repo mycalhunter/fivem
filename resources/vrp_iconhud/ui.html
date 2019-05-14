@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <script src="nui://game/ui/jquery.js" type="text/javascript"></script>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" href="ui.css" type="text/css">
   <script src="ui.js" type="text/javascript"></script>
 </head>
@@ -12,34 +13,21 @@
 
 <body>
   <div class="container">
-    <div class="item">
-      <div class="number">
-        <div id="gear"></div>
-        <div class="svg">
-          <img src="http://simpleicon.com/wp-content/uploads/gears.svg">
+    <div class="row">
+      <div class="col-sm-12 col-md-4">
+        <div id="gear">1</div>
+        <i class="fas fa-cogs"></i>
+      </div>
+        <div class="col-sm-12 col-md-4">
+          <div id="mph">43</div>
+          <i class="fas fa-tachometer-alt"></i>
+        </div>
+          <div class="col-sm-12 col-md-4">
+            <div id="time">9:32</div>
+            <i class="fas fa-clock"></i>
+          </div>
         </div>
       </div>
-
-    </div>
-    <div class="item">
-      <div class="number">
-        <div id="mph"></div>
-        <div class="svg">
-          <img src="https://image.flaticon.com/icons/svg/1455/1455362.svg">
-        </div>
-      </div>
-
-    </div>
-    <div class="item">
-      <div class="number">
-        <div id="time"></div>
-        <div class="svg">
-          <img src="https://cdn0.iconfinder.com/data/icons/feather/96/clock-512.png">
-        </div>        
-      </div>
-
-    </div>
-  </div>
   <!--<div class="container-fluid">
     <div class="bar-lifes" style="border:none;background-color:none;">
       <div class="icon-lifes">
@@ -76,7 +64,7 @@
                 <div id = "health"></div>
             </div>
         </div>-->
-    <!--<div class = "bar-lifes">
+  <!--<div class = "bar-lifes">
             <div class = "icon-lifes">
                 <img src = "https://svgur.com/i/93u.svg">
             </div>
