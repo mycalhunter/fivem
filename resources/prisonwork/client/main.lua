@@ -1,9 +1,12 @@
-Citizen.CreateThread(function()
+Citizen.CreateThread(function() 
+--[[Move the thread past your variable declarations and other functions. The thread should only
+    contain actual code execution. The rest are the functions and variables to be called by the threaded function]]
 -----------------------------------------------------
 ------ VARIABLES THAT WILL CHANGE DURING A JOB ------
 -----------------------------------------------------
-i = 1
-n = 0
+i = 1 --[[make sure all variables are declared as local unless shared between files, cuts down on bugs 
+  related to two programs modifying the same variables]]
+n = 0 
 ep_loc = {
   [1] = { x = 1629.76, y = 2563.87, z = 45.56 },
   [2] = { x = 1652.60, y = 2563.72, z = 45.56 },
@@ -33,7 +36,8 @@ h_loc = {
   { x = 1688.47, y = 2528.70, z = 55.88 },
 }
 
-
+--[[I recommend just making a function for repetitive code, just pass in the blip name, sprite, and location. Coder's preference though
+    Instead of 3 different variables for the blips, just create a table called jobBlips or something. Then table.insert(jobBlips, blip)]]
 --[[ELECTRIC JOB BLIP]]
 info = AddBlipForCoord(1629.76, 2563.87, 45.56)
 SetBlipSprite(info, 354)
@@ -89,7 +93,7 @@ while true do --if library exists
   -----------------------------------------------------
   ---- VARIABLES THAT WILL NOT CHANGE DURING A JOB ----
   -----------------------------------------------------
-  playerPed = GetPlayerPed(-1)
+  playerPed = GetPlayerPed(-1) -- PlayerPedId() is the preferred client call for this
   vehicleList = { "Rusty Surfer", "Faggio", "Rusty Rebel", "Surfer", "Faggio Sport", "Faggio Mod", "Regina", "Youga Classic", "Ingot", "Picador", "Primo Custom", "Blista", "Asea", "Dilettante", "Futo", "Minivan", "Premier", "Stanier", "Stratum", "Primo", "Monkey Blista", "Rhapsody", "Rumpo", "Rumpo II", "Bodhi", "Taco Van", "Asterope", "Issi", "Panto", "Prairie", "Ratbike", "Rebel", "Sabre Turbo", "Rancher XL", "Intruder", "Youga", "Brioso R/A", "Blazer", "Blazer Sport", "Dune Buggy", "Glendale", "Sanchez", "Tornado", "Vigero", "Warrener", "Bobcat XL", "Fugitive", "Beejay XL", "Blista Compact", "Boxville", "Journey", "Penumbra", "Sabre GT", "Seminole", "Washington", "Issi Classic", "Buccaneer", "Vader", "Baller", "Bison", "Emperor", "Faction", "Granger", "Stretch", "Carbon RS", "Gaunlet", "Radius", "Buffalo", "Burrito", "Cavalcade", "Paradise", "Virgo", "Surge", "Dukes", "Fuslade", "Pigalle", "Akuma", "Hexer", "Bifta", "Clown Van", "Dominator", "Injection", "PCJ-600", "Buffalo S", "Manana", "Ruffian", "Sandking", "Nemesis", "Bagger", "Baller 2nd Gen", "XLS", "Daemon", "Rat Truck", "Landstalker", "Sovereign", "Tailgator", "Tampa", "Zion", "Double T", "Cheburek", "Custom Minivan", "Daemon DLC", "Gang Burrito", "Oracle", "Peyote", "Rocoto", "Schafter", "Zion Cabrio", "Lectro", "Oracle XS", "Custom Voodoo", "Enduro", "Sentinel", "Wolfsbane", "Esskey", "Custom Virgo", "Huntley S", "Sentinel XS", "Custom Faction", "Dubsta", "Jackal", "Mesa", "FCR1000", "Avarus", "Chino", "Cliffhanger", "Custom Moonbeam", "Super Diamond", "Tornado Custom", "Vortex", "Casco", "Chino Custom", "Diablous", "Exemplar", "Felon", "Hustler", "Kalahari", "Slamvan", "Sultan", "Nightblade", "FCR1000 Custom", "Alpha", "Blade", "Chimera", "Felon GT", "Furore GT", "Hotknife", "Innovation", "Windsor", "Bati 801", "Zombie Bobber", "Patriot", "Windsor Drop", "Tornado Hot Rod", "Cognoscenti Cabrio", "Zombie Chopper", "Tulip", "Diablous Custom", "Elegy", "F620", "Sentinel Classic", "Suiner", "Feltzer", "Gargoyle", "Surano", "Baller LE", "Bati 801RR", "Coquette Classic", "Hermes", "Lynx", "Romeo Hearse", "Rumpo3", "Schafter V12", "Slamvan Custom", "Banshee", "Coquette", "Rapid GT", "9F", "Comet", "Rapid GT Convertible", "9F Cabrio", "Baller LWB", "Comet Retro Custom", "Contender", "Guardian", "Spacedocker", "Raiden", "Schwartzer", "Bestia GTS", "Elegy Retro Custom", "Voltic", "Phoenix", "Carbonizzare", "Sprunk Buffalo", "Bullet", "Massacro", "Hakuchou", "Kamacho", "Raptor", "Verkierer", "Jester Classic", "Sultan RS", "Massacro (Racecar)", "Nightshade", "Specter V2", "Ellie", "Stinger", "Comet Safari", "Flash GT", "Karuma", "Itali GT", "ETRI", "Brawler", "Bubsta 6x6", "JB 700", "Omnis", "Stirling GT", "Stinger GT", "Toros", "Tropos", "Vapid Dominator GTX", "Vindicator", "Coquette BlackFin", "Tyrus", "Franken Strange", "Merryweather Mesa", "Infernus", "Roosevelt Valor", "Penetrator", "Drift Tampa", "Roosevelt Valor Custom", "Cheetah", "Sanctus", "Banshee 900R", "Z-Type", "Burgershot Stalion", "Cheetah Classic", "Rapid GT Classic", "Deluxo", "Manroe", "Entity XF", "Trophy Truck", "Hakuchou Drag", "Turismo R", "Zentorno", "Shotaro", "Pfister811", "Reaper", "FMJ", "XA 21", "Osiris", "Ruston", "Dune Truck", "T20", "Jester", "Vagner", "X80 Proto", "Jester (Racecar)", "Adder", "RE-7B", "Mamba", "American Dream", "American Dream V2", "Nero Custom" }
   Keys = {
     ["ESC"] = 322, ["F1"] = 288, ["F2"] = 289, ["F3"] = 170, ["F5"] = 166, ["F6"] = 167, ["F7"] = 168, ["F8"] = 169, ["F9"] = 56, ["F10"] = 57,
@@ -103,6 +107,8 @@ while true do --if library exists
     ["NENTER"] = 201, ["N4"] = 108, ["N5"] = 60, ["N6"] = 107, ["N+"] = 96, ["N-"] = 97, ["N7"] = 117, ["N8"] = 61, ["N9"] = 118
   }
   furnitureList = { "Bookshelf", "Office Desk", "Rocking Chair", "Dining Table", "Filing Cabinet", "Birdhouse", "Dining Chair" }
+  --[[ Try to pick slightly longer variable names. Two letters are hard to understand for other people looking at your work and are prone
+      accidental typos]]]
   hl = "amb@world_human_hammering@male@base" -- hammering with base
   wl = "amb@world_human_welding@male@base" -- welding with base
   el = "missminuteman_1ig_2" -- electrocute with tasered_2
@@ -132,6 +138,10 @@ while true do --if library exists
 
     --[[MAINTENANCE JOB]]
     local x, y, z = table.unpack(GetEntityCoords(playerPed, true)) --set ped x,y,z coords
+    --[[ Can instead do local pos = GetEntityCoords(playerPed, true), then retrieve the pos by doing pos.x, pos.y, pos.z. Coder's 
+      preference again, I just dislike unpacking the vectors, as you can also plop them in as just Vdist(pos, pos2)
+      Additionally, better name for i would be nice, since it's typically meant only as an iterator. currMaintJob or something 
+      would work.]]
     if (Vdist(x, y, z, ep_loc[i].x, ep_loc[i].y, ep_loc[i].z) < 10.0) then
       DrawMarker(1, ep_loc[i].x, ep_loc[i].y, ep_loc[i].z - 2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.5, 1.5, 1.0 + 0.5, 66, 176, 244, 500, false, false, 2, false, false, false, false)
     end
@@ -139,7 +149,9 @@ while true do --if library exists
     distance = math.ceil(distance)
     if distance <= 1 then
       drawText("Press ~y~E~s~ to repair electric panel")
-      if IsControlJustPressed(1, Keys["E"]) then
+      if IsControlJustPressed(1, Keys["E"]) then  -- 38 = "E"
+          --[[The key's array is more readable, but you're needlessly looking up a table value every tick, small optimization, nothing major.
+          Again, coder's preference, but I always go for optimization, especially since a comment there would have had the same effect]]
         TaskPlayAnim(playerPed, wl, wl_a, 8.0, 8.0, 10000, 1, 1, true, true, true)
         TaskStartScenarioInPlace(playerPed, welding_prop, 0, false)
         chance = math.floor(math.random(1, 3))
@@ -167,6 +179,7 @@ while true do --if library exists
         end --end if chance
       end --end Key Press
     end -- end distance check
+    -- ^ Above comments are helpful, but it's better if you just have an editing program to keep track of statement endings for you
     if (i > 1 and distance < 200 and n == 0) or (n == 1) then
       SetBlipCoords(info, ep_loc[i].x, ep_loc[i].y, ep_loc[i].z)
       SetBlipFlashes(info, true)
@@ -179,7 +192,7 @@ while true do --if library exists
 
 
     --[[LICENSE PLATE JOB]]
-    for k, v in pairs(lp_loc) do
+    for k, v in pairs(lp_loc) do --if you don't use k, substitute it for a blank variable: for _,v in pairs...
       local x, y, z = table.unpack(GetEntityCoords(playerPed, true)) --set ped x,y,z coords
       if (Vdist(x, y, z, v.x, v.y, v.z, false) < 10.0) then
         DrawMarker(1, v.x, v.y, v.z - 2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.5, 1.5, 1.0 + 0.5, 66, 176, 244, 500, false, false, 2, false, false, false, false)
@@ -205,6 +218,8 @@ while true do --if library exists
             Citizen.Wait(10000)
             exports.pNotify:SendNotification({text = "Machine press is broken, wait <font color='#FF2F2F'>10</font> seconds for rebooting sequence..", type = "info", timeout = 9000, layout = "centerRight"})
             ClearPedTasks(playerPed)
+            --[[Look into the SetTimeout function for stuff like this. This pauses the entire thread, where a timeout will create a new thread
+              execute simultaneously. Examples can be found in our repo]]
             Citizen.Wait(10000)
             exports.pNotify:SendNotification({text = "Machine press has been repaired, sorta.", type = "info", timeout = 5000, layout = "centerRight"})
           end --end if chance
@@ -262,7 +277,8 @@ while true do --if library exists
       distance = math.ceil(distance)
       if distance <= 1 then
         drawText("Press ~y~E~s~ to search AC Unit")
-        if (IsControlPressed(1, Keys["E"]) and active < 1) then
+        if (IsControlPressed(1, Keys["E"]) and active < 1) then 
+         --try to be more precise about values. If you set active to be false or 0, use that, not less than, prevents sloppiness
           TaskPlayAnim(playerPed, kl, kl_a, 8.0, 8.0, - 1, 50, 0, true, true, true)
           Wait(3500)
           ClearPedTasks(playerPed)
