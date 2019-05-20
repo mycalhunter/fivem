@@ -20,7 +20,7 @@ local ep_loc = {
   [14] = { x = 1718.54, y = 2527.89, z = 45.56 },
 }
 local lp_loc = {
-[1] = { x = 1649.97, y = 2656.52, z = 45.71 } }
+  [1] = { x = 1649.97, y = 2656.52, z = 45.71 } }
 local const_loc = {
   [1] = { x = 1625.17, y = 2651.56, z = 45.56 },
   [2] = { x = 1628.36, y = 2648.71, z = 45.56 }
@@ -143,203 +143,235 @@ function getRandomWeaponChance()
   weaponChance = math.ceil(math.random(1, 50))
 end
 Citizen.CreateThread(function()
-  while true do --if library exists
-  Citizen.Wait(0)
-  playerPed = PlayerPedId()
-  anim_hammering = "amb@world_human_hammering@male@base" -- hammering with base
-  anim_welding = "amb@world_human_welding@male@base" -- welding with base
-  anim_electrocute = "missminuteman_1ig_2" -- electrocute with tasered_2
-  anim_kneeling = "amb@medic@standing@tendtodead@idle_a" -- kneeling with idle_a
-  step_anim_hammering = "base"
-  step_anim_welding = "base"
-  step_anim_electrocute = "tasered_2"
-  step_anim_kneeling = "idle_a"
-  knife = "WEAPON_KNIFE"
-  wrench = "WEAPON_WRENCH"
-  bottle = "WEAPON_BOTTLE"
-  knuckle = "WEAPON_KNUCKLE"
-  hammer = "WEAPON_HAMMER"
-  welding_prop = "WORLD_HUMAN_WELDING"
-  hammer_prop = "WORLD_HUMAN_HAMMERING"
-  randomChance = 0
-  currentHealth = 0
+    while true do --if library exists
+      Citizen.Wait(0)
+      playerPed = PlayerPedId()
+      anim_hammering = "amb@world_human_hammering@male@base" -- hammering with base
+      anim_welding = "amb@world_human_welding@male@base" -- welding with base
+      anim_electrocute = "missminuteman_1ig_2" -- electrocute with tasered_2
+      anim_kneeling = "amb@medic@standing@tendtodead@idle_a" -- kneeling with idle_a
+      step_anim_hammering = "base"
+      step_anim_welding = "base"
+      step_anim_electrocute = "tasered_2"
+      step_anim_kneeling = "idle_a"
+      knife = "WEAPON_KNIFE"
+      wrench = "WEAPON_WRENCH"
+      bottle = "WEAPON_BOTTLE"
+      knuckle = "WEAPON_KNUCKLE"
+      hammer = "WEAPON_HAMMER"
+      welding_prop = "WORLD_HUMAN_WELDING"
+      hammer_prop = "WORLD_HUMAN_HAMMERING"
+      randomChance = 0
+      currentHealth = 0
 
-  --REQUEST ANIMATION LIBRARIES
-  RequestAnimDict(anim_hammering)
-  RequestAnimDict(anim_welding)
-  RequestAnimDict(anim_electrocute)
-  RequestAnimDict(anim_kneeling)
+      --REQUEST ANIMATION LIBRARIES
+      RequestAnimDict(anim_hammering)
+      RequestAnimDict(anim_welding)
+      RequestAnimDict(anim_electrocute)
+      RequestAnimDict(anim_kneeling)
 
-  --[[MAINTENANCE JOB]]
-  local pos = GetEntityCoords(playerPed, true)
-  if (Vdist(pos.x, pos.y, pos.z, ep_loc[currJob].x, ep_loc[currJob].y, ep_loc[currJob].z) < 50.0) then
-    DrawMarker(1, ep_loc[currJob].x, ep_loc[currJob].y, ep_loc[currJob].z - 2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.5, 1.5, 1.0 + 0.5, 66, 176, 244, 500, false, false, 2, false, false, false, false)
-  end
-  local distance = Vdist(pos.x, pos.y, pos.z, ep_loc[currJob].x, ep_loc[currJob].y, ep_loc[currJob].z)
-  distance = math.ceil(distance)
-  if distance <= 1 then
-    drawText("Press ~y~E~s~ to repair electric panel")
-    if IsControlJustPressed(1, 38) then -- 38 = "E"
-      TaskPlayAnim(playerPed, anim_welding, step_anim_welding, 8.0, 8.0, 10000, 1, 1, true, true, true)
-      TaskStartScenarioInPlace(playerPed, welding_prop, 0, false)
-      Wait(10000)
-      getRandomChance()
-      randomChance = math.floor(math.random(1, 3))
-      if randomChance <= 2 then
-        exports.pnotify:SendNotification({text = "Electric panel has been repaired.", type = "info", timeout = 5000, layout = "centerRight"})
-        Wait(1500)
-        TriggerServerEvent("prisonwork:maintjobCompleted")
-        ClearPedTasks(playerPed)
-        currJob = currJob + 1
-        if currJob > 14 then
-          n = 1
-          currJob = 1
+
+
+      --[[MAINTENANCE JOB]]
+      local pos = GetEntityCoords(playerPed, true)
+
+      if (Vdist(pos.x, pos.y, pos.z, ep_loc[currJob].x, ep_loc[currJob].y, ep_loc[currJob].z) < 50.0) then
+          DrawMarker(1, ep_loc[currJob].x, ep_loc[currJob].y, ep_loc[currJob].z - 2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.5, 1.5, 1.0 + 0.5, 66, 176, 244, 500, false, false, 2, false, false, false, false)
+      end
+
+      local distance = Vdist(pos.x, pos.y, pos.z, ep_loc[currJob].x, ep_loc[currJob].y, ep_loc[currJob].z)
+      distance = math.ceil(distance)
+
+      if distance <= 1 then
+        drawText("Press ~y~E~s~ to repair electric panel")
+
+        if IsControlJustPressed(1, 38) then -- 38 = "E"
+            TaskPlayAnim(playerPed, anim_welding, step_anim_welding, 8.0, 8.0, 10000, 1, 1, true, true, true)
+            TaskStartScenarioInPlace(playerPed, welding_prop, 0, false)
+            Citizen.Wait(10000)
+            getRandomChance()
+            randomChance = math.floor(math.random(1, 3))
+
+          if randomChance <= 2 then
+              exports.pnotify:SendNotification({text = "Electric panel has been repaired.", type = "info", timeout = 5000, layout = "centerRight"})
+              Citizen.Wait(1500)
+              TriggerServerEvent("prisonwork:maintjobCompleted")
+              ClearPedTasks(playerPed)
+              currJob = currJob + 1
+
+              if currJob > 14 then
+                  n = 1
+                  currJob = 1
+              end
+
+          elseif randomChance == 3 then
+              TaskPlayAnim(playerPed, anim_electrocute, step_anim_electrocute, 8.0, 8.0, 5000, 1, 1, true, true, true)
+              currentHealth = GetEntityHealth(playerPed)
+              SetEntityHealth(playerPed, currentHealth - 5)
+              exports.pnotify:SendNotification({text = "You've been shocked, rest for a few seconds..", type = "info", timeout = 3500, layout = "centerRight"})
+              Citizen.Wait(3500)
+              ClearPedTasks(playerPed)
+          end
+
         end
-      elseif randomChance == 3 then
-        TaskPlayAnim(playerPed, anim_electrocute, step_anim_electrocute, 8.0, 8.0, 5000, 1, 1, true, true, true)
-        currentHealth = GetEntityHealth(playerPed)
-        SetEntityHealth(playerPed, currentHealth - 5)
-        exports.pnotify:SendNotification({text = "You've been shocked, rest for a few seconds..", type = "info", timeout = 3500, layout = "centerRight"})
-        Wait(3500)
-        ClearPedTasks(playerPed)
+
       end
-    end
-  end
-  if (currJob > 1 and distance < 200 and n == 0) or (n == 1) then
-    SetBlipCoords(blip, ep_loc[currJob].x, ep_loc[currJob].y, ep_loc[currJob].z)
-    SetBlipFlashes(blip, true)
-    SetBlipFlashInterval(blip, 750)
-  elseif distance > 150 then
-    SetBlipFlashes(blip, false)
-  end
+
+      if (currJob > 1 and distance < 200 and n == 0) or (n == 1) then
+          SetBlipCoords(blip, ep_loc[currJob].x, ep_loc[currJob].y, ep_loc[currJob].z)
+          SetBlipFlashes(blip, true)
+          SetBlipFlashInterval(blip, 750)
+      elseif distance > 150 then
+          SetBlipFlashes(blip, false)
+      end
 
 
-  --[[LICENSE PLATE JOB]]
-  for _, v in pairs(lp_loc) do
-    local pos = GetEntityCoords(playerPed, true)
-    if (Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z, false) < 50.0) then
-      DrawMarker(1, v.x, v.y, v.z - 2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.5, 1.5, 1.0 + 0.5, 66, 176, 244, 500, false, false, 2, false, false, false, false)
-    end
-    distance = Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z)
-    distance = math.ceil(distance)
-    if distance <= 1 then
-      drawText("Press ~y~E~s~ to make license plate")
-      if IsControlPressed(1, 38) then -- 38 = "E"
-        TaskPlayAnim(playerPed, anim_hammering, step_anim_hammering, 8.0, 8.0, 10000, 1, 1, true, true, true)
-        TaskStartScenarioInPlace(playerPed, hammer_prop, 0, false)
-        Citizen.Wait(10000)
-        getRandomChance()
-        randVeh = math.random(1, #licenseVehList)
-        vehicleName = licenseVehList[randVeh].veh
-        print("Number of options:" .. #licenseVehList)
-        print("Success randomChance:" .. randomChance)
-        print("Vehicle Number:" .. randVeh)
-        if randomChance == 1 or randomChance == 2 then
-          exports.pnotify:SendNotification({text = "License Plate created for a <font color='#FFFF00'> " .. vehicleName .. "</font>.", type = "info", timeout = 5000, layout = "centerRight"})
-          TriggerServerEvent("prisonwork:licensejobCompleted")
-          ClearPedTasks(playerPed)
-        elseif randomChance == 3 then
-          exports.pnotify:SendNotification({text = "Machine press is broken, wait <font color='#FF2F2F'>10</font> seconds for rebooting sequence..", type = "info", timeout = 10000, layout = "centerRight"})
-          ClearPedTasks(playerPed)
-          Citizen.Wait(10000)
-          exports.pnotify:SendNotification({text = "Machine press has been repaired, sorta.", type = "info", timeout = 5000, layout = "centerRight"})
+
+      --[[LICENSE PLATE JOB]]
+      for _, v in pairs(lp_loc) do
+        local pos = GetEntityCoords(playerPed, true)
+
+        if (Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z, false) < 50.0) then
+            DrawMarker(1, v.x, v.y, v.z - 2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.5, 1.5, 1.0 + 0.5, 66, 176, 244, 500, false, false, 2, false, false, false, false)
         end
-        ClearPedTasks(playerPed)
-      end
-    end
-  end
 
+        distance = Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z)
+        distance = math.ceil(distance)
 
+        if distance <= 1 then
+          drawText("Press ~y~E~s~ to make license plate")
 
-  --[[CONSTRUCTION JOB]]
-  for _, v in pairs(const_loc) do
-    local pos = GetEntityCoords(playerPed, true)
-    if (Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z, false) < 50.0) then
-      DrawMarker(1, v.x, v.y, v.z - 2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0, 2.0, 1.0 + 0.5, 66, 176, 244, 500, false, false, 2, false, false, false, false)
-    end
-    distance = Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z)
-    distance = math.ceil(distance)
-    if distance <= 1.5 then
-      drawText("Press ~y~E~s~ to do wood work")
-      if IsControlPressed(1, 38) then -- 38 = "E"
-        TaskPlayAnim(playerPed, anim_hammering, step_anim_hammering, 8.0, 8.0, 10000, 1, 1, true, true, true)
-        TaskStartScenarioInPlace(playerPed, hammer_prop, 0, false)
-        getRandomChance()
-        local furnitureChance = math.random(1, 7)
-        if randomChance <= 2 then
-          Citizen.Wait(10000)
-          exports.pnotify:SendNotification({text = "A <font color='#FFFF00'>" .. furnitureList[furnitureChance].wooditem .. "</font> has been built.", type = "info", timeout = 5000, layout = "centerRight"})
-          Citizen.Wait(1500)
-          TriggerServerEvent("prisonwork:constructionjobCompleted")
-          ClearPedTasks(playerPed)
-        elseif randomChance == 3 then
-          Citizen.Wait(10000)
-          exports.pnotify:SendNotification({text = "Warped wood is bad good. Take a few seconds and get a new piece..", type = "info", timeout = 3000, layout = "centerRight"})
-          ClearPedTasks(playerPed)
-          Citizen.Wait(3000)
-          exports.pnotify:SendNotification({text = "Machine press has been repaired, sorta.", type = "info", timeout = 5000, layout = "centerRight"})
+          if IsControlPressed(1, 38) then -- 38 = "E"
+              TaskPlayAnim(playerPed, anim_hammering, step_anim_hammering, 8.0, 8.0, 10000, 1, 1, true, true, true)
+              TaskStartScenarioInPlace(playerPed, hammer_prop, 0, false)
+              Citizen.Wait(10000)
+              getRandomChance()
+              randVeh = math.random(1, #licenseVehList)
+              vehicleName = licenseVehList[randVeh].veh
+
+              if randomChance == 1 or randomChance == 2 then
+                  exports.pnotify:SendNotification({text = "License Plate created for a <font color='#FFFF00'> " .. vehicleName .. "</font>.", type = "info", timeout = 5000, layout = "centerRight"})
+                  TriggerServerEvent("prisonwork:licensejobCompleted")
+                  ClearPedTasks(playerPed)
+              elseif randomChance == 3 then
+                  exports.pnotify:SendNotification({text = "Machine press is broken, wait <font color='#FF2F2F'>10</font> seconds for rebooting sequence..", type = "info", timeout = 10000, layout = "centerRight"})
+                  ClearPedTasks(playerPed)
+                  Citizen.Wait(10000)
+                  exports.pnotify:SendNotification({text = "Machine press has been repaired, sorta.", type = "info", timeout = 5000, layout = "centerRight"})
+              end
+
+              ClearPedTasks(playerPed)
+
+          end
+
         end
-        ClearPedTasks(playerPed)
+
       end
-    end
-  end
 
 
 
-  --[[HIDDEN WEAPON]]
-  for _, v in pairs(h_loc) do
-    local pos = GetEntityCoords(playerPed, true)
-    --[[if (Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z, false) < 10.0) then
-      DrawMarker(1, v.x, v.y, v.z - 2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.5, 1.5, 1.0 + 0.5, 244, 66, 66, 500, false, false, 2, false, false, false, false)
-    end]]
-    distance = Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z)
-    distance = math.ceil(distance)
-    if distance <= 1 then
-      drawText("Press ~y~E~s~ to search AC Unit")
-      if (IsControlPressed(1, 38) and active == 0) then -- 38 = "E"
-        TaskPlayAnim(playerPed, anim_kneeling, step_anim_kneeling, 8.0, 8.0, - 1, 50, 0, true, true, true)
-        Wait(3500)
-        ClearPedTasks(playerPed)
-        getRandomWeaponChance()
-        print("Chance:" .. weaponChance .. " and Active:" .. active)
-        if (weaponChance <= 5 ) then
-          exports.pnotify:SendNotification({text = "Just some old chewing gum wrappers and dead rodents..", type = "info", timeout = 8000, layout = "centerRight"})
-          ClearPedTasks(playerPed)
-        elseif (weaponChance > 5 and weaponChance <= 10) then
-          GiveWeaponToPed(playerPed, knife, 20, false, false)
-          exports.pnotify:SendNotification({text = "You found a hidden knife..", type = "info", timeout = 8000, layout = "centerRight"})
-          ClearPedTasks(playerPed)
-          active = 1
-        elseif (weaponChance > 10 and weaponChance <= 20) then
-          GiveWeaponToPed(playerPed, bottle, 20, false, false)
-          exports.pnotify:SendNotification({text = "You found a hidden bottle..", type = "info", timeout = 8000, layout = "centerRight"})
-          ClearPedTasks(playerPed)
-          active = 1
-        elseif (weaponChance > 20 and weaponChance <= 30) then
-          GiveWeaponToPed(playerPed, knuckle, 20, false, false)
-          exports.pnotify:SendNotification({text = "You found hidden brass knuckles..", type = "info", timeout = 8000, layout = "centerRight"})
-          ClearPedTasks(playerPed)
-          active = 1
-        elseif (weaponChance > 30 and weaponChance <= 40) then
-          GiveWeaponToPed(playerPed, hammer, 20, false, false)
-          exports.pnotify:SendNotification({text = "You found a hidden hammer..", type = "info", timeout = 8000, layout = "centerRight"})
-          ClearPedTasks(playerPed)
-          active = 1
-        elseif weaponChance > 40 then
-          GiveWeaponToPed(playerPed, wrench, 20, false, false)
-          exports.pnotify:SendNotification({text = "You found a hidden wrench..", type = "info", timeout = 8000, layout = "centerRight"})
-          ClearPedTasks(playerPed)
-          active = 1
+      --[[CONSTRUCTION JOB]]
+      for _, v in pairs(const_loc) do
+        local pos = GetEntityCoords(playerPed, true)
+
+        if (Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z, false) < 50.0) then
+            DrawMarker(1, v.x, v.y, v.z - 2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0, 2.0, 1.0 + 0.5, 66, 176, 244, 500, false, false, 2, false, false, false, false)
         end
+
+        distance = Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z)
+        distance = math.ceil(distance)
+
+        if distance <= 1.5 then
+            drawText("Press ~y~E~s~ to do wood work")
+
+          if IsControlPressed(1, 38) then -- 38 = "E"
+              TaskPlayAnim(playerPed, anim_hammering, step_anim_hammering, 8.0, 8.0, 10000, 1, 1, true, true, true)
+              TaskStartScenarioInPlace(playerPed, hammer_prop, 0, false)
+              getRandomChance()
+              local furnitureChance = math.random(1, 7)
+
+              if randomChance <= 2 then
+                  Citizen.Wait(10000)
+                  exports.pnotify:SendNotification({text = "A <font color='#FFFF00'>" .. furnitureList[furnitureChance].wooditem .. "</font> has been built.", type = "info", timeout = 5000, layout = "centerRight"})
+                  Citizen.Wait(1500)
+                  TriggerServerEvent("prisonwork:constructionjobCompleted")
+                  ClearPedTasks(playerPed)
+              elseif randomChance == 3 then
+                  Citizen.Wait(10000)
+                  exports.pnotify:SendNotification({text = "Warped wood is bad good. Take a few seconds and get a new piece..", type = "info", timeout = 3000, layout = "centerRight"})
+                  ClearPedTasks(playerPed)
+                  Citizen.Wait(3000)
+                  exports.pnotify:SendNotification({text = "Machine press has been repaired, sorta.", type = "info", timeout = 5000, layout = "centerRight"})
+              end
+
+              ClearPedTasks(playerPed)
+
+          end
+
+        end
+
       end
-      if (IsControlPressed(1, 38) and active == 1) then -- 38 = "E"
-        TaskPlayAnim(playerPed, anim_kneeling, step_anim_kneeling, 8.0, 8.0, - 1, 50, 0, true, true, true)
-        Wait(3500)
-        exports.pnotify:SendNotification({text = "Just some old chewing gum wrappers and dead rodents..", type = "info", timeout = 8000, layout = "centerRight"})
-        ClearPedTasks(playerPed)
+
+
+
+      --[[HIDDEN WEAPON]]
+      for _, v in pairs(h_loc) do
+        local pos = GetEntityCoords(playerPed, true)
+        distance = Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z)
+        distance = math.ceil(distance)
+
+        if distance <= 1 then
+          drawText("Press ~y~E~s~ to search AC Unit")
+
+          if (IsControlPressed(1, 38) and active == 0) then -- 38 = "E"
+              TaskPlayAnim(playerPed, anim_kneeling, step_anim_kneeling, 8.0, 8.0, - 1, 50, 0, true, true, true)
+              Citizen.Wait(3500)
+              ClearPedTasks(playerPed)
+              getRandomWeaponChance()
+
+              if (weaponChance <= 5 ) then
+                  exports.pnotify:SendNotification({text = "Just some old chewing gum wrappers and dead rodents..", type = "info", timeout = 8000, layout = "centerRight"})
+                  ClearPedTasks(playerPed)
+              elseif (weaponChance > 5 and weaponChance <= 10) then
+                  GiveWeaponToPed(playerPed, knife, 20, false, false)
+                  exports.pnotify:SendNotification({text = "You found a hidden knife..", type = "info", timeout = 8000, layout = "centerRight"})
+                  ClearPedTasks(playerPed)
+                  active = 1
+              elseif (weaponChance > 10 and weaponChance <= 20) then
+                  GiveWeaponToPed(playerPed, bottle, 20, false, false)
+                  exports.pnotify:SendNotification({text = "You found a hidden bottle..", type = "info", timeout = 8000, layout = "centerRight"})
+                  ClearPedTasks(playerPed)
+                  active = 1
+              elseif (weaponChance > 20 and weaponChance <= 30) then
+                  GiveWeaponToPed(playerPed, knuckle, 20, false, false)
+                  exports.pnotify:SendNotification({text = "You found hidden brass knuckles..", type = "info", timeout = 8000, layout = "centerRight"})
+                  ClearPedTasks(playerPed)
+                  active = 1
+              elseif (weaponChance > 30 and weaponChance <= 40) then
+                  GiveWeaponToPed(playerPed, hammer, 20, false, false)
+                  exports.pnotify:SendNotification({text = "You found a hidden hammer..", type = "info", timeout = 8000, layout = "centerRight"})
+                  ClearPedTasks(playerPed)
+                  active = 1
+              elseif weaponChance > 40 then
+                  GiveWeaponToPed(playerPed, wrench, 20, false, false)
+                  exports.pnotify:SendNotification({text = "You found a hidden wrench..", type = "info", timeout = 8000, layout = "centerRight"})
+                  ClearPedTasks(playerPed)
+                  active = 1
+              end
+
+          end
+
+          if (IsControlPressed(1, 38) and active == 1) then -- 38 = "E"
+            TaskPlayAnim(playerPed, anim_kneeling, step_anim_kneeling, 8.0, 8.0, - 1, 50, 0, true, true, true)
+            Citizen.Wait(3500)
+            exports.pnotify:SendNotification({text = "Just some old chewing gum wrappers and dead rodents..", type = "info", timeout = 8000, layout = "centerRight"})
+            ClearPedTasks(playerPed)
+          end
+
+        end
+
       end
-    end
+
   end
 
-end
 end)
