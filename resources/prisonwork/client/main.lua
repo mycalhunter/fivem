@@ -95,13 +95,16 @@ local licenseVehList = {
   [50] = { veh = "Surfer" }
 }
 local furnitureList = {
-  [1] = { wooditem = "Bookshelf" },
-  [2] = { wooditem = "Office Desk" },
-  [3] = { wooditem = "Rocking Chair" },
-  [4] = { wooditem = "Dining Table" },
-  [5] = { wooditem = "Filing Cabinet" },
-  [6] = { wooditem = "Birdhouse" },
-  [7] = { wooditem = "Dining Chair" }
+  [1] = { wooditem = "Dining Room Table" },
+  [2] = { wooditem = "Rocking Chair" },
+  [3] = { wooditem = "End Table" },
+  [4] = { wooditem = "Coffee Table" },
+  [5] = { wooditem = "Bookcase" },
+  [6] = { wooditem = "Nightstand" },
+  [7] = { wooditem = "Coat Rack" },
+  [8] = { wooditem = "Cabinet" },
+  [9] = { wooditem = "Birdhouse" },
+  [10] = { wooditem = "Pallet" }
 }
 function prisonWorkBlips(blipX, blipY, blipZ, blipSprite, blipScale, blipName)
   blip = AddBlipForCoord(blipX, blipY, blipZ)
