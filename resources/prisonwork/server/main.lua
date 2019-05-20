@@ -1,25 +1,32 @@
-ESX = nil
-local xPlayers = 0
-local xPlayer = 0
-local playerName = ""
-local s = source
-local amount = 0
-local getBank = 0
-TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-
-
-RegisterServerEvent('prisonworkjob')
-AddEventHandler('prisonworkjob', function(job)
-  xPlayers = ESX.GetPlayers()
-  for i = 1, #xPlayers, 1 do
-    xPlayer = ESX.GetPlayerFromId(xPlayers[i])
-    playerName = xPlayer.name
-    if xPlayer.job.name == 'unemployed' then
-      amount = 275
-      getBank = xPlayer.getBank()
-      xPlayer.setBankBalance(getBank + amount)
+RegisterServerEvent('prisonwork:maintjobCompleted')
+AddEventHandler('prisonwork:maintjobCompleted', function()
+local src = source
+local maint_amount = 275
+  TriggerEvent("es:getPlayerFromId", src, function(user)
+    exports.characters:giveMoneyToChar(user, maint_amount)
       Citizen.Wait(1)
-      TriggerClientEvent('pNotify:SendNotification', -1, {text = 'You have been paid <font color="#50b64e">$' .. amount .. '</font> for your work. Your bank is now $' .. getBank .. '', type = "info", timeout = 5000, layout = "centerRight"})
-    end
-  end
+      TriggerClientEvent("pNotify:SendNotification", src, {text = 'You have been paid <font color="#50b64e">' .. maint_amount .. '</font> for your work.'})
+  end)
+end)
+
+RegisterServerEvent('prisonwork:licensejobCompleted')
+AddEventHandler('prisonwork:licensejobCompleted', function()
+local src = source
+local license_amount = 200
+  TriggerEvent("es:getPlayerFromId", src, function(user)
+    exports.characters:giveMoneyToChar(user, license_amount)
+      Citizen.Wait(1)
+      TriggerClientEvent("pNotify:SendNotification", src, {text = 'You have been paid <font color="#50b64e">' .. license_amount .. '</font> for your work.'})
+  end)
+end)
+
+RegisterServerEvent('prisonwork:constructionjobCompleted')
+AddEventHandler('prisonwork:constructionjobCompleted', function()
+local src = source
+local const_amount = 175
+  TriggerEvent("es:getPlayerFromId", src, function(user)
+    exports.characters:giveMoneyToChar(user, const_amount)
+      Citizen.Wait(1)
+      TriggerClientEvent("pNotify:SendNotification", src, {text = 'You have been paid <font color="#50b64e">' .. const_amount .. '</font> for your work.'})
+  end)
 end)

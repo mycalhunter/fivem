@@ -6,15 +6,7 @@ client_scripts {
 	'client/main.lua',
 	'client/props.lua'
 }
-
 server_scripts {
-	'server/main.lua',
-  '@mysql-async/lib/MySQL.lua'
-}
-
-dependencies {
-  'pNotify',
-  'es_extended',
-  'essentialmode',
-  'mysql-async'
+  "server/main.lua",
+  "@mysql-async/lib/MySQL.lua"
 }
