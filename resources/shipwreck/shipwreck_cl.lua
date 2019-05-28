@@ -1,14 +1,13 @@
 -- TODO: ADD SPOT TO RETURN SUBMERSIBLE, SET ACTIVESUB BACK TO FALSE 
-
-local vehicle = GetHashKey("submersible")
-subStart = {
+local subHash = GetHashKey("SUBMERSIBLE")
+local subStart = {
 	marker = {x = 3854.92, y = 4459.69, z = 1.85},
-	spawn = {x = 3873.45, y = 4451.17, z = -0.47}
+	spawn = {x = 3873.45, y = 4451.17, z = -0.47, heading = 308.37}
 }
-subEnd = {
+local subEnd = {
 	marker = {x = 3856.99, y = 4472.80, z = 0.00}
 }
-pointsOfInterest = {
+local pointsOfInterest = {
 	[1] = {x = 4233.06, y = 3594.94, z = -46.46},
 	[2] = {x = 3888.78, y = 3056.02, z = -25.40},
 	[3] = {x = 3311.96, y = -416.09, z = -123.73},
@@ -23,13 +22,14 @@ pointsOfInterest = {
 	[12] = {x = -1016.75, y = 6501.45, z = -21.90},
 	[13] = {x = 2662.49, y = 6648.11, z = -23.19},
 }
-local poiblips = {}
+local pointsOfInterestBlips = {}
 local mining = false
 local mtime = 0
 local mduration = 15000
 local activeSub = false
-RequestModel(vehicle)
-while not HasModelLoaded(vehicle) do
+local purchased = false
+RequestModel(subHash)
+while not HasModelLoaded(subHash) do
 	Citizen.Wait(0)
 end
 function drawText(text)
@@ -46,110 +46,147 @@ function drawText(text)
   AddTextComponentString(text)
   DrawText(0.475, 0.88)
 end
-
-function finishMining()
-  TriggerServerEvent("bms:jobs:shipwreck:finishMining")
+function rentvehicle()
+	if (purchased) then
+  	TriggerServerEvent("bms:jobs:shipwreck:rentvehicle")	
+		purchased = false
+	end
 end
-
-
-RegisterNetEvent("bms:jobs:shipwreck:miningComplete")
-AddEventHandler("bms:jobs:shipwreck:miningComplete", function()
-  local ped = GetPlayerPed(-1)  
-
+function returnvehicle()
+	if (activeSub) then
+  	TriggerServerEvent("bms:jobs:shipwreck:returnvehicle")	
+		activeSub = false
+	end
+end
+RegisterNetEvent("bms:jobs:shipwreck:rentvehiclecomplete")
+AddEventHandler("bms:jobs:shipwreck:rentvehiclecomplete", function(rentalCost, success)    
+    if (success) then
+      exports.pnotify:SendNotification({text = string.format("You have rented a submersible for <font color='skyblue'>$%s</font>", rentalCost)})
+			print("submersible rented")
+    else
+      exports.pnotify:SendNotification({text = string.format("You do not have enough money on your person to rent a submersible")})
+    end
+end)
+RegisterNetEvent("bms:jobs:shipwreck:returnvehiclecomplete")
+AddEventHandler("bms:jobs:shipwreck:returnvehiclecomplete", function(rentalDeposit, success)    
+    if (success) then
+      exports.pnotify:SendNotification({text = string.format("You have returned a submersible and received a <font color='skyblue'>$%s</font> deposit", rentalDeposit)})
+			print("submersible returned")
+    else
+      exports.pnotify:SendNotification({text = string.format("You must return the submersible to receive a deposit.")})
+    end
+end)
+RegisterNetEvent("bms:jobs:shipwreck:salvageComplete")
+AddEventHandler("bms:jobs:shipwreck:salvageComplete", function()
   mining = false
   mtime = 0
-  --exports.management:animatorendsequence()
-
-  ClearPedTasks(ped)
 end)
-
-
--- Mining thread
+-- WHEN PURCHASED, ACTIVATE THIS THREAD
+Citizen.CreateThread(function()
+  while true do
+    Wait(100)
+    if (purchased) then
+      rentvehicle()
+    end
+  end
+end)
+-- WHILE MINING, ACTIVATE THIS THREAD
+Citizen.CreateThread(function()
+  while true do
+    Wait(0)
+		if (mining) then
+			drawText("Searching wreckage for artifacts..")
+		end 
+  end
+end)
+-- WHEN DONE MINING, ACTIVATE THIS THREAD
 Citizen.CreateThread(function()
   while true do
     Wait(1000)
-		
     if (mining) then
       mtime = mtime + 1000
-
       if (mtime == mduration) then
-        finishMining()
+        TriggerServerEvent("bms:jobs:shipwreck:finishSalvaging")
       end
     end
   end
 end)
-
 Citizen.CreateThread(function()
-  while true do
-    Wait(0)
-		
-		if (mining) then
-			drawText("Searching wreckage..")
-		end 
-		
-  end
-end)
-
-Citizen.CreateThread(function()
-while true do
-Citizen.Wait(0)
-	playerPed = PlayerPedId()
-	local pos = GetEntityCoords(playerPed, true)
-	local currentVeh = GetVehiclePedIsIn(playerPed, false)	
-	local dist = Vdist(pos.x, pos.y, pos.z, subStart.marker.x, subStart.marker.y, subStart.marker.z) 
-	--[[if IsControlJustPressed(1, 38) then --press R to spawn vehicle
-		local subVeh = CreateVehicle(vehicle, pos.x, pos.y, pos.z, 308.37, true, true)
-		SetPedIntoVehicle(playerPed, subVeh, -1)		
-	end]]	
-	
-	--Spawn Submersible	
-	if dist < 1.0 and (not activeSub) then
-		drawText("Press ~b~E~s~ to get submersible")
-		
-		if IsControlJustPressed(1, 38) then --press R to spawn vehicle
-			activeSub = true
-			DrawMarker(1, subEnd.marker.x, subEnd.marker.y, subEnd.marker.z - 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 10.0, 10.0, 1.5, 255, 0, 0, 800, false, false, 2, false, false, false, false)
-			local subVeh = CreateVehicle(vehicle, subStart.spawn.x, subStart.spawn.y, subStart.spawn.z, 308.37, true, true)
-			SetPedIntoVehicle(playerPed, subVeh, -1)				
-			Wait(100)
+	while true do
+	Citizen.Wait(0)
+		playerPed = PlayerPedId()
+		pos = GetEntityCoords(playerPed, true)
+		local currentVeh = GetVehiclePedIsIn(playerPed, false)	
+		local dist = Vdist(pos.x, pos.y, pos.z, subStart.marker.x, subStart.marker.y, subStart.marker.z)
+		--Spawn Submersible	
+		if dist < 1.0 then
+			drawText("Press ~b~E~s~ to rent a submersible")
 			
-			if (#poiblips == 0) then
-				for i = 1, #pointsOfInterest do
-					local blip = AddBlipForCoord(pointsOfInterest[i].x, pointsOfInterest[i].y, pointsOfInterest[i].z)
-					SetBlipSprite(blip, 308)
-					SetBlipDisplay(blip, 4)
-					SetBlipScale(blip, 1.0)
-			    SetBlipColour(blip, 3)
-					SetBlipAsShortRange(blip, true)
-					BeginTextCommandSetBlipName("STRING")
-					AddTextComponentString("Salvage")
-					EndTextCommandSetBlipName(blip)					
-					table.insert(poiblips, blip)
-				end -- end for POI
-			end -- end blip if
 			
-		end -- end key
-		
-	end -- end start dist
-	
-	
-	
-	--Points of Interest
-	for _,v in pairs(pointsOfInterest) do
-		DrawMarker(1, v.x, v.y, v.z - 2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 10.0, 10.0, 2.0 + 0.5, 66, 176, 244, 255, false, false, 2, false, false, false, false)
-		local searchDist =  Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) 
-		if searchDist < 5 then			
-			if (not mining) then 
-				drawText("Press ~y~E~s~ to search wreckage")
-				if IsControlJustPressed(1, 38) then --press E to spawn vehicle
-					mining = true					
-				end
-			end
-		end
-	end
-		
-	
-
-
-end
-end)
+			if IsControlJustPressed(1, 38) then --press E to spawn vehicle
+				purchased = true -- pays for sub
+				activeSub = true -- ignore until return marker is added
+				
+				
+				if (activeSub) then
+					rentvehicle()
+					DrawMarker(1, subEnd.marker.x, subEnd.marker.y, subEnd.marker.z - 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 10.0, 10.0, 1.5, 255, 0, 0, 800, false, false, 2, false, false, false, false) -- show return marker					
+					local subVeh = CreateVehicle(subHash, subStart.spawn.x, subStart.spawn.y, subStart.spawn.z, subStart.spawn.heading, true, true)
+					SetPedIntoVehicle(playerPed, subVeh, -1)
+					
+					
+					-- Return Vehicle
+					local distReturn = Vdist(pos.x, pos.y, pos.z, subEnd.marker.x, subEnd.marker.y, subEnd.marker.z)
+					if distReturn < 10.0 then
+						drawText("Press ~b~E~s~ to return submersible")
+						if IsControlJustPressed(1, 38) then --press E to spawn vehicle
+							SetEntityAsMissionEntity(subVeh, true, true)
+							DeleteEntity(subVeh)
+							SetEntityCoords(playerPed, subStart.marker.x, subStart.marker.y, subStart.marker.z, 1, 0, 0, 1)
+							Wait(1000)
+							returnvehicle()
+						end
+					end
+					
+					
+					-- Load location blips on map if job is active
+					if (#pointsOfInterestBlips == 0) then
+						for i = 1, #pointsOfInterest do
+							local blip = AddBlipForCoord(pointsOfInterest[i].x, pointsOfInterest[i].y, pointsOfInterest[i].z)
+							SetBlipSprite(blip, 308)
+							SetBlipDisplay(blip, 4)
+							SetBlipScale(blip, 1.0)
+					    SetBlipColour(blip, 3)
+							SetBlipAsShortRange(blip, true)
+							BeginTextCommandSetBlipName("STRING")
+							AddTextComponentString("Salvage")
+							EndTextCommandSetBlipName(blip)					
+							table.insert(pointsOfInterestBlips, blip)
+						end --end forloop
+					end --end if blip{} == 0
+					
+					
+					--Points of Interest
+					for _,v in pairs(pointsOfInterest) do
+						local searchDist =  Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z)
+						if searchDist < 50.0 then
+							DrawMarker(1, v.x, v.y, v.z - 2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 10.0, 10.0, 2.0 + 0.5, 66, 176, 244, 255, false, false, 2, false, false, false, false)
+						end --end dist check
+						if searchDist < 5.0 then			
+							if (not mining) then 
+								drawText("Press ~y~E~s~ to salvage wreckage")
+								if IsControlJustPressed(1, 38) then --press E to spawn vehicle
+									mining = true					
+								end --end E key
+							end --end mining check
+						end --end dist check
+					end --end forloop					
+					
+				end --end activeSub check
+				
+			end -- end E key
+			
+		end -- end start dist	
+			
+	end --end while true loop
+end) --end Citizen.CreateThread
