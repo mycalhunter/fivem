@@ -1,8 +1,8 @@
 -- TODO: ADD SPOT TO RETURN SUBMERSIBLE, SET ACTIVESUB BACK TO FALSE 
 local subHash = GetHashKey("SUBMERSIBLE")
 local submarines = {
-	[1] = {hash = "submersble"},
-	[2] = {hash = "kraken"}
+	[1] = {hash = "SUBMERSIBLE"}, --Submersible
+	[2] = {hash = "SUBMERSIBLE2"} --Kraken
 }
 local subStart = {
 	marker = {x = 3854.92, y = 4459.69, z = 1.85},
