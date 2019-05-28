@@ -1,8 +1,8 @@
 -- TODO: ADD SPOT TO RETURN SUBMERSIBLE, SET ACTIVESUB BACK TO FALSE 
 local subHash = GetHashKey("SUBMERSIBLE")
 local submarines = {
-	{hash = "submersble"},
-	{hash = "kraken"}
+	[1] = {hash = "submersble"},
+	[2] = {hash = "kraken"}
 }
 local subStart = {
 	marker = {x = 3854.92, y = 4459.69, z = 1.85},
@@ -32,8 +32,9 @@ local mtime = 0
 local mduration = 15000
 local activeSub = false
 local purchased = false
-RequestModel(submarines[randSub].hash)
-while not HasModelLoaded(submarines[randSub].hash) do
+RequestModel(submarines[1].hash)
+RequestModel(submarines[2].hash)
+while not HasModelLoaded(submarines[1].hash, submarines[2].hash) do
 	Citizen.Wait(0)
 end
 function drawText(text)
