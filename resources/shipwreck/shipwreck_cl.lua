@@ -1,5 +1,9 @@
 -- TODO: ADD SPOT TO RETURN SUBMERSIBLE, SET ACTIVESUB BACK TO FALSE 
 local subHash = GetHashKey("SUBMERSIBLE")
+local submarines = {
+	{hash = "submersble"},
+	{hash = "kraken"}
+}
 local subStart = {
 	marker = {x = 3854.92, y = 4459.69, z = 1.85},
 	spawn = {x = 3873.45, y = 4451.17, z = -0.47, heading = 308.37}
@@ -28,8 +32,8 @@ local mtime = 0
 local mduration = 15000
 local activeSub = false
 local purchased = false
-RequestModel(subHash)
-while not HasModelLoaded(subHash) do
+RequestModel(submarines[randSub].hash)
+while not HasModelLoaded(submarines[randSub].hash) do
 	Citizen.Wait(0)
 end
 function drawText(text)
@@ -130,8 +134,10 @@ Citizen.CreateThread(function()
 				
 				if (activeSub) then
 					rentvehicle()
-					DrawMarker(1, subEnd.marker.x, subEnd.marker.y, subEnd.marker.z - 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 10.0, 10.0, 1.5, 255, 0, 0, 800, false, false, 2, false, false, false, false) -- show return marker					
-					local subVeh = CreateVehicle(subHash, subStart.spawn.x, subStart.spawn.y, subStart.spawn.z, subStart.spawn.heading, true, true)
+					DrawMarker(1, subEnd.marker.x, subEnd.marker.y, subEnd.marker.z - 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 10.0, 10.0, 1.5, 255, 0, 0, 800, false, false, 2, false, false, false, false) -- show return marker
+					math.randomseed(os.time())
+					local randSub = math.random(1, #submarines)		
+					local subVeh = CreateVehicle(submarines[randSub].hash, subStart.spawn.x, subStart.spawn.y, subStart.spawn.z, subStart.spawn.heading, true, true)
 					SetPedIntoVehicle(playerPed, subVeh, -1)
 					
 					
