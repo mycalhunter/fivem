@@ -82,7 +82,7 @@ end
 RegisterNetEvent("bms:jobs:shipwreck:rentvehiclecomplete")
 AddEventHandler("bms:jobs:shipwreck:rentvehiclecomplete", function(rentalCost, success)
 		if (success) then
-				exports.pnotify:SendNotification({text = string.format("You have rented a submersible for <font color='skyblue'>$%s</font>", rentalCost)})
+				exports.pnotify:SendNotification({text = string.format("You have rented a submersible for <font color='skyblue'>$%s</font> from Catfish Rentals", rentalCost)})
 				print("submersible rented")
 		else
 				exports.pnotify:SendNotification({text = string.format("You do not have enough money on your person to rent a submersible")})
@@ -91,7 +91,7 @@ end)
 RegisterNetEvent("bms:jobs:shipwreck:returnvehiclecomplete")
 AddEventHandler("bms:jobs:shipwreck:returnvehiclecomplete", function(rentalDeposit, success)
 		if (success) then
-				exports.pnotify:SendNotification({text = string.format("You have returned a submersible and received a <font color='skyblue'>$%s</font> deposit", rentalDeposit)})
+				exports.pnotify:SendNotification({text = string.format("You have returned a submersible and received a <font color='skyblue'>$%s</font> rental deposit", rentalDeposit)})
 				print("submersible returned")
 		else
 				exports.pnotify:SendNotification({text = string.format("You must return the submersible to receive a deposit.")})
