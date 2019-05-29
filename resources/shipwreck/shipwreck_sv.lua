@@ -98,6 +98,7 @@ AddEventHandler("bms:jobs:shipwreck:rentvehicle", function()
         end
     end
 end)
+end)
 
 RegisterServerEvent("bms:jobs:shipwreck:returnvehicle")
 AddEventHandler("bms:jobs:shipwreck:returnvehicle", function()
@@ -109,4 +110,5 @@ AddEventHandler("bms:jobs:shipwreck:returnvehicle", function()
         exports.characters:giveMoneyToChar(user, rentalDeposit, string.format("Player %s (%s) has received %s for a submersible deposit.", user.get("activeChar"), user.getIdentifier(), rentalDeposit))
         TriggerClientEvent("bms:jobs:shipwreck:returnvehiclecomplete", src, rentalDeposit, true)
     end
+end)
 end)
