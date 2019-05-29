@@ -6,7 +6,7 @@ local submarines = {
 }
 local subStart = {
 		marker = {x = 3854.92, y = 4459.69, z = 1.85},
-		spawn = {x = 3873.45, y = 4451.17, z = -0.47, heading = 308.37}
+		spawn = {x = 3873.45, y = 4451.17, z = 0.00, heading = 308.37}
 }
 local subEnd = {
 		marker = {x = 3856.99, y = 4472.80, z = 0.00},
