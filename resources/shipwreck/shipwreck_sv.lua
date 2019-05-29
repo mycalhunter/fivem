@@ -6,8 +6,8 @@ local ctf = {low = 0.1, high = 1.0}
 local rentalCost = 2500
 local rentalDeposit = 1000
 
-RegisterServerEvent("bms:shipwreck:checkMaxCap")
-AddEventHandler("bms:shipwreck:checkMaxCap", function(source, cb)
+RegisterServerEvent("bms:mining:checkMaxCap")
+AddEventHandler("bms:mining:checkMaxCap", function(source, cb)
     local totalmats = 0
     TriggerEvent("es:getPlayerFromId", source, function(user)
         MySQL.Async.fetchAll("SELECT inventory FROM characters WHERE id = @id", {["@id"] = user.get("id")}, function(results)
@@ -62,7 +62,7 @@ AddEventHandler("bms:jobs:shipwreck:finishSalvaging", function()
         local success = rc > ctf.low
         local randAmt = math.random(2, 4)
         if (success) then
-            TriggerEvent("bms:shipwreck:checkMaxCap", src, function(allow)
+            TriggerEvent("bms:mining:checkMaxCap", src, function(allow)
                 if (allow) then
                     TriggerEvent("bms:addCharacterInvItemWithCallback", src, match.name, randAmt, "bms:jobs:shipwreck:salvageComplete")
                     TriggerEvent("bms:crafting:increaseSkill", src, 2, true)
