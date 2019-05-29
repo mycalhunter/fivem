@@ -28,7 +28,7 @@ local pointsOfInterest = {
 		[13] = {x = 2662.49, y = 6648.11, z = -23.19},
 }
 local pointsOfInterestBlips = {}
-local mining = false
+local salvaging = false
 local mtime = 0
 local mduration = 15000
 local activeSub = false
@@ -101,7 +101,7 @@ AddEventHandler("bms:jobs:shipwreck:returnvehiclecomplete", function(rentalDepos
 end)
 RegisterNetEvent("bms:jobs:shipwreck:salvageComplete")
 AddEventHandler("bms:jobs:shipwreck:salvageComplete", function()
-		mining = false
+		salvaging = false
 		mtime = 0
 		SendNUIMessage({hideJobProgress = true})
 end)
@@ -119,7 +119,7 @@ Citizen.CreateThread(function()
 		local reptime = 15000
 		while true do
 				Wait(0)
-				if (mining) then
+				if (salvaging) then
 						--drawText("Searching wreckage for artifacts..", 0, 255, 255, 0.88)
 						SendNUIMessage({updateJobProgress = true, title = "Searching for artifacts.. Please Wait", maxvalue = 15, progvalue = reptime / 1000})
 				end
@@ -138,7 +138,7 @@ end)
 Citizen.CreateThread(function()
 		while true do
 				Wait(1000)
-				if (mining) then
+				if (salvaging) then
 						mtime = mtime + 1000
 						if (mtime == mduration) then
 								TriggerServerEvent("bms:jobs:shipwreck:finishSalvaging")
@@ -190,10 +190,10 @@ Citizen.CreateThread(function()
 								DrawMarker(1, v.x, v.y, v.z - 2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 10.0, 10.0, 2.0 + 0.5, 66, 176, 244, 172, 0, 0, 0, 0, 0, 0, 0)
 						end
 						if searchDist < 5.0 then
-								if (not mining) then
+								if (not salvaging) then
 										drawText("Press ~y~E~s~ to salvage wreckage", 0, 255, 255, 0.88)
 										if IsControlJustPressed(1, 38) then --press E to spawn vehicle
-												mining = true
+												salvaging = true
 										end
 								end
 						end
