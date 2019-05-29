@@ -30,7 +30,7 @@ local pointsOfInterest = {
 local pointsOfInterestBlips = {}
 local mining = false
 local mtime = 0
-local mduration = 30000
+local mduration = 15000
 local activeSub = false
 local purchased = false
 RequestModel(submarines[1].hash)
@@ -116,12 +116,12 @@ Citizen.CreateThread(function()
 end)
 -- WHILE MINING OR IN SUB, ACTIVATE THIS THREAD
 Citizen.CreateThread(function()
-		local reptime = 30000
+		local reptime = 15000
 		while true do
 				Wait(0)
 				if (mining) then
 						--drawText("Searching wreckage for artifacts..", 0, 255, 255, 0.88)
-						SendNUIMessage({updateJobProgress = true, title = "Searching for artifacts.. Please Wait", maxvalue = 30, progvalue = reptime / 1000})
+						SendNUIMessage({updateJobProgress = true, title = "Searching for artifacts.. Please Wait", maxvalue = 15, progvalue = reptime / 1000})
 				end
 				if (activeSub) then
 						local inSub = IsPedInVehicle(playerPed, subVeh)
@@ -153,9 +153,7 @@ Citizen.CreateThread(function()
 				pos = GetEntityCoords(playerPed, true)
 				local currentVeh = GetVehiclePedIsIn(playerPed, false)
 				local dist = Vdist(pos.x, pos.y, pos.z, subStart.marker.x, subStart.marker.y, subStart.marker.z)
-				if dist < 80 then
-						DrawMarker(1, subStart.marker.x, subStart.marker.y, subStart.marker.z - 1.0001, 0, 0, 0, 0, 0, 0, 1.2, 1.2, 1.1, 60, 201, 252, 172, 0, 0, 0, 0, 0, 0, 0) -- show return marker
-				end
+				DrawMarker(1, subStart.marker.x, subStart.marker.y, subStart.marker.z - 1.0001, 0, 0, 0, 0, 0, 0, 1.2, 1.2, 1.1, 60, 201, 252, 172, 0, 0, 0, 0, 0, 0, 0) -- show return marker
 
 				--Spawn Submersible
 				if dist < 1.0 then
@@ -188,7 +186,7 @@ Citizen.CreateThread(function()
 				--Points of Interest
 				for _,v in pairs(pointsOfInterest) do
 						local searchDist =  Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z)
-						if searchDist < 50.0 then
+						if searchDist < 80.0 then
 								DrawMarker(1, v.x, v.y, v.z - 2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 10.0, 10.0, 2.0 + 0.5, 66, 176, 244, 255, false, false, 2, false, false, false, false)
 						end
 						if searchDist < 5.0 then
@@ -204,9 +202,7 @@ Citizen.CreateThread(function()
 				-- Return Vehicle
 				if (activeSub) then
 						local distReturn = Vdist(pos.x, pos.y, pos.z, subEnd.marker.x, subEnd.marker.y, subEnd.marker.z)
-						if distReturn < 50.0 then
-								DrawMarker(1, subEnd.marker.x, subEnd.marker.y, subEnd.marker.z - 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 8.0, 8.0, 2.0, 255, 0, 0, 800, false, false, 2, false, false, false, false)
-						end
+						DrawMarker(1, subEnd.marker.x, subEnd.marker.y, subEnd.marker.z - 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 8.0, 8.0, 2.0, 255, 0, 0, 800, false, false, 2, false, false, false, false)
 						if distReturn < 8.0 then
 								drawText("Press ~y~E~s~ to return submersible", 0, 255, 255, 0.88)
 								if IsControlJustPressed(1, 38) then --press E to spawn vehicle
