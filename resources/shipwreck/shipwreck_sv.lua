@@ -6,42 +6,6 @@ local ctf = {low = 0.1, high = 1.0}
 local rentalCost = 2500
 local rentalDeposit = 1000
 
-RegisterServerEvent("bms:mining:checkMaxCap")
-AddEventHandler("bms:mining:checkMaxCap", function(source, cb)
-    local totalmats = 0
-    TriggerEvent("es:getPlayerFromId", source, function(user)
-        MySQL.Async.fetchAll("SELECT inventory FROM characters WHERE id = @id", {["@id"] = user.get("id")}, function(results)
-            if (#results > 0) then
-                if (results[1].inventory ~= nil and json.decode(results[1].inventory) ~= nil) then
-                    local inv = json.decode(results[1].inventory)
-                    if (inv) then
-                        for i = 1, #inv do
-                            for _, v in pairs(minerals) do
-                                if (v.name == inv[i].name) then --if materials.name == "Iron" and inventory.name == "iron"
-                                    totalmats = totalmats + inv[i].quantity
-                                end
-                            end
-                        end
-                        if (totalmats < 300) then
-                            if (cb) then
-                                cb(true)
-                            end
-                        else
-                            if (cb) then
-                                cb(false)
-                            end
-                        end
-                    end
-                else
-                    if (cb) then
-                        cb(true)
-                    end
-                end
-            end
-        end)
-    end)
-end)
-
 RegisterServerEvent("bms:jobs:shipwreck:finishSalvaging")
 AddEventHandler("bms:jobs:shipwreck:finishSalvaging", function()
     local src = source
