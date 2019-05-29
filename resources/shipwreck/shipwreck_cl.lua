@@ -171,7 +171,7 @@ Citizen.CreateThread(function()
 														SetBlipColour(blip, 3)
 														SetBlipAsShortRange(blip, true)
 														BeginTextCommandSetBlipName("STRING")
-														AddTextComponentString("Salvage")
+														AddTextComponentString("Salvage Location")
 														EndTextCommandSetBlipName(blip)
 														table.insert(pointsOfInterestBlips, blip)
 												end
