@@ -187,7 +187,7 @@ Citizen.CreateThread(function()
 				for _,v in pairs(pointsOfInterest) do
 						local searchDist =  Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z)
 						if searchDist < 80.0 then
-								DrawMarker(1, v.x, v.y, v.z - 2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 10.0, 10.0, 2.0 + 0.5, 66, 176, 244, 255, false, false, 2, false, false, false, false)
+								DrawMarker(1, v.x, v.y, v.z - 2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 10.0, 10.0, 2.0 + 0.5, 66, 176, 244, 172, 0, 0, 0, 0, 0, 0, 0)
 						end
 						if searchDist < 5.0 then
 								if (not mining) then
@@ -202,7 +202,7 @@ Citizen.CreateThread(function()
 				-- Return Vehicle
 				if (activeSub) then
 						local distReturn = Vdist(pos.x, pos.y, pos.z, subEnd.marker.x, subEnd.marker.y, subEnd.marker.z)
-						DrawMarker(1, subEnd.marker.x, subEnd.marker.y, subEnd.marker.z - 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 8.0, 8.0, 2.0, 255, 0, 0, 800, false, false, 2, false, false, false, false)
+						DrawMarker(1, subEnd.marker.x, subEnd.marker.y, subEnd.marker.z - 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 8.0, 8.0, 2.0, 255, 0, 0, 172, 0, 0, 0, 0, 0, 0, 0)
 						if distReturn < 8.0 then
 								drawText("Press ~y~E~s~ to return submersible", 0, 255, 255, 0.88)
 								if IsControlJustPressed(1, 38) then --press E to spawn vehicle
