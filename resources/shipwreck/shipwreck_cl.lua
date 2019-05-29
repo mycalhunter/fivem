@@ -1,3 +1,5 @@
+-- TODO: Look into implementing progress bar when salvaging
+-- TODO: Look into animating progress bar
 local submarines = {
 		[1] = {hash = "SUBMERSIBLE"}, --Submersible
 		[2] = {hash = "SUBMERSIBLE2"} --Kraken
@@ -28,7 +30,7 @@ local pointsOfInterest = {
 local pointsOfInterestBlips = {}
 local mining = false
 local mtime = 0
-local mduration = 15000
+local mduration = 30000
 local activeSub = false
 local purchased = false
 RequestModel(submarines[1].hash)
@@ -101,6 +103,7 @@ RegisterNetEvent("bms:jobs:shipwreck:salvageComplete")
 AddEventHandler("bms:jobs:shipwreck:salvageComplete", function()
 		mining = false
 		mtime = 0
+		SendNUIMessage({hideJobProgress = true})
 end)
 -- WHEN PURCHASED, ACTIVATE THIS THREAD
 Citizen.CreateThread(function()
@@ -113,10 +116,12 @@ Citizen.CreateThread(function()
 end)
 -- WHILE MINING OR IN SUB, ACTIVATE THIS THREAD
 Citizen.CreateThread(function()
+		local reptime = 30000
 		while true do
 				Wait(0)
 				if (mining) then
-						drawText("Searching wreckage for artifacts..", 0, 255, 255, 0.88)
+						--drawText("Searching wreckage for artifacts..", 0, 255, 255, 0.88)
+						SendNUIMessage({updateJobProgress = true, title = "Searching for artifacts.. Please Wait", maxvalue = 30, progvalue = reptime / 1000})
 				end
 				if (activeSub) then
 						local inSub = IsPedInVehicle(playerPed, subVeh)
