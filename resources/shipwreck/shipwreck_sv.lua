@@ -17,7 +17,7 @@ AddEventHandler("bms:shipwreck:checkMaxCap", function(source, cb)
                     if (inv) then
                         for i = 1, #inv do
                             for _, v in pairs(minerals) do
-                                if (v.name == inv[i].name) then
+                                if (v.name == inv[i].name) then --if materials.name == "Iron" and inventory.name == "iron"
                                     totalmats = totalmats + inv[i].quantity
                                 end
                             end
